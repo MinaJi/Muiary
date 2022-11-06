@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import MainFooter from "./components/MainFooter";
 import MainHeader from "./components/MainHeader";
 import Main from "./pages/Main";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";

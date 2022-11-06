@@ -1,14 +1,20 @@
+import styled from "styled-components";
 import React from "react";
 import MainFooter from "../components/MainFooter";
-import MainHeader from "../components/MainHeader";
 import MainPage from "./MainPage";
+
+const Div = styled.div`
+  height: auto;
+  /* min-height: 100%;
+  padding-bottom: 100px; */
+`;
 
 function Main() {
   return (
-    <>
+    <Div>
       <MainPage />
       <MainFooter />
-    </>
+    </Div>
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CiLight, CiDark } from "react-icons/ci";
+import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
-  Button,
   Container,
   Grid,
   IconButton,
@@ -18,17 +18,18 @@ const Header = styled(Grid)`
   && {
     height: 65px;
     background-color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #dcdde1;
     backdrop-filter: blur(20px);
     width: 100%;
     position: fixed;
+    /* position: sticky; */
     padding-left: 15px;
   }
 `;
 
 const Btn = styled.button`
   background-color: inherit;
-  border: 1px solid #cccccc;
+  border: 1px solid #dcdde1;
   border-radius: 10px;
   width: 70px;
   height: 40px;
@@ -42,7 +43,7 @@ const TextBtn = styled.button`
   background-color: inherit;
   font-size: 15px;
   font-weight: bold;
-`
+`;
 
 const Img = styled.img`
   height: 50px;
@@ -54,18 +55,23 @@ const pages = ["Products", "Pricing", "Blog"];
 function MainHeader() {
   const [anchorElNav, setAnchorElNav] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenNavMenu = (e) => {
+    setAnchorElNav(e.currentTarget);
   };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const handleOpenUserMenu = (e) => {};
 
   return (
     <Header position="static" alignItems="ceter">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Img src="/static/logoonlytext.png" alt="logo" />
+          <Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+            <Img src="/static/logoonlytext.png" alt="logo" />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -103,6 +109,9 @@ function MainHeader() {
               ))}
             </Menu>
           </Box>
+          <Box sx={{ display: { xs: "flex", md: "none" }, flexGrow: 1 }}>
+            <Img src="/static/logoonlytext.png" alt="logo" />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <TextBtn
@@ -114,10 +123,20 @@ function MainHeader() {
               </TextBtn>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             <Btn>Sign up</Btn>
             <Btn>Sign in</Btn>
-            <CiDark style={{fontSize:"inherite"}}/>
+            <CiDark style={{ fontSize: "inherite" }} />
+          </Box>
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              onClick={handleOpenUserMenu}
+              color="inherit"
+              style={{ color: "black" }}
+            >
+              <AddIcon />
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>
