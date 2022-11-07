@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
+import styled from "styled-components";
+import { Grid } from "@mui/material";
+
+const StyledDiv = styled(Grid)`
+  background-color: blue;
+`;
 
 function SignupForm() {
   const navi = useNavigate();

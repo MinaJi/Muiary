@@ -13,6 +13,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Header = styled(Grid)`
   && {
@@ -22,7 +23,6 @@ const Header = styled(Grid)`
     backdrop-filter: blur(20px);
     width: 100%;
     position: fixed;
-    /* position: sticky; */
     padding-left: 15px;
   }
 `;
@@ -48,11 +48,13 @@ const TextBtn = styled.button`
 const Img = styled.img`
   height: 50px;
   display: flex;
+  cursor: pointer;
 `;
 
 const pages = ["Products", "Pricing", "Blog"];
 
 function MainHeader() {
+  const navi = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (e) => {
@@ -70,7 +72,11 @@ function MainHeader() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
-            <Img src="/static/logoonlytext.png" alt="logo" />
+            <Img
+              src="/static/logoonlytext.png"
+              alt="logo"
+              onClick={() => navi("/")}
+            />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -110,7 +116,11 @@ function MainHeader() {
             </Menu>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" }, flexGrow: 1 }}>
-            <Img src="/static/logoonlytext.png" alt="logo" />
+            <Img
+              src="/static/logoonlytext.png"
+              alt="logo"
+              onClick={() => navi("/")}
+            />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -124,8 +134,8 @@ function MainHeader() {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            <Btn>Sign up</Btn>
-            <Btn>Sign in</Btn>
+            <Btn onClick={() => navi("/signup")}>Sign up</Btn>
+            <Btn onClick={() => navi("/signin")}>Sign in</Btn>
             <CiDark style={{ fontSize: "inherite" }} />
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
