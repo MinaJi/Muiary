@@ -10,8 +10,8 @@ function App() {
     <>
       <BrowserRouter>
         <ThemeProvider>
+          <GlobalStyle />
           <AuthContextProvider>
-            <GlobalStyle />
             <Router />
           </AuthContextProvider>
         </ThemeProvider>

@@ -14,12 +14,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/themeProvider";
+import ToggleSwitch from "./ToggleSwitch";
 
 const Header = styled(Grid)`
   && {
     height: 65px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid #dcdde1;
+    background-color: ${(props) => props.theme.headerBgColor};
     backdrop-filter: blur(20px);
     width: 100%;
     position: fixed;
@@ -28,8 +29,9 @@ const Header = styled(Grid)`
 `;
 
 const Btn = styled.button`
-  background-color: inherit;
-  border: 1px solid #dcdde1;
+  background-color: ${(props) => props.theme.buttonColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 10px;
   width: 70px;
   height: 40px;
@@ -43,6 +45,7 @@ const TextBtn = styled.button`
   background-color: inherit;
   font-size: 15px;
   font-weight: bold;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const Img = styled.img`
@@ -51,11 +54,18 @@ const Img = styled.img`
   cursor: pointer;
 `;
 
-const pages = ["Products", "Pricing", "Blog"];
+const StyledIconBtn = styled(IconButton)`
+  && {
+    color: ${(props) => props.theme.textColor};
+  }
+`;
+
+const pages = ["menu1", "menu2", "menu3"];
 
 function MainHeader() {
   const navi = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const [ThemeMode, toggleTheme] = useTheme();
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -79,17 +89,16 @@ function MainHeader() {
             />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            <StyledIconBtn
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-              style={{ color: "black" }}
             >
               <MenuIcon />
-            </IconButton>
+            </StyledIconBtn>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -136,17 +145,16 @@ function MainHeader() {
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             <Btn onClick={() => navi("/signup")}>Sign up</Btn>
             <Btn onClick={() => navi("/signin")}>Sign in</Btn>
-            <CiDark style={{ fontSize: "inherite" }} />
+            <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            <StyledIconBtn
               size="large"
               onClick={handleOpenUserMenu}
               color="inherit"
-              style={{ color: "black" }}
             >
               <AddIcon />
-            </IconButton>
+            </StyledIconBtn>
           </Box>
         </Toolbar>
       </Container>

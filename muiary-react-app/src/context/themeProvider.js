@@ -5,7 +5,8 @@ import { ThemeProvider as StyledProvider } from "styled-components";
 const ThemeContext = createContext({});
 
 const ThemeProvider = ({ children }) => {
-  const [ThemeMode, setThemeMode] = useState("light");
+  const LocalTheme = window.localStorage.getItem("theme") || "light";
+  const [ThemeMode, setThemeMode] = useState(LocalTheme);
   const themeObject = ThemeMode === "light" ? lightTheme : darkTheme;
 
   return (
@@ -22,8 +23,10 @@ function useTheme() {
   const toggleTheme = useCallback(() => {
     if (ThemeMode === "light") {
       setThemeMode("dark");
+      window.localStorage.setItem("theme", "dark");
     } else {
       setThemeMode("light");
+      window.localStorage.setItem("theme", "light");
     }
   }, [ThemeMode]);
 

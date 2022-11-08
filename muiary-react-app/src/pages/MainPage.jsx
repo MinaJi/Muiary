@@ -7,10 +7,10 @@ const Img = styled.img`
 `;
 
 const StyledGrid = styled(Grid)`
-&&{
-  padding-top: 75px;
-}
-`
+  && {
+    padding-top: 75px;
+  }
+`;
 
 function MainPage() {
   return (
