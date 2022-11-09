@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CiLight, CiDark } from "react-icons/ci";
 import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -16,6 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeProvider";
 import ToggleSwitch from "./ToggleSwitch";
+import UserMenu from "./UserMenu";
 
 const Header = styled(Grid)`
   && {
@@ -25,6 +25,9 @@ const Header = styled(Grid)`
     width: 100%;
     position: fixed;
     padding-left: 15px;
+    @media screen and (max-width: 576px) {
+      border-bottom: 1px solid ${(props) => props.theme.borderColor};
+    }
   }
 `;
 
@@ -62,7 +65,7 @@ const StyledIconBtn = styled(IconButton)`
 
 const pages = ["menu1", "menu2", "menu3"];
 
-function MainHeader() {
+function MainHeader({ handleOpenUserMenu }) {
   const navi = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [ThemeMode, toggleTheme] = useTheme();
@@ -74,8 +77,6 @@ function MainHeader() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const handleOpenUserMenu = (e) => {};
 
   return (
     <Header position="static" alignItems="ceter">
@@ -157,6 +158,9 @@ function MainHeader() {
             </StyledIconBtn>
           </Box>
         </Toolbar>
+        {/* <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+          {userMenu && <UserMenu />}
+        </Box> */}
       </Container>
     </Header>
   );

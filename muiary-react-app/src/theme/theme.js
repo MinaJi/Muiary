@@ -3,8 +3,7 @@ export const lightTheme = {
   borderColor: "#dcdde1",
   headerBgColor: "rgba(255, 255, 255, 0.7)",
   textColor: "#000",
-  buttonColor: "inherit",
-  icon:"<RiMoonClearFill />"
+  buttonColor: "#fff",
 };
 
 export const darkTheme = {
@@ -13,7 +12,6 @@ export const darkTheme = {
   headerBgColor: "rgba(47, 54, 64, 0.7)",
   textColor: "#fff",
   buttonColor: "#111417",
-  icon:"<RiMoonClearFill />"
 };
 
 export const theme = {
