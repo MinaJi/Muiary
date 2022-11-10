@@ -15,7 +15,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeProvider";
 import ToggleSwitch from "./ToggleSwitch";
-import UserMenu from "./UserMenu";
 
 const Header = styled(Grid)`
   && {
@@ -158,9 +157,6 @@ function MainHeader({ handleOpenUserMenu }) {
             </StyledIconBtn>
           </Box>
         </Toolbar>
-        {/* <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-          {userMenu && <UserMenu />}
-        </Box> */}
       </Container>
     </Header>
   );
