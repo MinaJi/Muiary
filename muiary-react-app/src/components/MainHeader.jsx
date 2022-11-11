@@ -24,7 +24,7 @@ const Header = styled(Grid)`
     width: 100%;
     position: fixed;
     padding-left: 15px;
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 900px) {
       border-bottom: 1px solid ${(props) => props.theme.borderColor};
     }
   }

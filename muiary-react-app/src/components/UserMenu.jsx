@@ -1,14 +1,20 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Container, Divider, Grid } from "@mui/material";
 import styled from "styled-components";
 import ToggleSwitch from "./ToggleSwitch";
 import { useTheme } from "../context/themeProvider";
 
-const StyledBox = styled(Grid)`
+const StyledGrid = styled(Grid)`
   && {
-    margin-top: 65px;
+    margin-top: 100px;
     width: 100%;
     height: calc(100vh - 65px);
+  }
+`;
+
+const StyledDivider = styled(Divider)`
+  && {
+    width: 350px;
   }
 `;
 
@@ -29,17 +35,21 @@ function UserMenu() {
   return (
     <>
       <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-        <StyledBox container justifyContent="center">
-          <Grid item>
-            <Btn>Sign in</Btn>
-          </Grid>
-          <Grid item>
-            <Btn>Sign up</Btn>
-          </Grid>
-          <Grid item>
-            <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
-          </Grid>
-        </StyledBox>
+        <Container>
+          <StyledGrid container direction="column" alignItems="center">
+            <Grid item>
+              <p>Sign up</p>
+              <StyledDivider />
+            </Grid>
+            <Grid item>
+              <p>Sign in</p>
+              <StyledDivider />
+            </Grid>
+            <Grid item>
+              <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
+            </Grid>
+          </StyledGrid>
+        </Container>
       </Box>
     </>
   );
