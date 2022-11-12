@@ -4,7 +4,7 @@ import { Avatar, Grid } from "@mui/material";
 
 const AvatarGrid = styled(Grid)`
   && {
-    padding-top: 70px;
+    padding-top: 90px;
     padding-bottom: 20px;
   }
   .avatar {
@@ -18,6 +18,23 @@ const AvatarGrid = styled(Grid)`
   }
 `;
 
+const NameGrid = styled(Grid)`
+  && {
+    font-size: 30px;
+  }
+`;
+
+const EditBtn = styled.button`
+  background-color: ${(props) => props.theme.bgColor};
+  border: none;
+  color: ${(props) => props.theme.textColor};
+  border-radius: 30px;
+  width: 100px;
+  padding: 10px;
+  margin: 3px;
+  cursor: pointer;
+`;
+
 function MuiaryProfile() {
   return (
     <>
@@ -25,11 +42,14 @@ function MuiaryProfile() {
         <AvatarGrid item>
           <Avatar className="avatar" />
         </AvatarGrid>
-        <Grid item>
-          <p>@지민아</p>
-        </Grid>
+        <NameGrid item>
+          <p>@MinaJi</p>
+        </NameGrid>
         <Grid item>
           <p>여기에 소개</p>
+        </Grid>
+        <Grid item>
+          <EditBtn>Edit Profile</EditBtn>
         </Grid>
       </Grid>
     </>

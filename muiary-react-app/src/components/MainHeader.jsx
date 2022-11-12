@@ -62,7 +62,16 @@ const StyledIconBtn = styled(IconButton)`
   }
 `;
 
-const pages = ["menu1", "menu2", "menu3"];
+const list = [
+  {
+    pages: "My muiary",
+    url: "/mymuiary",
+  },
+  {
+    pages: "menu1",
+    url: "/menu2",
+  },
+];
 
 function MainHeader({ handleOpenUserMenu }) {
   const navi = useNavigate();
@@ -117,9 +126,11 @@ function MainHeader({ handleOpenUserMenu }) {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {list.map((item, i) => (
+                <MenuItem key={i} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" onClick={() => navi(item.url)}>
+                    {item.pages}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -132,13 +143,14 @@ function MainHeader({ handleOpenUserMenu }) {
             />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {list.map((item, i) => (
               <TextBtn
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={i}
+                // onClick={handleCloseNavMenu}
+                onClick={() => navi(item.url)}
                 sx={{ my: 2, color: "black", display: "block" }}
               >
-                {page}
+                {item.pages}
               </TextBtn>
             ))}
           </Box>
