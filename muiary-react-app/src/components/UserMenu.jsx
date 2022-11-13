@@ -3,6 +3,7 @@ import { Box, Container, Divider, Grid } from "@mui/material";
 import styled from "styled-components";
 import ToggleSwitch from "./ToggleSwitch";
 import { useTheme } from "../context/themeProvider";
+import { useNavigate } from "react-router-dom";
 
 const StyledGrid = styled(Grid)`
   && {
@@ -31,6 +32,7 @@ const Btn = styled.button`
 
 function UserMenu() {
   const [ThemeMode, toggleTheme] = useTheme();
+  const navi = useNavigate();
 
   return (
     <>
@@ -38,11 +40,11 @@ function UserMenu() {
         <Container>
           <StyledGrid container direction="column" alignItems="center">
             <Grid item>
-              <p>Sign up</p>
+              <Btn onClick={() => navi("/signup")}>Sign up</Btn>
               <StyledDivider />
             </Grid>
             <Grid item>
-              <p>Sign in</p>
+              <Btn onClick={() => navi("/signin")}>Sign in</Btn>
               <StyledDivider />
             </Grid>
             <Grid item>

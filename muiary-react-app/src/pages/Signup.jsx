@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 
 const StyledDiv = styled(Grid)`
-  background-color: blue;
+  /* background-color: blue; */
 `;
 
 function Signup() {

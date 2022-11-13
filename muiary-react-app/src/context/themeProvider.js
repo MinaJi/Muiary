@@ -1,10 +1,11 @@
 import React, { createContext, useCallback, useContext, useState } from "react";
 import { darkTheme, lightTheme } from "../theme/theme";
 import { ThemeProvider as StyledProvider } from "styled-components";
+import { createTheme } from "@mui/material";
 
 const ThemeContext = createContext({});
 
-const ThemeProvider = ({ children }) => {
+const ThemeProviderMode = ({ children }) => {
   const LocalTheme = window.localStorage.getItem("theme") || "light";
   const [ThemeMode, setThemeMode] = useState(LocalTheme);
   const themeObject = ThemeMode === "light" ? lightTheme : darkTheme;
@@ -33,4 +34,10 @@ function useTheme() {
   return [ThemeMode, toggleTheme];
 }
 
-export { ThemeProvider, useTheme };
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Montserrat', sans-serif",
+  },
+});
+
+export { ThemeProviderMode, useTheme, theme };

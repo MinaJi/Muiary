@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Avatar, Grid } from "@mui/material";
+import { UserAuth } from "../context/AuthContext";
 
 const AvatarGrid = styled(Grid)`
   && {
@@ -36,6 +37,8 @@ const EditBtn = styled.button`
 `;
 
 function MuiaryProfile() {
+  const { user } = UserAuth();
+
   return (
     <>
       <Grid container direction="column" alignItems="center">
@@ -43,7 +46,7 @@ function MuiaryProfile() {
           <Avatar className="avatar" />
         </AvatarGrid>
         <NameGrid item>
-          <p>@MinaJi</p>
+          <p>{user.email}</p>
         </NameGrid>
         <Grid item>
           <p>여기에 소개</p>

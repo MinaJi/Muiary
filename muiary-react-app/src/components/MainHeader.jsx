@@ -15,6 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeProvider";
 import ToggleSwitch from "./ToggleSwitch";
+import { UserAuth } from "../context/AuthContext";
 
 const Header = styled(Grid)`
   && {
@@ -77,6 +78,7 @@ function MainHeader({ handleOpenUserMenu }) {
   const navi = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [ThemeMode, toggleTheme] = useTheme();
+  const { user, logOut } = UserAuth();
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -84,6 +86,15 @@ function MainHeader({ handleOpenUserMenu }) {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+      navi("/");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -155,8 +166,16 @@ function MainHeader({ handleOpenUserMenu }) {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            <Btn onClick={() => navi("/signup")}>Sign up</Btn>
-            <Btn onClick={() => navi("/signin")}>Sign in</Btn>
+            {user ? (
+              <Btn onClick={() => navi("/mypage")}>Mypage</Btn>
+            ) : (
+              <Btn onClick={() => navi("/signup")}>Sign up</Btn>
+            )}
+            {user ? (
+              <Btn onClick={handleSignOut}>Sign out</Btn>
+            ) : (
+              <Btn onClick={() => navi("/signin")}>Sign in</Btn>
+            )}
             <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

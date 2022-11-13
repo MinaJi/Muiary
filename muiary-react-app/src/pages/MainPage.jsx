@@ -15,7 +15,7 @@ const StyledGrid = styled(Grid)`
 function MainPage() {
   return (
     <StyledGrid container>
-      <Grid item>메인페이지</Grid>
+      <Grid item>메인페이지 this is main page</Grid>
       <Grid item>
         <Img src="static/muiarylogo.png" alt="muiarylogo" />
       </Grid>
