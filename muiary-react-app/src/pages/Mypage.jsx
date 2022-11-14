@@ -14,7 +14,14 @@ const StyledContainer = styled(Container)`
 
 const StyledGrid = styled(Grid)`
   && {
+    border: 1px solid black;
   }
+`;
+
+const Div = styled.div`
+  width: 15%;
+  height: 100vh;
+  background-color: #e0e0e0;
 `;
 
 function Mypage() {
@@ -23,6 +30,7 @@ function Mypage() {
   return (
     <>
       <MainHeader />
+      <Div />
       <StyledContainer>
         <StyledGrid
           container

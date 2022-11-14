@@ -5,8 +5,7 @@ import { MdEdit } from "react-icons/md";
 
 const EditBadge = styled(Badge)({
   "& .MuiBadge-badge": {
-    color: "yellow",
-    backgroundColor: "#2f4667",
+    backgroundColor: "#36AE7C",
     width: "45px",
     height: "45px",
     top: "175px",
