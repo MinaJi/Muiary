@@ -30,7 +30,7 @@ function Mypage() {
   return (
     <>
       <MainHeader />
-      <Div />
+      {/* <Div /> */}
       <StyledContainer>
         <StyledGrid
           container

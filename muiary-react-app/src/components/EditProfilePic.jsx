@@ -2,6 +2,7 @@ import { Avatar, Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { MdEdit } from "react-icons/md";
+import { useState } from "react";
 
 const EditBadge = styled(Badge)({
   "& .MuiBadge-badge": {
@@ -30,10 +31,23 @@ const EditBtn = styled.button`
   cursor: pointer;
 `;
 
+const Preview = styled.img`
+  border: 1px solid black;
+`;
+
 function EditProfilePic() {
+  const [showEdit, setShowEdit] = useState(false);
+
   const updateImg = () => {
-    alert("dfsdfdsf");
+    setShowEdit((prev) => !prev);
   };
+
+  const handleChange = () => {
+
+  };
+  const handleUpload = () => {
+
+  }
 
   return (
     <>
@@ -47,6 +61,15 @@ function EditProfilePic() {
       >
         <StyledAvatar />
       </EditBadge>
+      {showEdit && (
+        <>
+          <div>
+            <input type="file" onChange={handleChange} />
+            <button onClick={handleUpload}>Upload</button>
+            <Preview alt="preview" />
+          </div>
+        </>
+      )}
     </>
   );
 }
