@@ -3,6 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import { MdEdit } from "react-icons/md";
 import { useState } from "react";
+import { UserAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+import { upload } from "../firebase-config";
 
 const EditBadge = styled(Badge)({
   "& .MuiBadge-badge": {
@@ -36,18 +39,31 @@ const Preview = styled.img`
 `;
 
 function EditProfilePic() {
+  const { user } = UserAuth();
   const [showEdit, setShowEdit] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState("");
 
   const updateImg = () => {
     setShowEdit((prev) => !prev);
   };
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    if(e.target.files[0]) {
+      setImage(e.target.files[0])
+    }
   };
   const handleUpload = () => {
+    upload(image, user);
+  };
 
-  }
+  console.log(user.imageURL);
+
+  useEffect(() => {
+    if (user?.imageURL) {
+      setImageURL(user.imageURL);
+    }
+  }, [user]);
 
   return (
     <>
@@ -66,7 +82,7 @@ function EditProfilePic() {
           <div>
             <input type="file" onChange={handleChange} />
             <button onClick={handleUpload}>Upload</button>
-            <Preview alt="preview" />
+            <Preview alt="preview" src={imageURL} />
           </div>
         </>
       )}
