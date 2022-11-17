@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getAuth, updateProfile } from "firebase/auth";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { async } from "@firebase/util";
+import { UserAuth } from "./context/AuthContext";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -27,9 +28,12 @@ export async function upload(file, user, setLoading) {
   setLoading(true);
 
   const snapshot = await uploadBytes(fileRef, file);
+  const imageURL = await getDownloadURL(fileRef);
+
+  updateProfile(user, { photoURL: imageURL });
 
   setLoading(false);
-  alert("upload done!")
+  alert("upload done!");
 }
 
 export default app;

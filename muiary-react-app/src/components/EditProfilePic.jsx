@@ -34,36 +34,33 @@ const EditBtn = styled.button`
   cursor: pointer;
 `;
 
-const Preview = styled.img`
-  border: 1px solid black;
-`;
-
 function EditProfilePic() {
   const { user } = UserAuth();
   const [showEdit, setShowEdit] = useState(false);
-  const [image, setImage] = useState(null);
-  const [imageURL, setImageURL] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [photoURL, setPhotoURL] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const updateImg = () => {
     setShowEdit((prev) => !prev);
   };
 
   const handleChange = (e) => {
-    if(e.target.files[0]) {
-      setImage(e.target.files[0])
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0]);
     }
   };
   const handleUpload = () => {
-    upload(image, user);
+    upload(photo, user, setLoading);
   };
 
-  console.log(user.imageURL);
-
   useEffect(() => {
-    if (user?.imageURL) {
-      setImageURL(user.imageURL);
+    if (user?.photoURL) {
+      setPhotoURL(user.photoURL);
     }
   }, [user]);
+
+  console.log(user.photoURL);
 
   return (
     <>
@@ -75,14 +72,15 @@ function EditProfilePic() {
         }
         overlap="circular"
       >
-        <StyledAvatar />
+        <StyledAvatar src={photoURL} />
       </EditBadge>
       {showEdit && (
         <>
           <div>
             <input type="file" onChange={handleChange} />
-            <button onClick={handleUpload}>Upload</button>
-            <Preview alt="preview" src={imageURL} />
+            <button onClick={handleUpload} disabled={loading || !photo}>
+              Upload
+            </button>
           </div>
         </>
       )}
