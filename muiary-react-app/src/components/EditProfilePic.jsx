@@ -60,8 +60,6 @@ function EditProfilePic() {
     }
   }, [user]);
 
-  console.log(user.photoURL);
-
   return (
     <>
       <EditBadge

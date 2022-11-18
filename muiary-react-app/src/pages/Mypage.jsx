@@ -2,49 +2,77 @@ import React from "react";
 import MainHeader from "../components/MainHeader";
 import styled from "styled-components";
 import { Container } from "@mui/system";
-import { Avatar, Badge, Grid } from "@mui/material";
+import { Avatar, Badge, Grid, IconButton, List, MenuItem } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
 import EditProfilePic from "../components/EditProfilePic";
+import { list } from "firebase/storage";
+import { Outlet, useNavigate } from "react-router-dom";
 
-const StyledContainer = styled(Container)`
+const menu = [
+  {
+    title: "Profile",
+    icon: "ri-account-circle-line",
+    url: "/mypage/profile",
+  },
+  {
+    title: "Account",
+    icon: "ri-user-settings-line",
+    url: "/mypage/account",
+  },
+  {
+    title: "Saved",
+    icon: "ri-bookmark-line",
+    url: "/mypage/saved",
+  },
+  {
+    title: "Liked",
+    icon: "ri-heart-2-line",
+    url: "/mypage/liked",
+  },
+];
+
+const LeftDiv = styled(Grid)`
   && {
     padding-top: 65px;
+    background-clip: content-box;
+    background-color: #e8e8e8;
+    height: 100vh;
+    position: fixed;
+    width: 15%;
   }
 `;
 
-const StyledGrid = styled(Grid)`
+const RigthDiv = styled(Grid)`
   && {
-    border: 1px solid black;
+    padding-top: 65px;
+    background-clip: content-box;
+    padding-left: 15%;
+    p {
+      font-size: 50px;
+    }
   }
-`;
-
-const Div = styled.div`
-  width: 15%;
-  height: 100vh;
-  background-color: #e0e0e0;
 `;
 
 function Mypage() {
   const { user } = UserAuth();
+  const navi = useNavigate();
 
   return (
     <>
       <MainHeader />
-      {/* <Div /> */}
-      <StyledContainer>
-        <StyledGrid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item>마이페이지</Grid>
-          <Grid item>이메일: {user.email}</Grid>
-          <Grid item>
-            <EditProfilePic />
-          </Grid>
-        </StyledGrid>
-      </StyledContainer>
+      <LeftDiv item>
+        {menu.map((item, i) => (
+          <MenuItem key={i} onClick={() => navi(item.url)}>
+            <IconButton>
+              <i className={item.icon}></i>
+            </IconButton>
+            <p>{item.title}</p>
+          </MenuItem>
+        ))}
+      </LeftDiv>
+      <RigthDiv item>
+        <Outlet />
+      </RigthDiv>
     </>
   );
 }

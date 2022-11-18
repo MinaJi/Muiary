@@ -4,6 +4,10 @@ import { UserAuth } from "./context/AuthContext";
 import Main from "./pages/Main";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
 import Mypage from "./pages/Mypage";
+import MypageAccount from "./pages/MypageAccount";
+import MypageLike from "./pages/MypageLike";
+import MypageProfile from "./pages/MypageProfile";
+import MypageSaved from "./pages/MypageSaved";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 
@@ -27,7 +31,12 @@ function Router() {
               <Mypage />
             </RequireAuth>
           }
-        />
+        >
+          <Route path="/mypage/profile" element={<MypageProfile />} />
+          <Route path="/mypage/account" element={<MypageAccount />} />
+          <Route path="/mypage/saved" element={<MypageSaved />} />
+          <Route path="/mypage/liked" element={<MypageLike />} />
+        </Route>
         <Route
           path="/mymuiary"
           element={

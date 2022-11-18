@@ -43,7 +43,7 @@ function MuiaryProfile() {
     <>
       <Grid container direction="column" alignItems="center">
         <AvatarGrid item>
-          <Avatar className="avatar" />
+          <Avatar className="avatar" src={user.photoURL}/>
         </AvatarGrid>
         <NameGrid item>
           <p>{user.email}</p>

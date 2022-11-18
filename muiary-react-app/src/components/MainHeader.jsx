@@ -25,6 +25,7 @@ const Header = styled(Grid)`
     width: 100%;
     position: fixed;
     padding-left: 15px;
+    z-index: 100; // 제일 최상단에 보이게 하기 위해 ?
     @media screen and (max-width: 900px) {
       border-bottom: 1px solid ${(props) => props.theme.borderColor};
     }
