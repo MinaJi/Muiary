@@ -9,7 +9,7 @@ import { upload } from "../firebase-config";
 
 const EditBadge = styled(Badge)({
   "& .MuiBadge-badge": {
-    backgroundColor: "#36AE7C",
+    backgroundColor: "#F73859",
     width: "45px",
     height: "45px",
     top: "175px",

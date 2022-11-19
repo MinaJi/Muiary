@@ -2,8 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, updateProfile } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { async } from "@firebase/util";
-import { UserAuth } from "./context/AuthContext";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,9 +17,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const storage = getStorage();
-const db = 
+const db = getFirestore(app);
+
 export const auth = getAuth(app);
+export const storage = getStorage();
 
 // storage
 export async function upload(file, user, setLoading) {
@@ -32,8 +32,8 @@ export async function upload(file, user, setLoading) {
   const imageURL = await getDownloadURL(fileRef);
 
   updateProfile(user, { photoURL: imageURL });
-
   setLoading(false);
+
   alert("upload done!");
 }
 

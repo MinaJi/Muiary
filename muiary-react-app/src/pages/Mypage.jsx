@@ -35,7 +35,7 @@ const LeftDiv = styled(Grid)`
   && {
     padding-top: 65px;
     background-clip: content-box;
-    background-color: #e8e8e8;
+    /* background-color: #e8e8e8; */
     height: 100vh;
     position: fixed;
     width: 15%;
@@ -47,9 +47,9 @@ const RigthDiv = styled(Grid)`
     padding-top: 65px;
     background-clip: content-box;
     padding-left: 15%;
-    p {
+    /* p {
       font-size: 50px;
-    }
+    } */
   }
 `;
 
@@ -66,7 +66,7 @@ function Mypage() {
             <IconButton>
               <i className={item.icon}></i>
             </IconButton>
-            <p>{item.title}</p>
+            <span>{item.title}</span>
           </MenuItem>
         ))}
       </LeftDiv>
