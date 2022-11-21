@@ -7,6 +7,8 @@ import { useState } from "react";
 import countryList from "react-select-country-list";
 import { useMemo } from "react";
 import Select from "react-select";
+import CustomDatePicker from "../components/CustomDatePicker";
+import DatePicker from "react-date-picker";
 
 const GridContainer = styled(Grid)`
   && {
@@ -14,72 +16,24 @@ const GridContainer = styled(Grid)`
   }
 `;
 
-// const CustomSelect = styled(Select)`
-//   & .Select {
-//     &__control {
-//       display: flex;
-//       align-items: center;
-//       border-radius: 0;
-//       border: none;
-//       height: 100%;
-
-//       &--is-focused {
-//         box-shadow: 0 0 1px gray;
-//         border-color: transparent !important;
-//       }
-
-//       &--menu-is-open {
-//         border-color: transparent;
-//         box-shadow: none;
-
-//         :hover {
-//           border-color: transparent;
-//         }
-
-//         svg {
-//           color: white;
-//         }
-//       }
-//     }
-
-//     &__menu {
-//       margin-top: 15px;
-//       top: calc(100% - 2px);
-//       box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
-
-//       border-top: 0;
-//       &-list {
-//         padding: 0;
-//         justify-content: center;
-//         align-items: center;
-//       }
-//     }
-
-//     &__option {
-//       height: 40px;
-//       display: "flex";
-//       align-items: "center";
-//       padding: 9px 0px 9px 15px;
-//       border-top: 1px solid gray;
-//       color: black;
-//       background-color: #ff0000;
-//       &--is-selected {
-//         color: black;
-//         background-color: gray;
-//         font-weight: bold;
-//       }
-//       &--is-focused {
-//         box-shadow: none;
-//         background-color: #ff0000;
-//       }
-//     }
-//   }
-// `;
-
 const StyledInput = styled.input`
+  width: 60%;
+  height: 25px;
   padding: 2%;
-  border-radius: 18px;
-  border: 1px solid gray;
+  border-radius: 25px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  font-size: 15px;
+  :focus {
+    outline: none;
+    border: 2px solid #f1d18a;
+  }
+`;
+
+const StyledTextArea = styled.textarea`
+  width: 60%;
+  padding: 2%;
+  border-radius: 25px;
+  border: 1px solid ${(props) => props.theme.borderColor};
   font-size: 15px;
   :focus {
     outline: none;
@@ -97,6 +51,7 @@ const TitleDiv = styled(Grid)`
       height: 1px;
       background-color: #ededed;
       border: none;
+      margin-bottom: 4%;
     }
   }
 `;
@@ -107,11 +62,46 @@ const StyledText = styled.p`
   padding-bottom: 8px;
 `;
 
+const Btn = styled.button`
+  background-color: ${(props) => props.theme.buttonColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
+  color: ${(props) => props.theme.textColor};
+  border-radius: 10px;
+  width: 71px;
+  height: 40px;
+  margin: 3px;
+  cursor: pointer;
+  :hover {
+    background-color: ${(props) => props.theme.red};
+    border: none;
+    color: #fff;
+  }
+`;
+
+const IconBtn = styled.button`
+  border: none;
+  background-color: inherit;
+  align-content: center;
+  cursor: pointer;
+  transition: all ease 0.7s;
+  :hover {
+    transform: rotate(90deg);
+  }
+  i {
+    font-size: 30px;
+    color: ${(props) => props.theme.red};
+  }
+`;
+
+const StyledPicker = styled(DatePicker)`
+  border: 1px solid red;
+`;
+
 function MypageProfile() {
   const { user } = UserAuth();
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
-
+  const [value, onChange] = useState(new Date());
   const options = useMemo(() => countryList().getData(), []);
   const customSelect = useMemo(
     () => ({
@@ -122,12 +112,11 @@ function MypageProfile() {
       }),
       control: (provided, { isReadOnly }) => ({
         ...provided,
-        width: 200,
-        border: "1px solid gray",
+        width: "60%",
+        height: "25px",
         borderRadius: "18px",
-        // padding: "2%",
         fontSize: "15px",
-        backgroundColor: isReadOnly ? "inherite" : "inherite",
+        backgroundColor: isReadOnly ? "inherit" : "inherit",
       }),
       singleValue: (provided, state) => ({
         ...provided,
@@ -151,18 +140,19 @@ function MypageProfile() {
             <hr className="divider" />
           </TitleDiv>
           <Grid item>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <StyledText>Email</StyledText>
                 <StyledInput placeholder={user.email} readOnly />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Nickname</StyledText>
-                <StyledInput placeholder="닉네임" readOnly={isReadOnly} />
+                <StyledInput readOnly={isReadOnly} />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Birthday</StyledText>
-                <StyledInput placeholder="생일" readOnly={isReadOnly} />
+                <CustomDatePicker />
+                <StyledPicker />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Country</StyledText>
@@ -170,21 +160,34 @@ function MypageProfile() {
                   options={options}
                   styles={customSelect}
                   isDisabled={isReadOnly}
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#F1D18A",
+                      primary: "#F1D18A",
+                      neutral10: "#dcdde1",
+                      neutral20: "#dcdde1",
+                      neutral30: "#dcdde1",
+                    },
+                  })}
                 />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Bio</StyledText>
-                <StyledInput placeholder="bio" readOnly={isReadOnly} />
+                <StyledTextArea readOnly={isReadOnly} />
               </Grid>
-              {showBtn && (
-                <>
-                  <button type="submit">완료</button>
-                </>
-              )}
-              <Grid item>
-                <button onClick={setReadOnlyFalse}>
-                  <i className="ri-settings-3-line"></i>
-                </button>
+              <Grid item xs={12}>
+                <Grid item>
+                  <IconBtn onClick={setReadOnlyFalse}>
+                    <i className="ri-settings-3-line"></i>
+                  </IconBtn>
+                </Grid>
+                {showBtn && (
+                  <>
+                    <Btn type="submit">Submit</Btn>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>

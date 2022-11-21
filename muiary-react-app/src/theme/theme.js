@@ -5,6 +5,8 @@ export const lightTheme = {
   textColor: "#232931",
   buttonColor: "#fff",
   profileBgColor: "#dcdde1",
+  red: "#F73859",
+  yellow: "#F1D18A",
 };
 
 export const darkTheme = {
@@ -14,6 +16,8 @@ export const darkTheme = {
   textColor: "#fff",
   buttonColor: "#111417",
   profileBgColor: "#111417",
+  red: "#F73859",
+  yellow: "#F1D18A",
 };
 
 export const theme = {

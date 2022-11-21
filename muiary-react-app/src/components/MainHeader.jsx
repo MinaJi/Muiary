@@ -37,10 +37,15 @@ const Btn = styled.button`
   border: 1px solid ${(props) => props.theme.borderColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 10px;
-  width: 70px;
+  width: 71px;
   height: 40px;
   margin: 3px;
   cursor: pointer;
+  :hover {
+    background-color: ${(props) => props.theme.red};
+    border: none;
+    color: #fff;
+  }
 `;
 
 const TextBtn = styled.button`
