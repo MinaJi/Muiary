@@ -7,8 +7,8 @@ import { useState } from "react";
 import countryList from "react-select-country-list";
 import { useMemo } from "react";
 import Select from "react-select";
-import CustomDatePicker from "../components/CustomDatePicker";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-date-picker/dist/entry.nostyle";
+import "../css/DatePicker.css";
 
 const GridContainer = styled(Grid)`
   && {
@@ -94,14 +94,19 @@ const IconBtn = styled.button`
 `;
 
 const StyledPicker = styled(DatePicker)`
-  border: 1px solid red;
+  && {
+    border: 1px solid black;
+    border-radius: 15px;
+  }
 `;
 
 function MypageProfile() {
   const { user } = UserAuth();
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
+
   const [value, onChange] = useState(new Date());
+
   const options = useMemo(() => countryList().getData(), []);
   const customSelect = useMemo(
     () => ({
@@ -151,8 +156,7 @@ function MypageProfile() {
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Birthday</StyledText>
-                <CustomDatePicker />
-                <StyledPicker />
+                <StyledPicker onChange={onChange} value={value} />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Country</StyledText>
