@@ -9,6 +9,7 @@ import { useMemo } from "react";
 import Select from "react-select";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "../css/DatePicker.css";
+import "../css/Calendar.css";
 
 const GridContainer = styled(Grid)`
   && {
@@ -95,8 +96,8 @@ const IconBtn = styled.button`
 
 const StyledPicker = styled(DatePicker)`
   && {
-    border: 1px solid black;
-    border-radius: 15px;
+    border: 1px solid ${(props) => props.theme.borderColor};
+    border-radius: 25px;
   }
 `;
 
@@ -118,8 +119,8 @@ function MypageProfile() {
       control: (provided, { isReadOnly }) => ({
         ...provided,
         width: "60%",
-        height: "25px",
-        borderRadius: "18px",
+        height: "48px",
+        borderRadius: "25px",
         fontSize: "15px",
         backgroundColor: isReadOnly ? "inherit" : "inherit",
       }),
@@ -156,7 +157,11 @@ function MypageProfile() {
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Birthday</StyledText>
-                <StyledPicker onChange={onChange} value={value} />
+                <StyledPicker
+                  onChange={onChange}
+                  value={value}
+                  disabled={isReadOnly}
+                />
               </Grid>
               <Grid item xs={6}>
                 <StyledText>Country</StyledText>
