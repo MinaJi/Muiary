@@ -1,16 +1,38 @@
+import { Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 
+const TitleDiv = styled(Grid)`
+  && {
+    .title {
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .divider {
+      height: 1px;
+      background-color: #ededed;
+      border: none;
+      margin-bottom: 4%;
+    }
+  }
+`;
+
+const GridContainer = styled(Grid)`
+  && {
+    padding: 5%;
+  }
+`;
+
 function MypageAccount() {
   return (
-    <div>
-      <p style={{ fontSize: "100px" }}>
-        fdsfdsf Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-        Deleniti vel quod molestiae, maiores fugit dolorum, itaque aperiam
-        expedita saepe numquam, cumque nesciunt perspiciatis tenetur optio sed
-        provident ut odio at! d
-      </p>
-    </div>
+    <GridContainer container>
+      <Grid item>
+        <TitleDiv item>
+          <p className="title">Change Password</p>
+          <hr className="divider" />
+        </TitleDiv>
+      </Grid>
+    </GridContainer>
   );
 }
 
