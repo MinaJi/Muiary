@@ -1,4 +1,5 @@
 import { Grid } from "@mui/material";
+import { addDoc, doc, setDoc, getDoc, collection } from "firebase/firestore";
 import React from "react";
 import EditProfilePic from "../components/EditProfilePic";
 import { UserAuth } from "../context/AuthContext";
@@ -10,6 +11,8 @@ import Select from "react-select";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "../css/DatePicker.css";
 import "../css/Calendar.css";
+import { db } from "../firebase-config";
+import { useId } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -137,6 +140,29 @@ function MypageProfile() {
     setShowBtn(true);
   };
 
+  const usersRef = collection(db, "users");
+
+  const [nickname, setNickname] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [country, setCountry] = useState("");
+  const [bio, setBio] = useState("");
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    // await addDoc(collection(usersRef, "users", user.uid), {
+    //   nickname: nickname,
+    //   dateOfBirth: dateOfBirth,
+    //   country: country,
+    //   bio: bio,
+    // });
+    await setDoc(doc(db, `users/${user.uid}`), {
+      nickname: nickname,
+      dateOfBirth: dateOfBirth,
+      country: country,
+      bio: bio,
+    });
+  };
+
   return (
     <>
       <GridContainer container>
@@ -145,64 +171,82 @@ function MypageProfile() {
             <p className="title">Profile</p>
             <hr className="divider" />
           </TitleDiv>
-          <Grid item>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={6}>
-                <StyledText>Email</StyledText>
-                <StyledInput placeholder={user.email} readOnly />
-              </Grid>
-              <Grid item xs={6}>
-                <StyledText>Nickname</StyledText>
-                <StyledInput readOnly={isReadOnly} />
-              </Grid>
-              <Grid item xs={6}>
-                <StyledText>Birthday</StyledText>
-                <StyledPicker
-                  onChange={onChange}
-                  value={value}
-                  disabled={isReadOnly}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <StyledText>Country</StyledText>
-                <Select
-                  options={options}
-                  styles={customSelect}
-                  isDisabled={isReadOnly}
-                  theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                      ...theme.colors,
-                      primary25: "#F1D18A",
-                      primary: "#F1D18A",
-                      neutral10: "#dcdde1",
-                      neutral20: "#dcdde1",
-                      neutral30: "#dcdde1",
-                    },
-                  })}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <StyledText>Bio</StyledText>
-                <StyledTextArea readOnly={isReadOnly} />
-              </Grid>
-              <Grid item xs={12}>
-                <Grid item>
-                  <IconBtn onClick={setReadOnlyFalse}>
-                    <i className="ri-settings-3-line"></i>
-                  </IconBtn>
+          <form onSubmit={handleUpdateProfile}>
+            <Grid item>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={6}>
+                  <StyledText>Email</StyledText>
+                  <StyledInput placeholder={user.email} readOnly />
                 </Grid>
-                {showBtn && (
-                  <>
-                    <Btn type="submit">Submit</Btn>
-                  </>
-                )}
+                <Grid item xs={6}>
+                  <StyledText>Nickname</StyledText>
+                  <StyledInput
+                    placeholder={doc.nickname}
+                    readOnly={isReadOnly}
+                    onChange={(e) => {
+                      setNickname(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <StyledText>Birthday</StyledText>
+                  <StyledPicker
+                    // onChange={(e) => {
+                    //   setDateOfBirth(value);
+                    // }}
+                    value={value}
+                    disabled={isReadOnly}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <StyledText>Country</StyledText>
+                  <Select
+                    // onChange={(e) => {
+                    //   setCountry(e.target.options);
+                    // }}
+                    options={options}
+                    styles={customSelect}
+                    isDisabled={isReadOnly}
+                    theme={(theme) => ({
+                      ...theme,
+                      colors: {
+                        ...theme.colors,
+                        primary25: "#F1D18A",
+                        primary: "#F1D18A",
+                        neutral10: "#dcdde1",
+                        neutral20: "#dcdde1",
+                        neutral30: "#dcdde1",
+                      },
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <StyledText>Bio</StyledText>
+                  <StyledTextArea
+                    readOnly={isReadOnly}
+                    onChange={(e) => {
+                      setBio(e.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  {showBtn && (
+                    <>
+                      <Btn type="submit">Submit</Btn>
+                    </>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          </form>
         </Grid>
         <Grid item xs={3}>
           <EditProfilePic />
+          <Grid item>
+            <IconBtn onClick={setReadOnlyFalse}>
+              <i className="ri-settings-3-line"></i>
+            </IconBtn>
+          </Grid>
         </Grid>
       </GridContainer>
     </>
