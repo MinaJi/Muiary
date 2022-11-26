@@ -1,5 +1,12 @@
 import { Grid } from "@mui/material";
-import { addDoc, doc, setDoc, getDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import React from "react";
 import EditProfilePic from "../components/EditProfilePic";
 import { UserAuth } from "../context/AuthContext";
@@ -12,7 +19,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "../css/DatePicker.css";
 import "../css/Calendar.css";
 import { db } from "../firebase-config";
-import { useId } from "react";
+import { UserData } from "../context/UserDataContext";
 
 const GridContainer = styled(Grid)`
   && {
@@ -106,6 +113,8 @@ const StyledPicker = styled(DatePicker)`
 
 function MypageProfile() {
   const { user } = UserAuth();
+  const { users } = UserData();
+
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
 
@@ -140,8 +149,6 @@ function MypageProfile() {
     setShowBtn(true);
   };
 
-  const usersRef = collection(db, "users");
-
   const [nickname, setNickname] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [country, setCountry] = useState("");
@@ -149,18 +156,18 @@ function MypageProfile() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    // await addDoc(collection(usersRef, "users", user.uid), {
-    //   nickname: nickname,
-    //   dateOfBirth: dateOfBirth,
-    //   country: country,
-    //   bio: bio,
-    // });
-    await setDoc(doc(db, `users/${user.uid}`), {
+    await addDoc(collection(db, "users", user.uid), {
       nickname: nickname,
       dateOfBirth: dateOfBirth,
       country: country,
       bio: bio,
     });
+    // await setDoc(doc(db, `users/${user.uid}`), {
+    //   nickname: nickname,
+    //   dateOfBirth: dateOfBirth,
+    //   country: country,
+    //   bio: bio,
+    // });
   };
 
   return (
@@ -181,7 +188,7 @@ function MypageProfile() {
                 <Grid item xs={6}>
                   <StyledText>Nickname</StyledText>
                   <StyledInput
-                    placeholder={doc.nickname}
+                    placeholder={users && users.nickname}
                     readOnly={isReadOnly}
                     onChange={(e) => {
                       setNickname(e.target.value);
@@ -224,6 +231,7 @@ function MypageProfile() {
                   <StyledText>Bio</StyledText>
                   <StyledTextArea
                     readOnly={isReadOnly}
+                    placeholder={users && users.bio}
                     onChange={(e) => {
                       setBio(e.target.value);
                     }}

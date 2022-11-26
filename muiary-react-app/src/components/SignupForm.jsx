@@ -2,16 +2,31 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
+import { addDoc, collection, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
-const StyledDiv = styled(Grid)`
-  background-color: blue;
+const SyledContainer = styled(Container)`
+  && {
+    font-size: 40px;
+  }
+`;
+
+const Btn = styled.button`
+  cursor: pointer;
+  border: 1px solid black;
+  background-color: inherit;
+  border-radius: 30px;
+  font-size: 20px;
+  padding: 5px;
 `;
 
 function SignupForm() {
   const navi = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
   const { createUser } = UserAuth();
@@ -20,7 +35,16 @@ function SignupForm() {
     e.preventDefault();
     setError("");
     try {
-      await createUser(email, password);
+      await createUser(email, password).then((res) => {
+        const userUid = res.user.uid;
+        addDoc(collection(db, "users"), {
+          username: username,
+          registerDate: new Date().toUTCString(),
+          dateOfBirth: "",
+          country: "",
+          bio: "",
+        });
+      });
       navi("/");
     } catch (error) {
       setError(error.message);
@@ -29,21 +53,29 @@ function SignupForm() {
   };
 
   return (
-    <>
-      <p>SignupForm</p>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <p>이메일</p>
-          <input type="email" onChange={(e) => setEmail(e.target.value)} />
-          <p>패스워드</p>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">가입하기</button>
-        </form>
-      </div>
-    </>
+    <SyledContainer>
+      <Grid container direction="column" alignContent="center">
+        <Grid item style={{ margin: "40px" }}>
+          <p>SignupForm</p>
+        </Grid>
+        <Grid item>
+          <form onSubmit={handleSubmit}>
+            <p>Email</p>
+            <input type="email" onChange={(e) => setEmail(e.target.value)} />
+            <p>Password</p>
+            <input
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <p>Username</p>
+            <input required onChange={(e) => setUsername(e.target.value)} />
+            <Grid item>
+              <Btn type="submit">submit</Btn>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
+    </SyledContainer>
   );
 }
 

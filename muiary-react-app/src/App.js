@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import { theme, ThemeProviderMode } from "./context/themeProvider";
+import { UserDataContextProvider } from "./context/UserDataContext";
 import Router from "./Router";
 import { GlobalStyle } from "./theme/GlobalStyle";
 
@@ -14,7 +15,9 @@ function App() {
           <ThemeProviderMode>
             <GlobalStyle />
             <AuthContextProvider>
-              <Router />
+              <UserDataContextProvider>
+                <Router />
+              </UserDataContextProvider>
             </AuthContextProvider>
           </ThemeProviderMode>
         </ThemeProvider>
