@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Container, Grid } from "@mui/material";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const SyledContainer = styled(Container)`
@@ -36,13 +36,14 @@ function SignupForm() {
     setError("");
     try {
       await createUser(email, password).then((res) => {
-        const userUid = res.user.uid;
-        addDoc(collection(db, "users"), {
+        setDoc(doc(db, "users", res.user.uid), {
+          email: email,
           username: username,
           registerDate: new Date().toUTCString(),
           dateOfBirth: "",
           country: "",
           bio: "",
+          profileImgUrl: "",
         });
       });
       navi("/");

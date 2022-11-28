@@ -6,6 +6,7 @@ import {
   getDoc,
   collection,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import React from "react";
 import EditProfilePic from "../components/EditProfilePic";
@@ -156,8 +157,8 @@ function MypageProfile() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    await addDoc(collection(db, "users", user.uid), {
-      nickname: nickname,
+    await updateDoc(doc(db, `users/${user.uid}`), {
+      // nickname: nickname,
       dateOfBirth: dateOfBirth,
       country: country,
       bio: bio,
@@ -168,6 +169,10 @@ function MypageProfile() {
     //   country: country,
     //   bio: bio,
     // });
+  };
+
+  const changeHandler = (country) => {
+    setCountry(country);
   };
 
   return (
@@ -208,9 +213,8 @@ function MypageProfile() {
                 <Grid item xs={6}>
                   <StyledText>Country</StyledText>
                   <Select
-                    // onChange={(e) => {
-                    //   setCountry(e.target.options);
-                    // }}
+                    onChange={changeHandler}
+                    value={country}
                     options={options}
                     styles={customSelect}
                     isDisabled={isReadOnly}
