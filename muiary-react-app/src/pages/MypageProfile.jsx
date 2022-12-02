@@ -1,13 +1,5 @@
 import { Grid } from "@mui/material";
-import {
-  addDoc,
-  doc,
-  setDoc,
-  getDoc,
-  collection,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import React from "react";
 import EditProfilePic from "../components/EditProfilePic";
 import { UserAuth } from "../context/AuthContext";
@@ -21,7 +13,6 @@ import "../css/DatePicker.css";
 import "../css/Calendar.css";
 import { db } from "../firebase-config";
 import { UserData } from "../context/UserDataContext";
-import { useEffect } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -120,8 +111,6 @@ function MypageProfile() {
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
 
-  const [value, onChange] = useState(new Date());
-
   const options = useMemo(() => countryList().getData(), []);
   const customSelect = useMemo(
     () => ({
@@ -151,25 +140,23 @@ function MypageProfile() {
     setShowBtn(true);
   };
 
+  const usersRef = doc(db, `users/${user.uid}`);
   const [username, setUsername] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
-  const usersRef = doc(db, `users/${user.uid}`);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     await updateDoc(usersRef, {
-      username: username,
-      bio: bio,
-      country: country,
+      username: username || users.username,
+      bio: bio || users.bio,
+      country: country || users.country,
+      dateOfBirth: dateOfBirth || users.dateOfBirth,
     });
   };
 
-  // username: username,s
-  // dateOfBirth: dateOfBirth,
-  // country: country,
-  // bio: bio,
+  const [dateValue, setDateValue] = useState(new Date());
 
   const changeHandler = (country) => {
     setCountry(country);
@@ -203,11 +190,15 @@ function MypageProfile() {
                 <Grid item xs={6}>
                   <StyledText>Birthday</StyledText>
                   <StyledPicker
-                    // onChange={(e) => {
-                    //   setDateOfBirth(value);
-                    // }}
-                    value={value}
+                    value={dateValue}
                     disabled={isReadOnly}
+                    onChange={(value) => {
+                      setDateValue(value);
+                      const selectedDate = new Date(value).toUTCString();
+                      // 왜 날짜 하루씩 늦음? 그리고 데이터 저장될때 시간 지우는방법있나???
+                      // 그리고 데이터에 저장된 날짜 띄워주는 방법 찾아보기
+                      setDateOfBirth(selectedDate);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
