@@ -21,6 +21,7 @@ import "../css/DatePicker.css";
 import "../css/Calendar.css";
 import { db } from "../firebase-config";
 import { UserData } from "../context/UserDataContext";
+import { useEffect } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -150,26 +151,25 @@ function MypageProfile() {
     setShowBtn(true);
   };
 
-  const [nickname, setNickname] = useState("");
+  const [username, setUsername] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
+  const usersRef = doc(db, `users/${user.uid}`);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    await updateDoc(doc(db, `users/${user.uid}`), {
-      // nickname: nickname,
-      dateOfBirth: dateOfBirth,
-      country: country,
+    await updateDoc(usersRef, {
+      username: username,
       bio: bio,
+      country: country,
     });
-    // await setDoc(doc(db, `users/${user.uid}`), {
-    //   nickname: nickname,
-    //   dateOfBirth: dateOfBirth,
-    //   country: country,
-    //   bio: bio,
-    // });
   };
+
+  // username: username,s
+  // dateOfBirth: dateOfBirth,
+  // country: country,
+  // bio: bio,
 
   const changeHandler = (country) => {
     setCountry(country);
@@ -191,12 +191,12 @@ function MypageProfile() {
                   <StyledInput placeholder={user.email} readOnly />
                 </Grid>
                 <Grid item xs={6}>
-                  <StyledText>Nickname</StyledText>
+                  <StyledText>Username</StyledText>
                   <StyledInput
-                    placeholder={users && users.nickname}
+                    placeholder={users && users.username}
                     readOnly={isReadOnly}
                     onChange={(e) => {
-                      setNickname(e.target.value);
+                      setUsername(e.target.value);
                     }}
                   />
                 </Grid>
@@ -213,6 +213,7 @@ function MypageProfile() {
                 <Grid item xs={6}>
                   <StyledText>Country</StyledText>
                   <Select
+                    placeholder={users && users?.country?.label}
                     onChange={changeHandler}
                     value={country}
                     options={options}
