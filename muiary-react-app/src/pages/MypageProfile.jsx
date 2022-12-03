@@ -194,10 +194,7 @@ function MypageProfile() {
                     disabled={isReadOnly}
                     onChange={(value) => {
                       setDateValue(value);
-                      const selectedDate = new Date(value).toUTCString();
-                      // 왜 날짜 하루씩 늦음? 그리고 데이터 저장될때 시간 지우는방법있나???
-                      // 그리고 데이터에 저장된 날짜 띄워주는 방법 찾아보기
-                      setDateOfBirth(selectedDate);
+                      setDateOfBirth(new Date(value));
                     }}
                   />
                 </Grid>
