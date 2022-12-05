@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
+import CreateItem from "./pages/CreateItem";
 import Main from "./pages/Main";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
 import Mypage from "./pages/Mypage";
@@ -45,6 +46,7 @@ function Router() {
             </RequireAuth>
           }
         />
+        <Route path="/mymuiary/upload" element={<CreateItem />} />
       </Routes>
     </>
   );
