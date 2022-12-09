@@ -2,7 +2,7 @@ import React from 'react'
 
 function SearchResultsList() {
   return (
-    <div>SearchResultsList</div>
+    <div>You are not search anything...</div>
   )
 }
 

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
-import { Container, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
-const SyledContainer = styled(Container)`
+const StyledGrid = styled(Grid)`
   && {
-    font-size: 20px;
+    margin-top: 10%;
   }
 `;
 
@@ -71,36 +71,28 @@ function SignupForm() {
   };
 
   return (
-    <SyledContainer>
-      <Grid container direction="column" alignContent="center">
-        <Grid item style={{ margin: "40px" }}>
-          <p>SignupForm</p>
-        </Grid>
-        <Grid item>
-          <form onSubmit={handleSubmit}>
-            <p>Email</p>
-            <StyledInput
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <p>Password</p>
-            <StyledInput
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <p>Username</p>
-            <StyledInput
-              required
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <span>프로필에 보여지는 이름을 설정해주세요.</span>
-            <Grid item>
-              <Btn type="submit">submit</Btn>
-            </Grid>
-          </form>
-        </Grid>
+    <StyledGrid container direction="column" alignContent="center">
+      <Grid item>
+        <form onSubmit={handleSubmit}>
+          <p>Email</p>
+          <StyledInput
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <p>Password</p>
+          <StyledInput
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <p>Username</p>
+          <StyledInput required onChange={(e) => setUsername(e.target.value)} />
+          <span>프로필에 보여지는 이름을 설정해주세요.</span>
+          <Grid item>
+            <Btn type="submit">submit</Btn>
+          </Grid>
+        </form>
       </Grid>
-    </SyledContainer>
+    </StyledGrid>
   );
 }
 

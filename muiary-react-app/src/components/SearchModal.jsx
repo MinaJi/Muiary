@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import SearchResultList from "../components/SearchResultsList";
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -23,7 +24,7 @@ const ModalBackground = styled.div`
   .title {
     color: red;
     display: inline-block;
-    text-align: center;
+    /* text-align: center; */
     margin-top: 10px;
   }
   .titleCloseBtn {
@@ -59,11 +60,13 @@ function SearchModal({ closeModal }) {
           </button>
         </div>
         <div className="title">
-          <h1>Search</h1>
+          <div>
+            <h1>Search</h1>
+          </div>
         </div>
         <div className="body">
           <SearchBar type="text" />
-          <p>여기에는 검색결과</p>
+          <SearchResultList />
         </div>
         <div className="footer">
           <button>확인</button>

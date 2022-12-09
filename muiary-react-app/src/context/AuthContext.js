@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { getDisplayName } from "@mui/utils";
 
 const UserContext = createContext();
 

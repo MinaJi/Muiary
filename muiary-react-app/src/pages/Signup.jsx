@@ -34,6 +34,12 @@ const StyledDiv = styled(Grid)`
     .text {
       font-size: 35px;
       font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .loginText {
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
     }
   }
 `;
@@ -60,8 +66,18 @@ function Signup() {
             Create a <span style={{ color: "#F1D18A" }}>Muiary</span> account
           </h1>
         </Grid>
-        <Grid item>
-          <span>Already have an account?</span>
+        <Grid item className="text2">
+          <span>
+            Already have an account?
+            <span
+              className="loginText"
+              onClick={() => {
+                navi("/signin");
+              }}
+            >
+              Login
+            </span>
+          </span>
         </Grid>
       </Grid>
       <Grid item xs={8}>
