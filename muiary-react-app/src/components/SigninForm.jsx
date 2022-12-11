@@ -3,13 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 
 const StyledInput = styled.input`
-  border: 1px solid lightgray;
+  border: ${(props) => props.theme.inputBorder};
+  /* border: 1px solid #30333a; */
   border-radius: 20px;
   width: 250px;
   height: 40px;
   margin-bottom: 15px;
+  background-color: ${(props) => props.theme.inputBg};
+  :focus {
+    outline: 2px solid #f1d18a;
+  }
 `;
 
 const Btn = styled.button`
@@ -19,7 +25,7 @@ const Btn = styled.button`
   color: white;
   border-radius: 20px;
   height: 40px;
-  width: 100px;
+  width: 100%;
   :hover {
     background-color: #f73859;
   }
@@ -31,7 +37,52 @@ const GridContainer = styled(Grid)`
     margin-bottom: 20px;
   }
   .btn {
-    margin-top: 10px;
+    margin-top: 32px;
+  }
+  .inputDiv {
+    background-color: ${(props) => props.theme.inputBg};
+    display: flex;
+    margin-bottom: -7px;
+    box-sizing: border-box;
+    border: ${(props) => props.theme.inputBorder};
+    border-radius: 20px;
+    height: 40px;
+    margin-bottom: 5px;
+    :focus-within {
+      outline: 2px solid #f1d18a;
+    }
+  }
+  .passwordInput {
+    flex-grow: 1;
+    border: none;
+    background-color: inherit;
+    border-radius: 20px;
+    box-sizing: inherit;
+    :focus {
+      outline: none;
+    }
+  }
+  .spanIcon {
+    cursor: pointer;
+    font-size: 23px;
+    margin-top: 7px;
+    box-sizing: inherit;
+    align-items: flex-end;
+    margin-right: 4%;
+  }
+  p {
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  .spanText {
+    margin-left: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: underline;
+    :hover {
+      color: #f73859;
+    }
   }
 `;
 
@@ -40,6 +91,7 @@ function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { signIn } = UserAuth();
 
@@ -67,10 +119,31 @@ function SigninForm() {
           </Grid>
           <Grid item>
             <p>Password</p>
-            <StyledInput
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="inputDiv">
+              <input
+                className="passwordInput"
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span
+                className="spanIcon"
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+              >
+                {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+              </span>
+            </div>
+          </Grid>
+          <Grid item>
+            <span
+              className="spanText"
+              onClick={() => {
+                navi("/password-reset");
+              }}
+            >
+              Forgot password?
+            </span>
           </Grid>
           <Grid item className="btn">
             <Btn type="submit">Login</Btn>

@@ -6,10 +6,11 @@ import { theme, ThemeProviderMode } from "./context/themeProvider";
 import { UserDataContextProvider } from "./context/UserDataContext";
 import Router from "./Router";
 import { GlobalStyle } from "./theme/GlobalStyle";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   return (
-    <>
+    <AnimatePresence>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <ThemeProviderMode>
@@ -22,7 +23,7 @@ function App() {
           </ThemeProviderMode>
         </ThemeProvider>
       </BrowserRouter>
-    </>
+    </AnimatePresence>
   );
 }
 

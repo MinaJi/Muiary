@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const StyledDiv = styled(Grid)`
   && {
@@ -47,42 +48,48 @@ function Signup() {
   const navi = useNavigate();
 
   return (
-    <StyledDiv container>
-      <Grid item xs={4} className="left">
-        <Grid item>
-          <RiArrowLeftLine
-            className="backIcon"
-            onClick={() => {
-              navi("/");
-            }}
-          />
-        </Grid>
-        <Grid item className="logo">
-          {/* <img src="/static/logoonlytext.png" alt="logo" /> */}
-        </Grid>
-        <Grid item>
-          <h1 className="text">
-            Create a <span style={{ color: "#F1D18A" }}>Muiary</span> account
-          </h1>
-        </Grid>
-        <Grid item className="text2">
-          <span>
-            Already have an account?
-            <span
-              className="loginText"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <StyledDiv container>
+        <Grid item xs={4} className="left">
+          <Grid item>
+            <RiArrowLeftLine
+              className="backIcon"
               onClick={() => {
-                navi("/signin");
+                navi("/");
               }}
-            >
-              Login
+            />
+          </Grid>
+          <Grid item className="logo">
+            {/* <img src="/static/logoonlytext.png" alt="logo" /> */}
+          </Grid>
+          <Grid item>
+            <h1 className="text">
+              Create a <span style={{ color: "#F1D18A" }}>Muiary</span> account
+            </h1>
+          </Grid>
+          <Grid item className="text2">
+            <span>
+              Already have an account?
+              <span
+                className="loginText"
+                onClick={() => {
+                  navi("/signin");
+                }}
+              >
+                Login
+              </span>
             </span>
-          </span>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={8}>
-        <SignupForm />
-      </Grid>
-    </StyledDiv>
+        <Grid item xs={8}>
+          <SignupForm />
+        </Grid>
+      </StyledDiv>
+    </motion.div>
   );
 }
 

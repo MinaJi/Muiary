@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ToggleSwitch from "./ToggleSwitch";
 import { useTheme } from "../context/themeProvider";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const StyledGrid = styled(Grid)`
   && {
@@ -35,7 +36,11 @@ function UserMenu() {
   const navi = useNavigate();
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
         <Container>
           <StyledGrid container direction="column" alignItems="center">
@@ -53,7 +58,7 @@ function UserMenu() {
           </StyledGrid>
         </Container>
       </Box>
-    </>
+    </motion.div>
   );
 }
 

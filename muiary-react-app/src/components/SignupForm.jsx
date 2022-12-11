@@ -44,6 +44,7 @@ function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
 
   const { createUser } = UserAuth();
@@ -56,6 +57,7 @@ function SignupForm() {
         setDoc(doc(db, "users", res.user.uid), {
           email: email,
           username: username,
+          nickname: nickname,
           registerDate: new Date().toUTCString(),
           dateOfBirth: "",
           country: "",
@@ -86,6 +88,8 @@ function SignupForm() {
           />
           <p>Username</p>
           <StyledInput required onChange={(e) => setUsername(e.target.value)} />
+          <p>Nickname</p>
+          <StyledInput required onChange={(e) => setNickname(e.target.value)} />
           <span>프로필에 보여지는 이름을 설정해주세요.</span>
           <Grid item>
             <Btn type="submit">submit</Btn>

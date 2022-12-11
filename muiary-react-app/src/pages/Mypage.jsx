@@ -7,6 +7,7 @@ import { UserAuth } from "../context/AuthContext";
 import EditProfilePic from "../components/EditProfilePic";
 import { list } from "firebase/storage";
 import { Outlet, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const menu = [
   {
@@ -58,7 +59,11 @@ function Mypage() {
   const navi = useNavigate();
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <MainHeader />
       <LeftDiv item>
         {menu.map((item, i) => (
@@ -73,7 +78,7 @@ function Mypage() {
       <RigthDiv item>
         <Outlet />
       </RigthDiv>
-    </>
+    </motion.div>
   );
 }
 

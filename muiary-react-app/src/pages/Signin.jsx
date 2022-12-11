@@ -4,10 +4,16 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RiArrowLeftLine } from "react-icons/ri";
+import { motion } from "framer-motion";
+
+const GridContainer = styled(Grid)`
+  && {
+    height: 100vh;
+  }
+`;
 
 const Div = styled.div`
-  margin-top: 30px;
-  margin-left: 30px;
+  margin: 30px;
   .backIcon {
     font-size: 32px;
     cursor: pointer;
@@ -18,18 +24,12 @@ const Div = styled.div`
   }
 `;
 
-const GridContainer = styled(Grid)`
-  && {
-    height: 100vh;
-  }
-`;
-
 const Layout = styled(Grid)`
   && {
     width: 400px;
     padding: 30px;
     border-radius: 30px;
-    box-shadow: 0 0 30px 0 rgba(224, 224, 224, 0.7);
+    box-shadow: ${(props) => props.theme.boxShadow};
     img {
       width: 150px;
     }
@@ -39,64 +39,59 @@ const Layout = styled(Grid)`
     }
     .signupLink {
       cursor: pointer;
-      text-decoration: underline;
+      color: #f73859;
       font-weight: 600;
       margin-left: 5px;
       :hover {
-        color: #f73859;
+        text-decoration: underline;
       }
     }
   }
-`;
-
-const Btn = styled.button`
-  background-color: inherit;
-  border: 1px solid black;
-  border-radius: 20px;
 `;
 
 function Signin() {
   const navi = useNavigate();
 
   return (
-    <>
-      <Div>
-        <RiArrowLeftLine
-          className="backIcon"
-          onClick={() => {
-            navi("/");
-          }}
-        />
-      </Div>
-      <GridContainer
-        container
-        justifyContent="center"
-        alignItems="center"
-        direction="column"
-      >
-        <Layout container justifyContent="center">
-          <Grid item className="logo">
-            <img src="static/muiarylogo.png" alt="muiarylogo" />
-          </Grid>
-          <Grid item className="signinForm">
-            <SigninForm />
-          </Grid>
-          <Grid item>
-            <span>
-              아직 회원이 아니신가요?
-              <span
-                className="signupLink"
-                onClick={() => {
-                  navi("/signup");
-                }}
-              >
-                회원가입하기
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <GridContainer container direction="column">
+        <Div>
+          <RiArrowLeftLine
+            className="backIcon"
+            onClick={() => {
+              navi("/");
+            }}
+          />
+        </Div>
+        <Grid container justifyContent="center" style={{ marginTop: "30px" }}>
+          <Layout container justifyContent="center">
+            <Grid item className="logo">
+              <img src="static/muiarylogo.png" alt="muiarylogo" />
+            </Grid>
+            <Grid item className="signinForm">
+              <SigninForm />
+            </Grid>
+            <Grid item>
+              <span>
+                Don't hava an account?
+                <span
+                  className="signupLink"
+                  onClick={() => {
+                    navi("/signup");
+                  }}
+                >
+                  Create one now.
+                </span>
               </span>
-            </span>
-          </Grid>
-        </Layout>
+            </Grid>
+          </Layout>
+        </Grid>
       </GridContainer>
-    </>
+    </motion.div>
   );
 }
 
