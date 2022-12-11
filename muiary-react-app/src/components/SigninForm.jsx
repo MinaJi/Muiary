@@ -9,6 +9,7 @@ const StyledInput = styled.input`
   border-radius: 20px;
   width: 250px;
   height: 40px;
+  margin-bottom: 15px;
 `;
 
 const Btn = styled.button`

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { Container } from "@mui/system";
 
 const StyledDiv = styled(Grid)`
   && {

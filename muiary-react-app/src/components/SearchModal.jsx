@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import SearchResultList from "../components/SearchResultsList";
+import { BiSearchAlt } from "react-icons/bi";
+import { MdClose } from "react-icons/md";
+import { Grid } from "@mui/material";
+import { mediaTypes } from "../config/api";
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -10,68 +14,99 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #00000030;
+`;
 
-  .modalContainer {
+const ModalContainer = styled(Grid)`
+  && {
     background-color: #ffffff;
-    width: 500px;
+    width: 600px;
     height: 500px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     padding: 25px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(97, 97, 97, 0.35) 0px 5px 15px;
+    .title {
+      color: #000000;
+      font-weight: 600;
+    }
+    .titleCloseBtn {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn {
+      background-color: transparent;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      :hover {
+        color: #f73859;
+      }
+    }
+    .searchBar {
+      background-color: transparent;
+      border-radius: 10px;
+      border: 1px solid lightgray;
+      height: 40px;
+      width: 100%;
+      padding-left: 10px;
+      box-sizing: inherit;
+    }
+    .searchBtn {
+      height: 40px;
+      background-color: transparent;
+      cursor: pointer;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      font-size: 25px;
+    }
+    .searchResults {
+      margin-top: 20px;
+      width: 100%;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+    }
   }
-  .title {
-    color: red;
-    display: inline-block;
-    /* text-align: center; */
-    margin-top: 10px;
-  }
-  .titleCloseBtn {
-    display: flex;
-    justify-content: flex-end;
-  }
-  .body {
-    flex: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .btn {
-    background-color: transparent;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-  }
-`;
-
-const SearchBar = styled.input`
-  background-color: transparent;
 `;
 
 function SearchModal({ closeModal }) {
+  const placeholder = "Search songs, albums and artists... ";
+
   return (
     <ModalBackground>
-      <div className="modalContainer">
-        <div className="titleCloseBtn">
-          <button onClick={() => closeModal(false)} className="btn">
-            X
-          </button>
-        </div>
-        <div className="title">
-          <div>
+      <ModalContainer container>
+        <Grid container className="title">
+          <Grid item xs={11}>
             <h1>Search</h1>
-          </div>
-        </div>
-        <div className="body">
-          <SearchBar type="text" />
+          </Grid>
+          <Grid item xs={1} className="titleCloseBtn">
+            <button onClick={() => closeModal(false)} className="btn">
+              <MdClose />
+            </button>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          className="search"
+          justifyContent="space-between"
+          spacing={2}
+        >
+          <Grid item xs={11}>
+            <input className="searchBar" placeholder={placeholder} />
+          </Grid>
+          <Grid item xs={1}>
+            <button className="searchBtn">
+              <BiSearchAlt className="icon" />
+            </button>
+          </Grid>
+        </Grid>
+        <Grid item className="searchResults">
           <SearchResultList />
-        </div>
-        <div className="footer">
-          <button>확인</button>
-        </div>
-      </div>
+        </Grid>
+        <Grid item>
+          <button>submit</button>
+        </Grid>
+      </ModalContainer>
     </ModalBackground>
   );
 }
