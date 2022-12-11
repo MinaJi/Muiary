@@ -4,10 +4,11 @@ import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import { MdClose } from "react-icons/md";
+import { motion } from "framer-motion";
 
 const StyledInput = styled.input`
   border: ${(props) => props.theme.inputBorder};
-  /* border: 1px solid #30333a; */
   border-radius: 20px;
   width: 250px;
   height: 40px;
@@ -32,56 +33,72 @@ const Btn = styled.button`
 `;
 
 const GridContainer = styled(Grid)`
-  margin-top: 20px;
-  .formlayout {
-    margin-bottom: 20px;
-  }
-  .btn {
-    margin-top: 32px;
-  }
-  .inputDiv {
-    background-color: ${(props) => props.theme.inputBg};
-    display: flex;
-    margin-bottom: -7px;
-    box-sizing: border-box;
-    border: ${(props) => props.theme.inputBorder};
-    border-radius: 20px;
-    height: 40px;
-    margin-bottom: 5px;
-    :focus-within {
-      outline: 2px solid #f1d18a;
+  && {
+    margin-top: 20px;
+    .formlayout {
+      margin-bottom: 20px;
     }
-  }
-  .passwordInput {
-    flex-grow: 1;
-    border: none;
-    background-color: inherit;
-    border-radius: 20px;
-    box-sizing: inherit;
-    :focus {
-      outline: none;
+    .btn {
+      margin-top: 32px;
     }
-  }
-  .spanIcon {
-    cursor: pointer;
-    font-size: 23px;
-    margin-top: 7px;
-    box-sizing: inherit;
-    align-items: flex-end;
-    margin-right: 4%;
-  }
-  p {
-    margin-bottom: 5px;
-    font-weight: 600;
-  }
-  .spanText {
-    margin-left: 3px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: 500;
-    text-decoration: underline;
-    :hover {
-      color: #f73859;
+    .inputDiv {
+      background-color: ${(props) => props.theme.inputBg};
+      display: flex;
+      margin-bottom: -7px;
+      box-sizing: border-box;
+      border: ${(props) => props.theme.inputBorder};
+      border-radius: 20px;
+      height: 40px;
+      margin-bottom: 5px;
+      :focus-within {
+        outline: 2px solid #f1d18a;
+      }
+    }
+    .passwordInput {
+      flex-grow: 1;
+      border: none;
+      background-color: inherit;
+      border-radius: 20px;
+      box-sizing: inherit;
+      :focus {
+        outline: none;
+      }
+    }
+    .spanIcon {
+      cursor: pointer;
+      font-size: 23px;
+      margin-top: 7px;
+      box-sizing: inherit;
+      align-items: flex-end;
+      margin-right: 4%;
+    }
+    p {
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .spanText {
+      margin-left: 3px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: underline;
+      :hover {
+        color: #f73859;
+      }
+    }
+    .errormsg {
+      font-size: 15px;
+      border: 1px solid #e80808;
+      border-radius: 10px;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      background-color: #ff000041;
+      .closeicon {
+        margin-left: 20px;
+        color: #e80808;
+        cursor: pointer;
+      }
     }
   }
 `;
@@ -148,9 +165,27 @@ function SigninForm() {
           <Grid item className="btn">
             <Btn type="submit">Login</Btn>
           </Grid>
-          {error && <span>이메일또는 비밀번호가 다릅니다.</span>}
         </form>
       </Grid>
+      {error && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Grid item className="errormsg">
+            <span>
+              Incorrect username or password.
+              <MdClose
+                className="closeicon"
+                onClick={() => {
+                  setError(false);
+                }}
+              />
+            </span>
+          </Grid>
+        </motion.div>
+      )}
     </GridContainer>
   );
 }

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { useTheme } from "../context/themeProvider";
 
 const StyledGrid = styled(Grid)`
   && {

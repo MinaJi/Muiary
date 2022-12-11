@@ -5,10 +5,14 @@ import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { motion } from "framer-motion";
+import { useTheme } from "../context/themeProvider";
 
 const GridContainer = styled(Grid)`
   && {
     height: 100vh;
+    background-color: ${(props) => props.theme.gradientBgColor};
+    background-image: ${(props) => props.theme.gradienBgImg};
+    background-repeat: no-repeat;
   }
 `;
 
@@ -19,13 +23,14 @@ const Div = styled.div`
     cursor: pointer;
     color: ${(props) => props.theme.textColor};
     :hover {
-      color: #f1d18a;
+      color: #f73859;
     }
   }
 `;
 
 const Layout = styled(Grid)`
   && {
+    background-color: ${(props) => props.theme.bgColor};
     width: 400px;
     padding: 30px;
     border-radius: 30px;
@@ -50,6 +55,7 @@ const Layout = styled(Grid)`
 `;
 
 function Signin() {
+  const [ThemeMode] = useTheme();
   const navi = useNavigate();
 
   return (
@@ -58,7 +64,7 @@ function Signin() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <GridContainer container direction="column">
+      <GridContainer container direction="column" mode={ThemeMode}>
         <Div>
           <RiArrowLeftLine
             className="backIcon"
