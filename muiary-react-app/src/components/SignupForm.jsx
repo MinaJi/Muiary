@@ -1,35 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { useTheme } from "../context/themeProvider";
+import { useFormik } from "formik";
+import { formSchemas } from "../schemas";
+import { RiInformationLine } from "react-icons/ri";
 
-const StyledGrid = styled(Grid)`
+const GridContainer = styled(Grid)`
   && {
     margin-top: 10%;
   }
 `;
 
-const StyledInput = styled.input`
-  border: 1px solid gray;
-  height: 45px;
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 4%;
-`;
-
 const Btn = styled.button`
-  background-color: ${(props) => props.theme.buttonColor};
+  background-color: #000;
   border: 1px solid ${(props) => props.theme.borderColor};
-  color: ${(props) => props.theme.textColor};
+  color: #fff;
   padding: 5px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 30px;
   width: 100%;
-  height: 45px;
+  padding: 13px;
   margin: 3px;
   cursor: pointer;
   :hover {
@@ -39,26 +33,71 @@ const Btn = styled.button`
   }
 `;
 
+const StyledForm = styled.form`
+  width: 400px;
+  p {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .input-div {
+    margin-bottom: 8%;
+  }
+  input {
+    border: 1px solid gray;
+    height: 45px;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .input-error,
+  select.input-error {
+    border: 1px solid red;
+    /* outline: 1px solid red; */
+  }
+  /* .input-error {
+    border: 1px solid red;
+  } */
+  .i-icon {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    ::before,
+    ::after {
+      position: absolute;
+      font-size: 13px;
+      /* top: 30rem; */
+      transform: translateX(-50%) translateY(-100%);
+    }
+    ::before {
+      content: attr(data-tooltip);
+      text-align: center;
+      color: white;
+      width: max-content;
+      max-width: 100%;
+      background-color: #000000d9;
+      /* padding: 0.5rem; */
+      padding: 8px;
+      border-radius: 10px;
+    }
+  }
+`;
+
+const ErrorMsg = styled.span`
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+`;
+
 function SignupForm() {
   const navi = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [error, setError] = useState("");
-
   const { createUser } = UserAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  const onSubmit = async (values, actions) => {
     try {
-      await createUser(email, password).then((res) => {
+      await createUser(values.email, values.password).then((res) => {
         setDoc(doc(db, "users", res.user.uid), {
-          email: email,
-          username: username,
-          nickname: nickname,
+          email: values.email,
+          username: values.username,
+          nickname: values.nickname,
           registerDate: new Date().toUTCString(),
           dateOfBirth: "",
           country: "",
@@ -68,36 +107,111 @@ function SignupForm() {
       });
       navi("/");
     } catch (error) {
-      setError(error.message);
       console.log(error.message);
     }
   };
 
+  const { values, handleBlur, handleChange, errors, handleSubmit, touched } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+        confirmPassword: "",
+        username: "",
+        nickname: "",
+      },
+      validationSchema: formSchemas,
+      onSubmit,
+    });
+
   return (
-    <StyledGrid container direction="column" alignContent="center">
-      <Grid item>
-        <form onSubmit={handleSubmit}>
+    <GridContainer container direction="column" alignContent="center">
+      <StyledForm onSubmit={handleSubmit}>
+        <Grid item className="input-div">
           <p>Email</p>
-          <StyledInput
+          <input
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={errors.email && touched.email ? "input-error" : ""}
           />
+          {errors.email && touched.email && <ErrorMsg>{errors.email}</ErrorMsg>}
+        </Grid>
+
+        <Grid item className="input-div">
           <p>Password</p>
-          <StyledInput
+          <input
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            id="password"
+            value={values.password}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={errors.password && touched.password ? "input-error" : ""}
           />
+          {errors.password && touched.password && (
+            <ErrorMsg>{errors.password}</ErrorMsg>
+          )}
+        </Grid>
+
+        <Grid item className="input-div">
+          <p>Confirm Password</p>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={values.confirmPassword}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={
+              errors.confirmPassword && touched.confirmPassword
+                ? "input-error"
+                : ""
+            }
+          />
+          {errors.confirmPassword && touched.confirmPassword && (
+            <ErrorMsg>{errors.confirmPassword}</ErrorMsg>
+          )}
+        </Grid>
+
+        <Grid item className="input-div">
           <p>Username</p>
-          <StyledInput required onChange={(e) => setUsername(e.target.value)} />
-          <p>Nickname</p>
-          <StyledInput required onChange={(e) => setNickname(e.target.value)} />
-          <span>프로필에 보여지는 이름을 설정해주세요.</span>
-          <Grid item>
-            <Btn type="submit">submit</Btn>
-          </Grid>
-        </form>
-      </Grid>
-    </StyledGrid>
+          <input
+            id="username"
+            value={values.username}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={errors.username && touched.username ? "input-error" : ""}
+          />
+          {errors.username && touched.username && (
+            <ErrorMsg>{errors.username}</ErrorMsg>
+          )}
+        </Grid>
+
+        <Grid item className="input-div">
+          <p>
+            Nickname
+            <div className="i-icon" data-tooltip="닉네임 바꾸기 가능">
+              <RiInformationLine />
+            </div>
+          </p>
+          <input
+            id="nickname"
+            value={values.nickname}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={errors.nickname && touched.nickname ? "input-error" : ""}
+          />
+          {errors.nickname && touched.nickname && (
+            <ErrorMsg>{errors.nickname}</ErrorMsg>
+          )}
+        </Grid>
+
+        <Grid item>
+          <Btn type="submit">submit</Btn>
+        </Grid>
+      </StyledForm>
+    </GridContainer>
   );
 }
 
