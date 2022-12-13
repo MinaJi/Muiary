@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const StyledDiv = styled(Grid)`
   && {
-    background-color: #ffffff;
+    background-color: ${(props) => props.theme.bgColor},
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100vh;
@@ -21,7 +21,7 @@ const StyledDiv = styled(Grid)`
       }
     }
     .left {
-      background-color: #f73859;
+      background-color: ${(props) => props.theme.signupBg};
       padding: 35px;
     }
     .logo {
@@ -40,6 +40,7 @@ const StyledDiv = styled(Grid)`
       text-decoration: underline;
       cursor: pointer;
       font-weight: 600;
+      margin-left: 5px;
     }
   }
 `;

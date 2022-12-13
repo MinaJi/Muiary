@@ -8,6 +8,7 @@ import { MdClose } from "react-icons/md";
 import { motion } from "framer-motion";
 
 const StyledInput = styled.input`
+  color: ${(props) => props.theme.textColor};
   border: ${(props) => props.theme.inputBorder};
   border-radius: 20px;
   width: 250px;
@@ -15,7 +16,8 @@ const StyledInput = styled.input`
   margin-bottom: 15px;
   background-color: ${(props) => props.theme.inputBg};
   :focus {
-    outline: 2px solid #f1d18a;
+    outline: none;
+    border: 2px solid #f1d18a;
   }
 `;
 
@@ -51,10 +53,12 @@ const GridContainer = styled(Grid)`
       height: 40px;
       margin-bottom: 5px;
       :focus-within {
-        outline: 2px solid #f1d18a;
+        outline: none;
+        border: 2px solid #f1d18a;
       }
     }
     .passwordInput {
+      color: ${(props) => props.theme.textColor};
       flex-grow: 1;
       border: none;
       background-color: inherit;
@@ -88,15 +92,15 @@ const GridContainer = styled(Grid)`
     }
     .errormsg {
       font-size: 15px;
-      border: 1px solid #e80808;
+      border: 1px solid #e11d48;
       border-radius: 10px;
       width: 100%;
       padding: 14px;
       text-align: center;
-      background-color: #ff000041;
+      background-color: #e11d4757;
       .closeicon {
         margin-left: 20px;
-        color: #e80808;
+        color: #e11d48;
         cursor: pointer;
       }
     }

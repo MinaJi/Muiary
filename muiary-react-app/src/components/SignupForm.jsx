@@ -7,8 +7,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
-import { RiInformationLine } from "react-icons/ri";
-import { useState } from "react";
+import { RiInformationLine, RiInformationFill } from "react-icons/ri";
+import { Tooltip } from "./tooltips/Tooltip";
 
 const GridContainer = styled(Grid)`
   && {
@@ -39,59 +39,43 @@ const StyledForm = styled.form`
   width: 400px;
   p {
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    display: inline-table;
   }
   .input-div {
     margin-bottom: 8%;
   }
   input {
-    border: 1px solid gray;
+    border: ${(props) => props.theme.formBorder};
     height: 45px;
     width: 100%;
     border-radius: 12px;
+    :focus {
+      outline: none;
+      border: 2px solid #f1d18a;
+    }
   }
   .input-error,
   select.input-error {
-    border: 1px solid red;
-    /* outline: 1px solid red; */
+    border: 1.5px solid #e11d48;
   }
-  /* .input-error {
-    border: 1px solid red;
-  } */
   .i-icon {
-    float: right;
     font-size: 24px;
-    cursor: pointer;
   }
-  .tooltip {
-    float: right;
-    ::before,
-    ::after {
-      position: absolute;
-      font-size: 13px;
-      /* top: 20rem; */
-      transform: translateX(-50%) translateY(-200%);
-    }
-    ::before {
-      content: attr(data-tooltip);
-      text-align: center;
-      color: white;
-      width: max-content;
-      max-width: 100%;
-      background-color: #000000d9;
-      /* padding: 0.5rem; */
-      padding: 8px;
-      border-radius: 10px;
-    }
-    :hover::before {
-    }
+  .error-wrapper {
+    display: flex;
+    line-height: 1.5;
+    font-size: 13px;
+    font-weight: 500;
+    color: #e11d48;
   }
-`;
-
-const ErrorMsg = styled.span`
-  color: red;
-  font-size: 13px;
-  font-weight: 500;
+  .i-icon-fill {
+    font-size: 19px;
+    margin-right: 3px;
+  }
+  .error-msg {
+    margin-top: 0.1rem;
+  }
 `;
 
 function SignupForm() {
@@ -144,7 +128,16 @@ function SignupForm() {
             onBlur={handleBlur}
             className={errors.email && touched.email ? "input-error" : ""}
           />
-          {errors.email && touched.email && <ErrorMsg>{errors.email}</ErrorMsg>}
+          {errors.email && touched.email && (
+            <span className="error-wrapper">
+              <span className="i-icon-fill">
+                <RiInformationFill />
+              </span>
+              <span className="error-msg">
+                <span>{errors.email}</span>
+              </span>
+            </span>
+          )}
         </Grid>
         <Grid item className="input-div">
           <p>Password</p>
@@ -157,7 +150,14 @@ function SignupForm() {
             className={errors.password && touched.password ? "input-error" : ""}
           />
           {errors.password && touched.password && (
-            <ErrorMsg>{errors.password}</ErrorMsg>
+            <span className="error-wrapper">
+              <span className="i-icon-fill">
+                <RiInformationFill />
+              </span>
+              <span className="error-msg">
+                <span>{errors.password}</span>
+              </span>
+            </span>
           )}
         </Grid>
         <Grid item className="input-div">
@@ -175,20 +175,24 @@ function SignupForm() {
             }
           />
           {errors.confirmPassword && touched.confirmPassword && (
-            <ErrorMsg>{errors.confirmPassword}</ErrorMsg>
+            <span className="error-wrapper">
+              <span className="i-icon-fill">
+                <RiInformationFill />
+              </span>
+              <span className="error-msg">
+                <span>{errors.confirmPassword}</span>
+              </span>
+            </span>
           )}
         </Grid>
         <Grid item className="input-div">
-          <p>
-            Username
-            <span className="i-icon">
-              <RiInformationLine />
-            </span>
-          </p>
-          <div
-            className="tooltip"
-            data-tooltip="유저네임은 주소로 사용될거임"
-          />
+          <p>Username</p>
+          <Tooltip
+            message="Username is define your profile address."
+            direction="top"
+          >
+            <RiInformationLine className="i-icon" />
+          </Tooltip>
           <input
             id="username"
             value={values.username}
@@ -197,7 +201,14 @@ function SignupForm() {
             className={errors.username && touched.username ? "input-error" : ""}
           />
           {errors.username && touched.username && (
-            <ErrorMsg>{errors.username}</ErrorMsg>
+            <span className="error-wrapper">
+              <span className="i-icon-fill">
+                <RiInformationFill />
+              </span>
+              <span className="error-msg">
+                <span>{errors.username}</span>
+              </span>
+            </span>
           )}
         </Grid>
         <Grid item>
