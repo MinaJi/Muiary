@@ -8,6 +8,7 @@ import { db } from "../firebase-config";
 import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
 import { RiInformationLine } from "react-icons/ri";
+import { useState } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -20,7 +21,8 @@ const Btn = styled.button`
   border: 1px solid ${(props) => props.theme.borderColor};
   color: #fff;
   padding: 5px;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 600;
   border-radius: 30px;
   width: 100%;
   padding: 13px;
@@ -60,12 +62,15 @@ const StyledForm = styled.form`
     float: right;
     font-size: 24px;
     cursor: pointer;
+  }
+  .tooltip {
+    float: right;
     ::before,
     ::after {
       position: absolute;
       font-size: 13px;
-      /* top: 30rem; */
-      transform: translateX(-50%) translateY(-100%);
+      /* top: 20rem; */
+      transform: translateX(-50%) translateY(-200%);
     }
     ::before {
       content: attr(data-tooltip);
@@ -77,6 +82,8 @@ const StyledForm = styled.form`
       /* padding: 0.5rem; */
       padding: 8px;
       border-radius: 10px;
+    }
+    :hover::before {
     }
   }
 `;
@@ -97,7 +104,8 @@ function SignupForm() {
         setDoc(doc(db, "users", res.user.uid), {
           email: values.email,
           username: values.username,
-          nickname: values.nickname,
+          nickname:
+            values.username + Math.floor(100000 + Math.random() * 900000),
           registerDate: new Date().toUTCString(),
           dateOfBirth: "",
           country: "",
@@ -118,7 +126,6 @@ function SignupForm() {
         password: "",
         confirmPassword: "",
         username: "",
-        nickname: "",
       },
       validationSchema: formSchemas,
       onSubmit,
@@ -139,7 +146,6 @@ function SignupForm() {
           />
           {errors.email && touched.email && <ErrorMsg>{errors.email}</ErrorMsg>}
         </Grid>
-
         <Grid item className="input-div">
           <p>Password</p>
           <input
@@ -154,7 +160,6 @@ function SignupForm() {
             <ErrorMsg>{errors.password}</ErrorMsg>
           )}
         </Grid>
-
         <Grid item className="input-div">
           <p>Confirm Password</p>
           <input
@@ -173,9 +178,17 @@ function SignupForm() {
             <ErrorMsg>{errors.confirmPassword}</ErrorMsg>
           )}
         </Grid>
-
         <Grid item className="input-div">
-          <p>Username</p>
+          <p>
+            Username
+            <span className="i-icon">
+              <RiInformationLine />
+            </span>
+          </p>
+          <div
+            className="tooltip"
+            data-tooltip="유저네임은 주소로 사용될거임"
+          />
           <input
             id="username"
             value={values.username}
@@ -187,28 +200,9 @@ function SignupForm() {
             <ErrorMsg>{errors.username}</ErrorMsg>
           )}
         </Grid>
-
-        <Grid item className="input-div">
-          <p>
-            Nickname
-            <div className="i-icon" data-tooltip="닉네임 바꾸기 가능">
-              <RiInformationLine />
-            </div>
-          </p>
-          <input
-            id="nickname"
-            value={values.nickname}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            className={errors.nickname && touched.nickname ? "input-error" : ""}
-          />
-          {errors.nickname && touched.nickname && (
-            <ErrorMsg>{errors.nickname}</ErrorMsg>
-          )}
-        </Grid>
-
         <Grid item>
-          <Btn type="submit">submit</Btn>
+          <Btn type="submit">Continue to email vartification</Btn>
+          {/* 이거 버튼타입 서브밋해도되나? */}
         </Grid>
       </StyledForm>
     </GridContainer>
