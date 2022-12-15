@@ -141,7 +141,8 @@ function MypageProfile() {
   };
 
   const usersRef = doc(db, `users/${user.uid}`);
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
@@ -149,11 +150,13 @@ function MypageProfile() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     await updateDoc(usersRef, {
-      username: username || users.username,
+      // username: username || users.username,
+      nickname: nickname || users.nickname,
       bio: bio || users.bio,
       country: country || users.country,
       dateOfBirth: dateOfBirth || users.dateOfBirth,
     });
+    alert("업데완료 ㅋㅋ");
   };
 
   const [dateValue, setDateValue] = useState(new Date());
@@ -178,12 +181,12 @@ function MypageProfile() {
                   <StyledInput placeholder={user.email} readOnly />
                 </Grid>
                 <Grid item xs={6}>
-                  <StyledText>Username</StyledText>
+                  <StyledText>Nickname</StyledText>
                   <StyledInput
-                    placeholder={users && users.username}
+                    placeholder={users && users.nickname}
                     readOnly={isReadOnly}
                     onChange={(e) => {
-                      setUsername(e.target.value);
+                      setNickname(e.target.value);
                     }}
                   />
                 </Grid>

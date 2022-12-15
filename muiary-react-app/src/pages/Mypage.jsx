@@ -2,10 +2,8 @@ import React from "react";
 import MainHeader from "../components/MainHeader";
 import styled from "styled-components";
 import { Container } from "@mui/system";
-import { Avatar, Badge, Grid, IconButton, List, MenuItem } from "@mui/material";
+import { Grid, IconButton, List, MenuItem } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
-import EditProfilePic from "../components/EditProfilePic";
-import { list } from "firebase/storage";
 import { Outlet, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -36,10 +34,21 @@ const LeftDiv = styled(Grid)`
   && {
     padding-top: 65px;
     background-clip: content-box;
-    /* background-color: #e8e8e8; */
     height: 100vh;
     position: fixed;
     width: 15%;
+  }
+`;
+
+const StyledMenu = styled(MenuItem)`
+  && {
+    font-weight: 500;
+    :hover {
+      /* background-color: ${(props) => props.theme.borderColor}; */
+    }
+    .icon {
+      color: ${(props) => props.theme.red};
+    }
   }
 `;
 
@@ -48,9 +57,6 @@ const RigthDiv = styled(Grid)`
     padding-top: 65px;
     background-clip: content-box;
     padding-left: 15%;
-    /* p {
-      font-size: 50px;
-    } */
   }
 `;
 
@@ -67,12 +73,12 @@ function Mypage() {
       <MainHeader />
       <LeftDiv item>
         {menu.map((item, i) => (
-          <MenuItem key={i} onClick={() => navi(item.url)}>
-            <IconButton>
+          <StyledMenu key={i} onClick={() => navi(item.url)}>
+            <IconButton className="icon">
               <i className={item.icon}></i>
             </IconButton>
             <span>{item.title}</span>
-          </MenuItem>
+          </StyledMenu>
         ))}
       </LeftDiv>
       <RigthDiv item>

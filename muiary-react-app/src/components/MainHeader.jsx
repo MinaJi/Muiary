@@ -25,7 +25,7 @@ const Header = styled(Grid)`
     width: 100%;
     position: fixed;
     padding-left: 15px;
-    z-index: 100; // 제일 최상단에 보이게 하기 위해 ?
+    z-index: 100;
     @media screen and (max-width: 900px) {
       border-bottom: 1px solid ${(props) => props.theme.borderColor};
     }
@@ -37,7 +37,7 @@ const Btn = styled.button`
   border: 1px solid ${(props) => props.theme.borderColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 10px;
-  width: 71px;
+  width: 72px;
   height: 40px;
   margin: 3px;
   cursor: pointer;
@@ -154,6 +154,7 @@ function MainHeader({ handleOpenUserMenu }) {
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" }, flexGrow: 1 }}>
             <Img
+              style={{ marginTop: "7px" }}
               src="/static/logoonlytext.png"
               alt="logo"
               onClick={() => navi("/")}
@@ -163,7 +164,6 @@ function MainHeader({ handleOpenUserMenu }) {
             {list.map((item, i) => (
               <TextBtn
                 key={i}
-                // onClick={handleCloseNavMenu}
                 onClick={() => navi(item.url)}
                 sx={{ my: 2, color: "black", display: "block" }}
               >
@@ -173,7 +173,7 @@ function MainHeader({ handleOpenUserMenu }) {
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             {user ? (
-              <Btn onClick={() => navi("/mypage")}>Mypage</Btn>
+              <Btn onClick={() => navi("/mypage")}>My page</Btn>
             ) : (
               <Btn onClick={() => navi("/signup")}>Sign up</Btn>
             )}
@@ -182,7 +182,9 @@ function MainHeader({ handleOpenUserMenu }) {
             ) : (
               <Btn onClick={() => navi("/signin")}>Sign in</Btn>
             )}
-            <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
+            <div style={{ marginTop: "5px" }}>
+              <ToggleSwitch toggle={toggleTheme} mode={ThemeMode} />
+            </div>
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <StyledIconBtn

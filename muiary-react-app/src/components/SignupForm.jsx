@@ -9,6 +9,8 @@ import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
 import { RiInformationLine, RiInformationFill } from "react-icons/ri";
 import { Tooltip } from "./tooltips/Tooltip";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import { useState } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -45,6 +47,17 @@ const StyledForm = styled.form`
   .input-div {
     margin-bottom: 8%;
   }
+  .password-input-wrapper {
+    border: ${(props) => props.theme.formBorder};
+    display: flex;
+    height: 45px;
+    width: 100%;
+    border-radius: 12px;
+    :focus-within {
+      outline: none;
+      border: 2px solid #f1d18a;
+    }
+  }
   input {
     border: ${(props) => props.theme.formBorder};
     height: 45px;
@@ -58,6 +71,26 @@ const StyledForm = styled.form`
   .input-error,
   select.input-error {
     border: 1.5px solid #e11d48;
+  }
+  .input-error-pwd,
+  select.input-error-pwd {
+    border: 1.5px solid #e11d48;
+    display: flex;
+    height: 45px;
+    width: 100%;
+    border-radius: 12px;
+    :focus-within {
+      outline: none;
+      border: 2px solid #f1d18a;
+    }
+  }
+  .eye-icon {
+    cursor: pointer;
+    font-size: 23px;
+    margin-top: 0.7rem;
+    box-sizing: inherit;
+    align-items: flex-end;
+    margin-right: 2%;
   }
   .i-icon {
     font-size: 24px;
@@ -78,9 +111,20 @@ const StyledForm = styled.form`
   }
 `;
 
+const styles = {
+  pwdInput: {
+    flexGrow: "1",
+    border: "none",
+    backgroundColor: "inherit",
+    borderRadius: "20px",
+    boxSizing: "inherit",
+  },
+};
+
 function SignupForm() {
   const navi = useNavigate();
   const { createUser } = UserAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (values, actions) => {
     try {
@@ -141,14 +185,30 @@ function SignupForm() {
         </Grid>
         <Grid item className="input-div">
           <p>Password</p>
-          <input
-            type="password"
-            id="password"
-            value={values.password}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            className={errors.password && touched.password ? "input-error" : ""}
-          />
+          <div
+            className={
+              errors.password && touched.password
+                ? "input-error-pwd"
+                : "password-input-wrapper"
+            }
+          >
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={values.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={styles.pwdInput}
+            />
+            <span
+              className="eye-icon"
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+            </span>
+          </div>
           {errors.password && touched.password && (
             <span className="error-wrapper">
               <span className="i-icon-fill">
@@ -212,8 +272,7 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item>
-          <Btn type="submit">Continue to email vartification</Btn>
-          {/* 이거 버튼타입 서브밋해도되나? */}
+          <Btn type="submit">Create an account</Btn>
         </Grid>
       </StyledForm>
     </GridContainer>
