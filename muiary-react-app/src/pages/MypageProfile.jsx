@@ -50,6 +50,7 @@ const TitleDiv = styled(Grid)`
     .title {
       font-size: 45px;
       font-weight: bold;
+      display: inline-block;
     }
     .divider {
       height: 1px;
@@ -83,8 +84,10 @@ const Btn = styled.button`
 `;
 
 const IconBtn = styled.button`
+  margin-top: 13px;
+  float: right;
   border: none;
-  background-color: inherit;
+  background-color: transparent;
   align-content: center;
   cursor: pointer;
   transition: all ease 0.7s;
@@ -171,6 +174,9 @@ function MypageProfile() {
         <Grid item xs={9}>
           <TitleDiv item>
             <p className="title">Profile</p>
+            <IconBtn onClick={setReadOnlyFalse}>
+              <i className="ri-settings-3-line"></i>
+            </IconBtn>
             <hr className="divider" />
           </TitleDiv>
           <form onSubmit={handleUpdateProfile}>
@@ -246,11 +252,6 @@ function MypageProfile() {
         </Grid>
         <Grid item xs={3}>
           <EditProfilePic />
-          <Grid item>
-            <IconBtn onClick={setReadOnlyFalse}>
-              <i className="ri-settings-3-line"></i>
-            </IconBtn>
-          </Grid>
         </Grid>
       </GridContainer>
     </>

@@ -60,6 +60,7 @@ const StyledForm = styled.form`
   }
   input {
     border: ${(props) => props.theme.formBorder};
+    background-color: ${(props) => props.theme.inputBg};
     height: 45px;
     width: 100%;
     border-radius: 12px;

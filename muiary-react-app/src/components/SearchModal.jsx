@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import SearchResultList from "../components/SearchResultsList";
-import { BiSearchAlt } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { Grid } from "@mui/material";
-import { mediaTypes } from "../config/api";
+import SearchBar from "./searchbar";
+import { itunesApiRequest, mediaTypes } from "../config/api";
+import NoResults from "./NoResults";
+import { Component } from "react";
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -69,46 +71,88 @@ const ModalContainer = styled(Grid)`
   }
 `;
 
-function SearchModal({ closeModal }) {
-  const placeholder = "Search songs, albums and artists... ";
+class SearchModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { searchResults: [] };
+    this.updateSearch = this.updateSearch.bind(this);
+  }
 
-  return (
-    <ModalBackground>
-      <ModalContainer container>
-        <Grid container className="title">
-          <Grid item xs={11}>
-            <h1>Search</h1>
+  async updateSearch(text, media) {
+    const response = await itunesApiRequest(text, media);
+    this.setState({ searchResults: response.results });
+  }
+
+  render() {
+    const { searchResults } = this.state;
+
+    return (
+      <ModalBackground>
+        <ModalContainer container>
+          <Grid container className="title">
+            <Grid item xs={11}>
+              <h1>Search</h1>
+            </Grid>
+            <Grid item xs={1} className="titleCloseBtn">
+              {/* <button onClick={() => closeModal(false)} className="btn">
+                <MdClose />
+              </button> */}
+            </Grid>
           </Grid>
-          <Grid item xs={1} className="titleCloseBtn">
-            <button onClick={() => closeModal(false)} className="btn">
-              <MdClose />
-            </button>
+          <Grid
+            container
+            className="search"
+            justifyContent="space-between"
+            spacing={2}
+          >
+            <SearchBar
+              mediaTypes={mediaTypes}
+              startSearch={this.updateSearch}
+            />
           </Grid>
-        </Grid>
-        <Grid
-          container
-          className="search"
-          justifyContent="space-between"
-          spacing={2}
-        >
-          <Grid item xs={11}>
-            <input className="searchBar" placeholder={placeholder} />
+          <Grid item className="searchResults">
+            <SearchResultList items={searchResults} />
           </Grid>
-          <Grid item xs={1}>
-            <button className="searchBtn">
-              <BiSearchAlt className="icon" />
-            </button>
+          <Grid item>
+            <button>submit</button>
           </Grid>
-        </Grid>
-        <Grid item className="searchResults">
-          <SearchResultList />
-        </Grid>
-        <Grid item>
-          <button>submit</button>
-        </Grid>
-      </ModalContainer>
-    </ModalBackground>
-  );
+        </ModalContainer>
+      </ModalBackground>
+    );
+  }
 }
+
+// function SearchModal({ closeModal }) {
+//   return (
+//     <ModalBackground>
+//       <ModalContainer container>
+//         <Grid container className="title">
+//           <Grid item xs={11}>
+//             <h1>Search</h1>
+//           </Grid>
+//           <Grid item xs={1} className="titleCloseBtn">
+//             <button onClick={() => closeModal(false)} className="btn">
+//               <MdClose />
+//             </button>
+//           </Grid>
+//         </Grid>
+//         <Grid
+//           container
+//           className="search"
+//           justifyContent="space-between"
+//           spacing={2}
+//         >
+//           <SearchBar mediaTypes={mediaTypes} startSearch={this.updateSearch} />
+//         </Grid>
+//         <Grid item className="searchResults">
+//           <SearchResultList />
+//         </Grid>
+//         <Grid item>
+//           <button>submit</button>
+//         </Grid>
+//       </ModalContainer>
+//     </ModalBackground>
+//   );
+// }
 
 export default SearchModal;

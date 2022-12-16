@@ -42,7 +42,7 @@ function Router() {
           <Route path="/mypage/liked" element={<MypageLike />} />
         </Route>
         <Route
-          path="/muiary/:username"
+          path="/mymuiary"
           element={
             <RequireAuth>
               <MyMuiaryTemplate />
