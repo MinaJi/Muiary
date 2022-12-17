@@ -78,18 +78,18 @@ class SearchModal extends Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
-  async updateSearch(text, media) {
-    const response = await itunesApiRequest(text, media);
-    this.setState({ searchResults: response.results });
-  }
-
   // async updateSearch(text, media) {
   //   const response = await itunesApiRequest(text, media);
-  //   const artWorkUrl = response.results[].artworkUrl100;
   //   this.setState({ searchResults: response.results });
-  //   console.log("주소" + artWorkUrl);
-  //   // console.log("데이터?" + response.results[0].artworkUrl100);
   // }
+
+  async updateSearch(text, media) {
+    const response = await itunesApiRequest(text, media);
+    const artWorkUrl = response.results[].artworkUrl100;
+    this.setState({ searchResults: response.results });
+    console.log("주소" + artWorkUrl);
+    // console.log("데이터?" + response.results[0].artworkUrl100);
+  }
 
   render() {
     const { searchResults } = this.state;
