@@ -144,10 +144,10 @@ function EditProfilePic() {
         >
           <EditWrapper>
             <div className="file-input-wrapper">
-              <div>
-                <RiUpload2Line style={{ fontSize: "20px" }} />
-              </div>
               <label for="file-input" className="input-label">
+                <div>
+                  <RiUpload2Line style={{ fontSize: "20px" }} />
+                </div>
                 Choose a file...
               </label>
               <input type="file" onChange={handleChange} id="file-input" />

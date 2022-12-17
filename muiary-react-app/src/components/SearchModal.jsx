@@ -4,7 +4,7 @@ import SearchResultList from "../components/SearchResultsList";
 import { MdClose } from "react-icons/md";
 import { Grid } from "@mui/material";
 import SearchBar from "./searchbar";
-import { itunesApiRequest, mediaTypes } from "../config/api";
+import { itunesApiRequest, mediaTypes } from "../apis/api";
 import NoResults from "./NoResults";
 import { Component } from "react";
 
@@ -78,13 +78,22 @@ class SearchModal extends Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
+  // async updateSearch(text, media) {
+  //   const response = await itunesApiRequest(text, media);
+  //   this.setState({ searchResults: response.results });
+  // }
+
   async updateSearch(text, media) {
     const response = await itunesApiRequest(text, media);
+    const artWorkUrl = response.results[].artworkUrl100;
     this.setState({ searchResults: response.results });
+    console.log("주소" + artWorkUrl);
+    // console.log("데이터?" + response.results[0].artworkUrl100);
   }
 
   render() {
     const { searchResults } = this.state;
+    const closeModal = this.props.closeModal;
 
     return (
       <ModalBackground>
@@ -94,9 +103,14 @@ class SearchModal extends Component {
               <h1>Search</h1>
             </Grid>
             <Grid item xs={1} className="titleCloseBtn">
-              {/* <button onClick={() => closeModal(false)} className="btn">
+              <button
+                onClick={() => {
+                  closeModal(false);
+                }}
+                className="btn"
+              >
                 <MdClose />
-              </button> */}
+              </button>
             </Grid>
           </Grid>
           <Grid
@@ -121,38 +135,5 @@ class SearchModal extends Component {
     );
   }
 }
-
-// function SearchModal({ closeModal }) {
-//   return (
-//     <ModalBackground>
-//       <ModalContainer container>
-//         <Grid container className="title">
-//           <Grid item xs={11}>
-//             <h1>Search</h1>
-//           </Grid>
-//           <Grid item xs={1} className="titleCloseBtn">
-//             <button onClick={() => closeModal(false)} className="btn">
-//               <MdClose />
-//             </button>
-//           </Grid>
-//         </Grid>
-//         <Grid
-//           container
-//           className="search"
-//           justifyContent="space-between"
-//           spacing={2}
-//         >
-//           <SearchBar mediaTypes={mediaTypes} startSearch={this.updateSearch} />
-//         </Grid>
-//         <Grid item className="searchResults">
-//           <SearchResultList />
-//         </Grid>
-//         <Grid item>
-//           <button>submit</button>
-//         </Grid>
-//       </ModalContainer>
-//     </ModalBackground>
-//   );
-// }
 
 export default SearchModal;

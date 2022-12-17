@@ -3,19 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import SearchItem from "./SearchItem";
 
-// const list = [
-//   {
-//     name: "meow",
-//     album: "cat",
-//     url: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
-//   },
-//   {
-//     name: "cute",
-//     album: "dog",
-//     url: "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg",
-//   },
-// ];
-
 // const GridContainer = styled(Grid)`
 //   && {
 //     .text {
@@ -46,11 +33,17 @@ import SearchItem from "./SearchItem";
 //   );
 // }
 
+const Div = styled.div`
+  height: 290px;
+  overflow-y: auto;
+  padding: 10px;
+`;
+
 const SearchResultsList = ({ items }) => {
   const itemsArray = items.map((item, index) => (
     <SearchItem key={index} {...item} />
   ));
-  return <div>{itemsArray}</div>;
+  return <Div>{itemsArray}</Div>;
 };
 
 export default SearchResultsList;
