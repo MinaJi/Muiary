@@ -34,7 +34,7 @@ import SearchItem from "./SearchItem";
 // }
 
 const Div = styled.div`
-  height: 290px;
+  height: 320px;
   overflow-y: auto;
   padding: 10px;
 `;
