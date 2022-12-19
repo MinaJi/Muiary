@@ -1,4 +1,15 @@
-export const mediaTypes = "music";
+export const mediaTypes = [
+  "movie",
+  "podcast",
+  "music",
+  "musicVideo",
+  "audiobook",
+  "shortFilm",
+  "tvShow",
+  "software",
+  "ebook",
+  "all",
+];
 
 export async function itunesApiRequest(term, media = "all") {
   const url = new URL("https://itunes.apple.com/search");

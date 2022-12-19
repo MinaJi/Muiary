@@ -45,23 +45,6 @@ const ModalContainer = styled(Grid)`
         color: #f73859;
       }
     }
-    .searchBar {
-      background-color: transparent;
-      border-radius: 10px;
-      border: 1px solid lightgray;
-      height: 40px;
-      width: 100%;
-      padding-left: 10px;
-      box-sizing: inherit;
-    }
-    .searchBtn {
-      height: 40px;
-      background-color: transparent;
-      cursor: pointer;
-      border: 1px solid lightgray;
-      border-radius: 10px;
-      font-size: 25px;
-    }
     .searchResults {
       margin-top: 20px;
       width: 100%;
@@ -104,7 +87,7 @@ class SearchModal extends Component {
             </Grid>
             <Grid item xs={1} className="titleCloseBtn">
               <button
-                onClick={() => {
+                onClick={(e) => {
                   closeModal(false);
                 }}
                 className="btn"

@@ -36,7 +36,10 @@ const SearchItem = ({
       <Grid item>가수이름: {artistName}</Grid>
       <Grid item>앨범이름: {collectionName}</Grid>
     </StyledGrid>
-    <Grid itme xs={1}>
+    <Grid item xs={1}>
+      {/* <Btn onClick={this.addDataHandler.bind(this, this.props.data)}>
+        <RiAddCircleFill />
+      </Btn> */}
       <Btn>
         <RiAddCircleFill />
       </Btn>

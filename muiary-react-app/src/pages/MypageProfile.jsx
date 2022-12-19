@@ -21,11 +21,13 @@ const GridContainer = styled(Grid)`
 `;
 
 const StyledInput = styled.input`
+  color: ${(props) => props.theme.textColor};
   width: 60%;
   height: 25px;
   padding: 2%;
   border-radius: 25px;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: ${(props) => props.theme.inputBorder};
+  background-color: ${(props) => props.theme.inputBg};
   font-size: 15px;
   :focus {
     outline: none;
@@ -37,7 +39,8 @@ const StyledTextArea = styled.textarea`
   width: 60%;
   padding: 2%;
   border-radius: 25px;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: ${(props) => props.theme.inputBorder};
+  background-color: ${(props) => props.theme.inputBg};
   font-size: 15px;
   :focus {
     outline: none;
@@ -102,8 +105,19 @@ const IconBtn = styled.button`
 
 const StyledPicker = styled(DatePicker)`
   && {
-    border: 1px solid ${(props) => props.theme.borderColor};
+    border: ${(props) => props.theme.inputBorder};
     border-radius: 25px;
+    background-color: ${(props) => props.theme.inputBg};
+  }
+  .react-calendar {
+    background-color: ${(props) => props.theme.inputBg};
+  }
+`;
+
+const SelectGrid = styled(Grid)`
+  .react-select .react-select__control {
+    background-color: ${(props) => props.theme.inputBg};
+    border: ${(props) => props.theme.inputBorder};
   }
 `;
 
@@ -128,7 +142,7 @@ function MypageProfile() {
         height: "48px",
         borderRadius: "25px",
         fontSize: "15px",
-        backgroundColor: isReadOnly ? "inherit" : "inherit",
+        // backgroundColor: isReadOnly ? "inherit" : "inherit",
       }),
       singleValue: (provided, state) => ({
         ...provided,
@@ -207,9 +221,11 @@ function MypageProfile() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <SelectGrid item xs={6}>
                   <StyledText>Country</StyledText>
                   <Select
+                    className="react-select"
+                    classNamePrefix="react-select"
                     placeholder={users && users?.country?.label}
                     onChange={changeHandler}
                     value={country}
@@ -228,7 +244,7 @@ function MypageProfile() {
                       },
                     })}
                   />
-                </Grid>
+                </SelectGrid>
                 <Grid item xs={6}>
                   <StyledText>Bio</StyledText>
                   <StyledTextArea

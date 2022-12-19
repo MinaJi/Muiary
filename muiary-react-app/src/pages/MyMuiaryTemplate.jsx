@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Grid } from "@mui/material";
 import MainHeader from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
+import MyBoardItemLists from "../components/MyBoardItemLists";
 
 const ProfileDiv = styled(Grid)`
   && {
@@ -22,6 +23,7 @@ function MyMuiaryTemplate() {
         <MuiaryProfile />
       </ProfileDiv>
       <Grid item xs={9} style={{ paddingTop: "90px" }}>
+        <MyBoardItemLists />
         <button onClick={() => navi("/mymuiary/upload")}>글쓰기</button>
       </Grid>
     </Grid>

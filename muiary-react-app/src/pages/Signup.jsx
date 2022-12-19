@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const StyledDiv = styled(Grid)`
   && {
-    background-color: ${(props) => props.theme.bgColor},
+    background-color: ${(props) => props.theme.bgColor};
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100vh;

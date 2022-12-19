@@ -14,7 +14,7 @@ button {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
 }
-input, textarea {
+input, textarea, select {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
 }

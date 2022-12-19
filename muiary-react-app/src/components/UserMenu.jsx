@@ -80,7 +80,6 @@ function UserMenu() {
             ) : (
               <Btn onClick={() => navi("/signup")}>Sign up</Btn>
             )}
-
             <StyledDivider />
           </Grid>
           <Grid item>
@@ -89,7 +88,6 @@ function UserMenu() {
             ) : (
               <Btn onClick={() => navi("/signin")}>Sign in</Btn>
             )}
-
             <StyledDivider />
           </Grid>
           <Grid container alignItems="center" className="toggle-switch-wrapper">
