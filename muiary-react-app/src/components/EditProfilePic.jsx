@@ -10,6 +10,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { motion } from "framer-motion";
 import { RiUpload2Line } from "react-icons/ri";
+import ImgEditModal from "./ImgEditModal";
 
 const EditBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -92,20 +93,29 @@ const Btn = styled.button`
 function EditProfilePic() {
   const { user } = UserAuth();
   const [showEdit, setShowEdit] = useState(false);
+
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState("");
+  const [preview, setPreview] = useState("");
+
   const [loading, setLoading] = useState(false);
   const usersRef = doc(db, `users/${user.uid}`);
+
+  const [openModal, setOpenModal] = useState(false);
 
   const updateImg = () => {
     setShowEdit((prev) => !prev);
   };
 
   const handleChange = (e) => {
-    if (e.target.files[0]) {
-      setPhoto(e.target.files[0]);
+    const imgSrc = e.target.files[0];
+    if (imgSrc) {
+      setPreview(URL.createObjectURL(imgSrc));
+      // setPhoto(e.target.files[0]);
+      setOpenModal(true);
     }
   };
+
   const handleUpload = async () => {
     upload(photo, user, setLoading);
     try {
@@ -133,7 +143,7 @@ function EditProfilePic() {
         }
         overlap="circular"
       >
-        <StyledAvatar src={photoURL} />
+        <StyledAvatar src={photoURL} id="avatar" />
       </EditBadge>
       {showEdit && (
         <motion.div
@@ -144,7 +154,7 @@ function EditProfilePic() {
         >
           <EditWrapper>
             <div className="file-input-wrapper">
-              <label for="file-input" className="input-label">
+              <label htmlFor="file-input" className="input-label">
                 <div>
                   <RiUpload2Line style={{ fontSize: "20px" }} />
                 </div>
@@ -153,13 +163,16 @@ function EditProfilePic() {
               <input type="file" onChange={handleChange} id="file-input" />
             </div>
             <Grid item>
-              <Btn onClick={handleUpload} disabled={loading || !photo}>
+              {/* <Btn onClick={handleUpload} disabled={loading || !photo}>
                 Upload
-              </Btn>
+              </Btn> */}
               <Btn>Delete</Btn>
             </Grid>
           </EditWrapper>
         </motion.div>
+      )}
+      {openModal && (
+        <ImgEditModal closeModal={setOpenModal} previewImg={preview} />
       )}
     </>
   );
