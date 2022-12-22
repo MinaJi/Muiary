@@ -116,16 +116,16 @@ function EditProfilePic() {
     }
   };
 
-  const handleUpload = async () => {
-    upload(photo, user, setLoading);
-    try {
-      await updateDoc(usersRef, {
-        profileImgUrl: photoURL,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleUpload = async () => {
+  //   upload(photo, user, setLoading);
+  //   try {
+  //     await updateDoc(usersRef, {
+  //       profileImgUrl: photoURL,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     if (user?.photoURL) {
@@ -160,7 +160,12 @@ function EditProfilePic() {
                 </div>
                 Choose a file...
               </label>
-              <input type="file" onChange={handleChange} id="file-input" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleChange}
+                id="file-input"
+              />
             </div>
             <Grid item>
               {/* <Btn onClick={handleUpload} disabled={loading || !photo}>

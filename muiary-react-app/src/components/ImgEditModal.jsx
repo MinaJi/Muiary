@@ -40,17 +40,21 @@ function ImgEditModal({ closeModal, previewImg }) {
   const { user } = UserAuth();
 
   const [photo, setPhoto] = useState(null);
-  //   const [photoURL, setPhotoURL] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [loading, setLoading] = useState(false);
   const usersRef = doc(db, `users/${user.uid}`);
 
   const cropperRef = useRef("");
   const [croppedImg, setCroppedImg] = useState("");
 
-//   const blob = new Blob();
+  const metadata = {
+    contetnType: "image/png",
+  };
 
-//   const newImage = new File([blob], blob.name, { type: blob.type });
-// 크롭된 이미지 어캐해야 주소로 보낼 수 있는지????????
+  //   const blob = new Blob();
+
+  //   const newImage = new File([blob], blob.name, { type: blob.type });
+  // 크롭된 이미지 어캐해야 주소로 보낼 수 있는지????????
 
   const onCrop = () => {
     const imageElement = cropperRef?.current;
@@ -62,7 +66,7 @@ function ImgEditModal({ closeModal, previewImg }) {
     upload(photo, user, setLoading);
     try {
       await updateDoc(usersRef, {
-        profileImgUrl: URL.createObjectURL(croppedImg),
+        profileImgUrl: photoURL,
       });
     } catch (error) {
       console.log(error);
