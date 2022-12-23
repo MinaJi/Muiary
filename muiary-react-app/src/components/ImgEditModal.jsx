@@ -9,6 +9,7 @@ import { upload } from "../firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
+import { async } from "@firebase/util";
 
 const Background = styled.div`
   width: 100vw;
@@ -46,23 +47,18 @@ function ImgEditModal({ closeModal, previewImg }) {
 
   const cropperRef = useRef("");
   const [croppedImg, setCroppedImg] = useState("");
-
-  const metadata = {
-    contetnType: "image/png",
-  };
-
   //   const blob = new Blob();
-
   //   const newImage = new File([blob], blob.name, { type: blob.type });
   // 크롭된 이미지 어캐해야 주소로 보낼 수 있는지????????
 
   const onCrop = () => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
-    setCroppedImg(cropper.getCroppedCanvas().toDataURL());
+    setCroppedImg(cropper.getCroppedCanvas().toDataURL("image/jpge"));
   };
 
   const handleUpload = async () => {
+    console.log(croppedImg);
     upload(photo, user, setLoading);
     try {
       await updateDoc(usersRef, {
