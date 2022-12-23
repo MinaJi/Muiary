@@ -5,11 +5,12 @@ import { useState } from "react";
 import Cropper from "react-cropper";
 import { useRef } from "react";
 import "cropperjs/dist/cropper.css";
-import { upload } from "../firebase-config";
+import { storage, updateProfileImage, upload } from "../firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
-import { async } from "@firebase/util";
+import { ref, uploadString } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
 
 const Background = styled.div`
   width: 100vw;
@@ -37,36 +38,40 @@ const ModalContainer = styled(Grid)`
   }
 `;
 
-function ImgEditModal({ closeModal, previewImg }) {
+function ImgEditModal({ closeModal, image, imageName }) {
   const { user } = UserAuth();
 
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState("");
   const [loading, setLoading] = useState(false);
+
   const usersRef = doc(db, `users/${user.uid}`);
 
   const cropperRef = useRef("");
+  const [cropper, setCropper] = useState();
   const [croppedImg, setCroppedImg] = useState("");
-  //   const blob = new Blob();
-  //   const newImage = new File([blob], blob.name, { type: blob.type });
-  // 크롭된 이미지 어캐해야 주소로 보낼 수 있는지????????
 
-  const onCrop = () => {
+  const onCropPreview = () => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
-    setCroppedImg(cropper.getCroppedCanvas().toDataURL("image/jpge"));
+    setCroppedImg(cropper.getCroppedCanvas().toDataURL());
   };
 
-  const handleUpload = async () => {
-    console.log(croppedImg);
-    upload(photo, user, setLoading);
-    try {
-      await updateDoc(usersRef, {
-        profileImgUrl: photoURL,
-      });
-    } catch (error) {
-      console.log(error);
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (typeof cropper !== "undefined") {
+      let imageData = await cropper.getCroppedCanvas().toDataURL("image/jpeg");
+      const storageRef = ref(storage, "images/profile/");
+      const imagesRef = ref(storageRef, imageName);
+      const uploadTask = await uploadString(imagesRef, imageData, "data_url");
+      try {
+        // updateProfile(user, { photoURL: imageData });
+        updateProfileImage(user);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    return;
   };
 
   return (
@@ -75,11 +80,14 @@ function ImgEditModal({ closeModal, previewImg }) {
         <Grid item>
           <Cropper
             style={{ width: "200px", height: "200px" }}
-            src={previewImg}
-            crop={onCrop}
+            src={image}
+            crop={onCropPreview}
             ref={cropperRef}
             initialAspectRatio={1 / 1}
             guides={false}
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
           />
         </Grid>
         <Grid item>

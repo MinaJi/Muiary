@@ -11,6 +11,7 @@ import { db } from "../firebase-config";
 import { motion } from "framer-motion";
 import { RiUpload2Line } from "react-icons/ri";
 import ImgEditModal from "./ImgEditModal";
+import { setUserProperties } from "firebase/analytics";
 
 const EditBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -93,45 +94,54 @@ const Btn = styled.button`
 function EditProfilePic() {
   const { user } = UserAuth();
   const [showEdit, setShowEdit] = useState(false);
-
-  const [photo, setPhoto] = useState(null);
-  const [photoURL, setPhotoURL] = useState("");
-  const [preview, setPreview] = useState("");
-
-  const [loading, setLoading] = useState(false);
-  const usersRef = doc(db, `users/${user.uid}`);
-
   const [openModal, setOpenModal] = useState(false);
+  const [error, setError] = useState();
+
+  // const [photo, setPhoto] = useState(null);
+  // const [photoURL, setPhotoURL] = useState("");
+  // const [preview, setPreview] = useState("");
+
+  // const [loading, setLoading] = useState(false);
+  // const usersRef = doc(db, `users/${user.uid}`);
+
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageName, setImageName] = useState("");
 
   const updateImg = () => {
     setShowEdit((prev) => !prev);
   };
 
   const handleChange = (e) => {
-    const imgSrc = e.target.files[0];
-    if (imgSrc) {
-      setPreview(URL.createObjectURL(imgSrc));
-      // setPhoto(e.target.files[0]);
+    setError("");
+    try {
+      setImageName(`${user.uid}`);
+      e.preventDefault();
+      let files;
+      if (e.dataTransfer) {
+        files = e.dataTransfer.files;
+      } else if (e.target) {
+        files = e.target.files;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(files[0]);
       setOpenModal(true);
+      e.target.value = null;
+    } catch (error) {
+      e.target.value = null;
+      setError("파일 선택 안되었음 실패");
+      setOpenModal(false);
     }
   };
 
-  // const handleUpload = async () => {
-  //   upload(photo, user, setLoading);
-  //   try {
-  //     await updateDoc(usersRef, {
-  //       profileImgUrl: photoURL,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
+  // useEffect(() => {
+  //   if (user?.photoURL) {
+  //     setPhotoURL(user.photoURL);
   //   }
-  // };
-
-  useEffect(() => {
-    if (user?.photoURL) {
-      setPhotoURL(user.photoURL);
-    }
-  }, [user]);
+  // }, [user]);
 
   return (
     <>
@@ -143,7 +153,8 @@ function EditProfilePic() {
         }
         overlap="circular"
       >
-        <StyledAvatar src={photoURL} id="avatar" />
+        {/* <StyledAvatar src={photoURL} id="avatar" /> */}
+        <StyledAvatar src={imageUrl} id="profile" />
       </EditBadge>
       {showEdit && (
         <motion.div
@@ -168,16 +179,17 @@ function EditProfilePic() {
               />
             </div>
             <Grid item>
-              {/* <Btn onClick={handleUpload} disabled={loading || !photo}>
-                Upload
-              </Btn> */}
               <Btn>Delete</Btn>
             </Grid>
           </EditWrapper>
         </motion.div>
       )}
       {openModal && (
-        <ImgEditModal closeModal={setOpenModal} previewImg={preview} />
+        <ImgEditModal
+          closeModal={setOpenModal}
+          image={image}
+          imageName={imageName}
+        />
       )}
     </>
   );

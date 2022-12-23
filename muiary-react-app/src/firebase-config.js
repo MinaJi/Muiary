@@ -23,18 +23,44 @@ export const auth = getAuth(app);
 export const storage = getStorage();
 
 // storage
-export async function upload(file, user, setLoading) {
-  const fileRef = ref(storage, user.uid + ".png");
+// export async function upload(file, user, setLoading) {
+//   const fileRef = ref(storage, user.uid + ".png");
 
-  setLoading(true);
+//   setLoading(true);
 
-  const snapshot = await uploadBytes(fileRef, file);
-  const imageURL = await getDownloadURL(fileRef);
+//   const snapshot = await uploadBytes(fileRef, file);
+//   const imageURL = await getDownloadURL(fileRef);
 
-  updateProfile(user, { photoURL: imageURL });
-  setLoading(false);
+//   updateProfile(user, { photoURL: imageURL });
+//   setLoading(false);
 
-  alert("upload done!");
+//   alert("upload done!");
+// }
+
+export async function updateProfileImage(user) {
+  const storageRef = ref(storage, "images/profile/");
+  const imagesRef = ref(storageRef, `${user.uid}`, +".jepg"); // storage에서 use의 UID와 같은 이름의 파일을 가져옴
+\
+  // d이런 형태의 주소 어캐 가져오지 ?
+
+  // getDownloadURL(storageRef, "rRy5jokE2OULaEjfgmOMc3JbjZJ2")
+  //   .then((url) => {
+  //     const xhr = new XMLHttpRequest();
+  //     xhr.responseType = "blob";
+  //     xhr.onload = (e) => {
+  //       const blob = xhr.response;
+  //     };
+  //     xhr.open("GET", url);
+  //     xhr.send();
+
+  //     console.log(xhr);
+
+  //     const img = document.getElementById("myimg");
+  //     img.setAttribute("src", url);
+  //   })
+  //   .catch((e) => {
+  //     console.log("이미지 가져오기 실패..");
+  //   });
 }
 
 export default app;
