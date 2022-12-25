@@ -37,13 +37,36 @@ export const storage = getStorage();
 //   alert("upload done!");
 // }
 
-export async function updateProfileImage(user) {
-  const storageRef = ref(storage, "images/profile/");
-  const imagesRef = ref(storageRef, `${user.uid}`, +".jepg"); // storage에서 use의 UID와 같은 이름의 파일을 가져옴
-\
-  // d이런 형태의 주소 어캐 가져오지 ?
+// export async function updateProfileImage(user) {
+//   const storageRef = ref(storage, `images/profile/${user.uid}`);
 
-  // getDownloadURL(storageRef, "rRy5jokE2OULaEjfgmOMc3JbjZJ2")
+//   getDownloadURL(storageRef)
+//     .then((url) => {
+//       console.log(url);
+//     })
+//     .catch((error) => {
+//       // A full list of error codes is available at
+//       // https://firebase.google.com/docs/storage/web/handle-errors
+//       switch (error.code) {
+//         case "storage/object-not-found":
+//           // File doesn't exist
+//           break;
+//         case "storage/unauthorized":
+//           // User doesn't have permission to access the object
+//           break;
+//         case "storage/canceled":
+//           // User canceled the upload
+//           break;
+
+//         // ...
+
+//         case "storage/unknown":
+//           // Unknown error occurred, inspect the server response
+//           break;
+//       }
+//     });
+
+  // getDownloadURL(storageRef)
   //   .then((url) => {
   //     const xhr = new XMLHttpRequest();
   //     xhr.responseType = "blob";
@@ -61,6 +84,6 @@ export async function updateProfileImage(user) {
   //   .catch((e) => {
   //     console.log("이미지 가져오기 실패..");
   //   });
-}
+// }
 
 export default app;

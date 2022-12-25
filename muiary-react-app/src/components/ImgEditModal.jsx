@@ -9,7 +9,7 @@ import { storage, updateProfileImage, upload } from "../firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
-import { ref, uploadString } from "firebase/storage";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 
 const Background = styled.div`
@@ -38,7 +38,7 @@ const ModalContainer = styled(Grid)`
   }
 `;
 
-function ImgEditModal({ closeModal, image, imageName }) {
+function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
   const { user } = UserAuth();
 
   const [photo, setPhoto] = useState(null);
@@ -61,15 +61,18 @@ function ImgEditModal({ closeModal, image, imageName }) {
     e.preventDefault();
     if (typeof cropper !== "undefined") {
       let imageData = await cropper.getCroppedCanvas().toDataURL("image/jpeg");
-      const storageRef = ref(storage, "images/profile/");
+      const storageRef = ref(storage, `${user.uid}`);
       const imagesRef = ref(storageRef, imageName);
-      const uploadTask = await uploadString(imagesRef, imageData, "data_url");
-      try {
-        // updateProfile(user, { photoURL: imageData });
-        updateProfileImage(user);
-      } catch (error) {
-        console.log(error);
-      }
+      const uploadTask = await uploadString(
+        imagesRef,
+        imageData,
+        "data_url"
+      ).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setImageUrl(url);
+          console.log(url);
+        });
+      });
     }
     return;
   };

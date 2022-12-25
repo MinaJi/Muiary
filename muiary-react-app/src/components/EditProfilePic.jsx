@@ -189,6 +189,7 @@ function EditProfilePic() {
           closeModal={setOpenModal}
           image={image}
           imageName={imageName}
+          setImageUrl={setImageUrl}
         />
       )}
     </>
