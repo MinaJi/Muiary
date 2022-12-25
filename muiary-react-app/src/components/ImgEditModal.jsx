@@ -5,9 +5,7 @@ import { useState } from "react";
 import Cropper from "react-cropper";
 import { useRef } from "react";
 import "cropperjs/dist/cropper.css";
-import { storage, updateProfileImage, upload } from "../firebase-config";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { storage } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
@@ -41,12 +39,6 @@ const ModalContainer = styled(Grid)`
 function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
   const { user } = UserAuth();
 
-  const [photo, setPhoto] = useState(null);
-  const [photoURL, setPhotoURL] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const usersRef = doc(db, `users/${user.uid}`);
-
   const cropperRef = useRef("");
   const [cropper, setCropper] = useState();
   const [croppedImg, setCroppedImg] = useState("");
@@ -63,14 +55,10 @@ function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
       let imageData = await cropper.getCroppedCanvas().toDataURL("image/jpeg");
       const storageRef = ref(storage, `${user.uid}`);
       const imagesRef = ref(storageRef, imageName);
-      const uploadTask = await uploadString(
-        imagesRef,
-        imageData,
-        "data_url"
-      ).then((snapshot) => {
+      await uploadString(imagesRef, imageData, "data_url").then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
           setImageUrl(url);
-          console.log(url);
+          updateProfile(user, { photoURL: url });
         });
       });
     }

@@ -23,67 +23,18 @@ export const auth = getAuth(app);
 export const storage = getStorage();
 
 // storage
-// export async function upload(file, user, setLoading) {
-//   const fileRef = ref(storage, user.uid + ".png");
+export async function uploadProfileImg(file, user, setLoading) {
+  const fileRef = ref(storage, user.uid + ".png");
 
-//   setLoading(true);
+  setLoading(true);
 
-//   const snapshot = await uploadBytes(fileRef, file);
-//   const imageURL = await getDownloadURL(fileRef);
+  const snapshot = await uploadBytes(fileRef, file);
+  const imageURL = await getDownloadURL(fileRef);
 
-//   updateProfile(user, { photoURL: imageURL });
-//   setLoading(false);
+  updateProfile(user, { photoURL: imageURL });
+  setLoading(false);
 
-//   alert("upload done!");
-// }
-
-// export async function updateProfileImage(user) {
-//   const storageRef = ref(storage, `images/profile/${user.uid}`);
-
-//   getDownloadURL(storageRef)
-//     .then((url) => {
-//       console.log(url);
-//     })
-//     .catch((error) => {
-//       // A full list of error codes is available at
-//       // https://firebase.google.com/docs/storage/web/handle-errors
-//       switch (error.code) {
-//         case "storage/object-not-found":
-//           // File doesn't exist
-//           break;
-//         case "storage/unauthorized":
-//           // User doesn't have permission to access the object
-//           break;
-//         case "storage/canceled":
-//           // User canceled the upload
-//           break;
-
-//         // ...
-
-//         case "storage/unknown":
-//           // Unknown error occurred, inspect the server response
-//           break;
-//       }
-//     });
-
-  // getDownloadURL(storageRef)
-  //   .then((url) => {
-  //     const xhr = new XMLHttpRequest();
-  //     xhr.responseType = "blob";
-  //     xhr.onload = (e) => {
-  //       const blob = xhr.response;
-  //     };
-  //     xhr.open("GET", url);
-  //     xhr.send();
-
-  //     console.log(xhr);
-
-  //     const img = document.getElementById("myimg");
-  //     img.setAttribute("src", url);
-  //   })
-  //   .catch((e) => {
-  //     console.log("이미지 가져오기 실패..");
-  //   });
-// }
+  alert("upload done!");
+}
 
 export default app;

@@ -5,13 +5,9 @@ import { MdEdit } from "react-icons/md";
 import { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { useEffect } from "react";
-import { upload } from "../firebase-config";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase-config";
 import { motion } from "framer-motion";
 import { RiUpload2Line } from "react-icons/ri";
 import ImgEditModal from "./ImgEditModal";
-import { setUserProperties } from "firebase/analytics";
 
 const EditBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -97,13 +93,6 @@ function EditProfilePic() {
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState();
 
-  // const [photo, setPhoto] = useState(null);
-  // const [photoURL, setPhotoURL] = useState("");
-  // const [preview, setPreview] = useState("");
-
-  // const [loading, setLoading] = useState(false);
-  // const usersRef = doc(db, `users/${user.uid}`);
-
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [imageName, setImageName] = useState("");
@@ -137,11 +126,11 @@ function EditProfilePic() {
     }
   };
 
-  // useEffect(() => {
-  //   if (user?.photoURL) {
-  //     setPhotoURL(user.photoURL);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user?.photoURL) {
+      setImageUrl(user.photoURL);
+    }
+  }, [user]);
 
   return (
     <>
@@ -153,7 +142,6 @@ function EditProfilePic() {
         }
         overlap="circular"
       >
-        {/* <StyledAvatar src={photoURL} id="avatar" /> */}
         <StyledAvatar src={imageUrl} id="profile" />
       </EditBadge>
       {showEdit && (
