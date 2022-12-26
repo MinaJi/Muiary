@@ -8,6 +8,9 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { RiUpload2Line } from "react-icons/ri";
 import ImgEditModal from "./ImgEditModal";
+import { updateProfile } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const EditBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -89,10 +92,12 @@ const Btn = styled.button`
 
 function EditProfilePic() {
   const { user } = UserAuth();
+  const usersRef = doc(db, `users/${user.uid}`);
+
   const [showEdit, setShowEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [error, setError] = useState();
 
+  const [error, setError] = useState();
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [imageName, setImageName] = useState("");
@@ -124,6 +129,15 @@ function EditProfilePic() {
       setError("파일 선택 안되었음 실패");
       setOpenModal(false);
     }
+  };
+
+  const deleteImg = (e) => {
+    e.preventDefault();
+    setImageUrl("");
+    updateProfile(user, { photoURL: "" });
+    updateDoc(usersRef, {
+      profileImgUrl: "",
+    });
   };
 
   useEffect(() => {
@@ -167,7 +181,7 @@ function EditProfilePic() {
               />
             </div>
             <Grid item>
-              <Btn>Delete</Btn>
+              <Btn onClick={deleteImg}>Delete</Btn>
             </Grid>
           </EditWrapper>
         </motion.div>

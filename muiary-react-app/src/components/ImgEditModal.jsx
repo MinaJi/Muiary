@@ -5,10 +5,11 @@ import { useState } from "react";
 import Cropper from "react-cropper";
 import { useRef } from "react";
 import "cropperjs/dist/cropper.css";
-import { storage } from "../firebase-config";
+import { db, storage } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
 
 const Background = styled.div`
   width: 100vw;
@@ -38,6 +39,7 @@ const ModalContainer = styled(Grid)`
 
 function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
   const { user } = UserAuth();
+  const usersRef = doc(db, `users/${user.uid}`);
 
   const cropperRef = useRef("");
   const [cropper, setCropper] = useState();
@@ -59,6 +61,9 @@ function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
         getDownloadURL(snapshot.ref).then((url) => {
           setImageUrl(url);
           updateProfile(user, { photoURL: url });
+          updateDoc(usersRef, {
+            profileImgUrl: url,
+          });
         });
       });
     }
