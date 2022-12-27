@@ -18,6 +18,8 @@ export const lightTheme = {
   radial-gradient(at 3% 10%, hsla(41, 78%, 74%, 1) 0px, transparent 50%),
   radial-gradient(at 16% 39%, hsla(31, 76%, 79%, 1) 0px, transparent 50%);`,
   signupBg: "#F73859",
+  inputBorderColor: "#DDDDDD",
+  placeholderText: "#808080",
 };
 
 export const darkTheme = {
@@ -40,6 +42,8 @@ export const darkTheme = {
   radial-gradient(at 3% 10%, hsla(41, 78%, 74%, 0.28) 0px, transparent 50%),
   radial-gradient(at 16% 39%, hsla(30, 76%, 79%, 0.11) 0px, transparent 50%)`,
   signupBg: "#1d232a",
+  inputBorderColor: "#454c59",
+  placeholderText: "#C0C0C0",
 };
 
 export const theme = {

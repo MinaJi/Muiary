@@ -47,14 +47,14 @@ const EditWrapper = styled.div`
   margin: 0 auto;
   margin-top: 1.5rem;
   width: max-content;
-  border: 1px solid lightgray;
+  border: ${(props) => props.theme.inputBorder};
   border-radius: 20px;
   padding: 10px;
   align-items: center;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.inputBg};
   color: ${(props) => props.theme.textColor};
   .file-input-wrapper {
-    border: 1px dashed #c7c7c7;
+    border: 1px dashed ${(props) => props.theme.inputBorderColor};
     border-radius: 10px;
     margin-bottom: 5px;
     font-size: 14px;
@@ -76,7 +76,7 @@ const EditWrapper = styled.div`
 
 const Btn = styled.button`
   margin: 2.5px;
-  border: 1px solid lightgray;
+  border: ${(props) => props.theme.inputBorder};
   background-color: transparent;
   border-radius: 20px;
   padding: 8px;
@@ -181,7 +181,7 @@ function EditProfilePic() {
               />
             </div>
             <Grid item>
-              <Btn onClick={deleteImg}>Delete</Btn>
+              <Btn onClick={deleteImg}>Delete profile pic</Btn>
             </Grid>
           </EditWrapper>
         </motion.div>
@@ -192,6 +192,7 @@ function EditProfilePic() {
           image={image}
           imageName={imageName}
           setImageUrl={setImageUrl}
+          setImage={setImage}
         />
       )}
     </>

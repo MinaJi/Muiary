@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { UserAuth } from "../context/AuthContext";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
+import { MdClose } from "react-icons/md";
 
 const Background = styled.div`
   width: 100vw;
@@ -27,17 +28,59 @@ const Background = styled.div`
 const ModalContainer = styled(Grid)`
   && {
     background-color: #ffffff;
-    width: 600px;
-    height: 500px;
+    width: 350px;
+    height: 550px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     padding: 25px;
     box-shadow: rgba(97, 97, 97, 0.35) 0px 5px 15px;
+    .item {
+      margin: 0 auto;
+    }
   }
 `;
 
-function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
+const StyledAvatar = styled(Avatar)`
+  && {
+    width: 200px;
+    height: 200px;
+  }
+`;
+
+const Btn = styled.button`
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  width: max-content;
+  padding: 10px;
+  font-size: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  :hover {
+    background-color: #f73859;
+  }
+`;
+
+const CloseBtn = styled(Grid)`
+  && {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      background-color: transparent;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      :hover {
+        color: #f73859;
+      }
+    }
+  }
+`;
+
+function ImgEditModal({ closeModal, image, imageName, setImageUrl, setImage }) {
   const { user } = UserAuth();
   const usersRef = doc(db, `users/${user.uid}`);
 
@@ -54,7 +97,7 @@ function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (typeof cropper !== "undefined") {
-      let imageData = await cropper.getCroppedCanvas().toDataURL("image/jpeg");
+      let imageData = await cropper.getCroppedCanvas().toDataURL("image/png");
       const storageRef = ref(storage, `${user.uid}`);
       const imagesRef = ref(storageRef, imageName);
       await uploadString(imagesRef, imageData, "data_url").then((snapshot) => {
@@ -72,32 +115,36 @@ function ImgEditModal({ closeModal, image, imageName, setImageUrl }) {
 
   return (
     <Background>
-      <ModalContainer container>
-        <Grid item>
+      <ModalContainer container direction="column">
+        <CloseBtn item>
+          <button
+            className="btn"
+            onClick={() => {
+              setImage("");
+              closeModal(false);
+            }}
+          >
+            <MdClose />
+          </button>
+        </CloseBtn>
+        <Grid item className="item">
           <Cropper
             style={{ width: "200px", height: "200px" }}
             src={image}
             crop={onCropPreview}
             ref={cropperRef}
             initialAspectRatio={1 / 1}
-            guides={false}
+            guides={true}
             onInitialized={(instance) => {
               setCropper(instance);
             }}
           />
         </Grid>
-        <Grid item>
-          <img src={croppedImg} alt="croppedimg" width="200px" />
-          <button onClick={handleUpload}>upload</button>
+        <Grid item className="item">
+          <StyledAvatar src={croppedImg} alt="croppedimg" width="200px" />
         </Grid>
-        <Grid item>
-          <button
-            onClick={() => {
-              closeModal(false);
-            }}
-          >
-            닫기
-          </button>
+        <Grid item className="item">
+          <Btn onClick={handleUpload}>Upload</Btn>
         </Grid>
       </ModalContainer>
     </Background>

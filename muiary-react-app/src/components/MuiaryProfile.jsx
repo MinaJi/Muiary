@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
+import { UserData } from "../context/UserDataContext";
+import { useState } from "react";
 
 const AvatarGrid = styled(Grid)`
   && {
@@ -38,6 +40,13 @@ const EditBtn = styled.button`
 
 function MuiaryProfile() {
   const { user } = UserAuth();
+  const { users } = UserData();
+
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const handleEdit = () => {
+    setOpenEditModal(true);
+  };
 
   return (
     <>
@@ -46,13 +55,20 @@ function MuiaryProfile() {
           <Avatar className="avatar" src={user.photoURL} />
         </AvatarGrid>
         <NameGrid item>
-          <p>{user.email}</p>
+          <p>{users.nickname}</p>
         </NameGrid>
         <Grid item>
-          <p>여기에 소개</p>
+          <p>@{users.username}</p>
         </Grid>
+        {openEditModal ? (
+          <Grid item>수정하기 기능 여기에 넣을거임</Grid>
+        ) : (
+          <Grid item>
+            <p>{users.bio}</p>
+          </Grid>
+        )}
         <Grid item>
-          <EditBtn>Edit Profile</EditBtn>
+          <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
         </Grid>
       </Grid>
     </>

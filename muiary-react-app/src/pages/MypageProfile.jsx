@@ -29,6 +29,9 @@ const StyledInput = styled.input`
   border: ${(props) => props.theme.inputBorder};
   background-color: ${(props) => props.theme.inputBg};
   font-size: 15px;
+  ::placeholder {
+    color: ${(props) => props.theme.placeholderText};
+  }
   :focus {
     outline: none;
     border: 2px solid #f1d18a;
@@ -36,12 +39,18 @@ const StyledInput = styled.input`
 `;
 
 const StyledTextArea = styled.textarea`
+  color: ${(props) => props.theme.textColor};
   width: 60%;
+  height: 60px;
   padding: 2%;
   border-radius: 25px;
   border: ${(props) => props.theme.inputBorder};
   background-color: ${(props) => props.theme.inputBg};
   font-size: 15px;
+  overflow: hidden;
+  ::placeholder {
+    color: ${(props) => props.theme.placeholderText};
+  }
   :focus {
     outline: none;
     border: 2px solid #f1d18a;
@@ -109,6 +118,9 @@ const StyledPicker = styled(DatePicker)`
     border-radius: 25px;
     background-color: ${(props) => props.theme.inputBg};
   }
+  .react-date-picker__inputGroup__input {
+    color: ${(props) => props.theme.placeholderText};
+  }
   .react-calendar {
     background-color: ${(props) => props.theme.inputBg};
   }
@@ -121,11 +133,15 @@ const SelectGrid = styled(Grid)`
   }
 `;
 
+const SelectPlaceholder = styled.div`
+  color: ${(props) => props.theme.placeholderText};
+`;
+
 function MypageProfile() {
   const { user } = UserAuth();
   const { users } = UserData();
 
-  const [isReadOnly, setIsReadOnly] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
 
   const options = useMemo(() => countryList().getData(), []);
@@ -152,8 +168,8 @@ function MypageProfile() {
     []
   );
 
-  const setReadOnlyFalse = () => {
-    setIsReadOnly(false);
+  const setDisabledFalse = () => {
+    setIsDisabled(false);
     setShowBtn(true);
   };
 
@@ -188,7 +204,7 @@ function MypageProfile() {
         <Grid item xs={9}>
           <TitleDiv item>
             <p className="title">Profile</p>
-            <IconBtn onClick={setReadOnlyFalse}>
+            <IconBtn onClick={setDisabledFalse}>
               <i className="ri-settings-3-line"></i>
             </IconBtn>
             <hr className="divider" />
@@ -198,13 +214,13 @@ function MypageProfile() {
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={6}>
                   <StyledText>Email</StyledText>
-                  <StyledInput placeholder={user.email} readOnly />
+                  <StyledInput placeholder={user.email} disabled />
                 </Grid>
                 <Grid item xs={6}>
                   <StyledText>Nickname</StyledText>
                   <StyledInput
                     placeholder={users && users.nickname}
-                    readOnly={isReadOnly}
+                    disabled={isDisabled}
                     onChange={(e) => {
                       setNickname(e.target.value);
                     }}
@@ -214,7 +230,7 @@ function MypageProfile() {
                   <StyledText>Birthday</StyledText>
                   <StyledPicker
                     value={dateValue}
-                    disabled={isReadOnly}
+                    disabled={isDisabled}
                     onChange={(value) => {
                       setDateValue(value);
                       setDateOfBirth(new Date(value));
@@ -226,12 +242,18 @@ function MypageProfile() {
                   <Select
                     className="react-select"
                     classNamePrefix="react-select"
-                    placeholder={users && users?.country?.label}
+                    placeholder={
+                      <SelectPlaceholder>{users}</SelectPlaceholder> && (
+                        <SelectPlaceholder>
+                          {users?.country?.label}
+                        </SelectPlaceholder>
+                      )
+                    }
                     onChange={changeHandler}
                     value={country}
                     options={options}
                     styles={customSelect}
-                    isDisabled={isReadOnly}
+                    isDisabled={isDisabled}
                     theme={(theme) => ({
                       ...theme,
                       colors: {
@@ -248,7 +270,7 @@ function MypageProfile() {
                 <Grid item xs={6}>
                   <StyledText>Bio</StyledText>
                   <StyledTextArea
-                    readOnly={isReadOnly}
+                    disabled={isDisabled}
                     placeholder={users && users.bio}
                     onChange={(e) => {
                       setBio(e.target.value);

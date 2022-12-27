@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
+import ChangePasswordForm from "../components/ChangePasswordForm";
 
 const TitleDiv = styled(Grid)`
   && {
@@ -29,6 +30,17 @@ function MypageAccount() {
       <Grid item>
         <TitleDiv item>
           <p className="title">Change Password</p>
+          <hr className="divider" />
+          <Grid item>
+            <ChangePasswordForm />
+          </Grid>
+        </TitleDiv>
+        <TitleDiv item>
+          <p className="title">Change Username</p>
+          <hr className="divider" />
+        </TitleDiv>
+        <TitleDiv item>
+          <p className="title">Delete Account</p>
           <hr className="divider" />
         </TitleDiv>
       </Grid>
