@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
+import { useFormik } from "formik";
+import { formSchemas } from "../schemas";
 
 const GridContainer = styled(Grid)`
   && {
@@ -19,7 +21,7 @@ const GridContainer = styled(Grid)`
 `;
 
 function ChangePasswordForm() {
-  const { changePassword } = UserAuth();
+  const { user, changePassword } = UserAuth();
 
   const [showEdit, setShowEdit] = useState(false);
 
@@ -27,17 +29,32 @@ function ChangePasswordForm() {
     setShowEdit(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (dd) {
-        await changePassword().then(alert("비번 변경 완료"));
-      }
-    } catch (error) {}
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     //   if () {
+  //     //     await changePassword().then(alert("비번 변경 완료"));
+  //     //   }
+  //   } catch (error) {}
+  // };
   // old pwd의 입력값이 현재 패스워드와 같을때,
   // new pwd와 confirm new pwd의 값이 같을때
   // updatePassword 실행하기
+
+  const onSubmit = async (values) => {
+
+  };
+
+  const { values, handleBlur, handleChange, errors, handleSubmit, touched } =
+    useFormik({
+      initialValues: {
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirm: "",
+      },
+      // validationSchema: formSchemas,
+      onSubmit,
+    });
 
   return (
     <GridContainer container direction="column">
@@ -53,15 +70,30 @@ function ChangePasswordForm() {
             <form onSubmit={handleSubmit}>
               <Grid item>
                 <p>Old password</p>
-                <input />
+                <input
+                  type="password"
+                  id="oldPassword"
+                  value={values.oldPassword}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item>
                 <p>New password</p>
-                <input />
+                <input
+                  type="password"
+                  id="newPassword"
+                  value={values.newPassword}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item>
                 <p>Confirm new password</p>
-                <input />
+                <input
+                  type="password"
+                  id="newPasswordConfirm"
+                  value={values.newPasswordConfirm}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item>
                 <button type="submit">update</button>
