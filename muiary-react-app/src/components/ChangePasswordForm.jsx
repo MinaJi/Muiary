@@ -5,6 +5,10 @@ import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
+import {
+  EmailAuthCredential,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 
 const GridContainer = styled(Grid)`
   && {
@@ -21,7 +25,7 @@ const GridContainer = styled(Grid)`
 `;
 
 function ChangePasswordForm() {
-  const { user, changePassword } = UserAuth();
+  const { user, credential } = UserAuth();
 
   const [showEdit, setShowEdit] = useState(false);
 
@@ -42,7 +46,8 @@ function ChangePasswordForm() {
   // updatePassword 실행하기
 
   const onSubmit = async (values) => {
-
+    await reauthenticateWithCredential(user, credential);
+    console.log("?")
   };
 
   const { values, handleBlur, handleChange, errors, handleSubmit, touched } =
