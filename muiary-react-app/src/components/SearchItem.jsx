@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { RiAddCircleFill } from "react-icons/ri";
+import { DotIcon } from "../assets/svgs/index";
 
 const GridContainer = styled(Grid)`
   && {
@@ -11,8 +12,18 @@ const GridContainer = styled(Grid)`
 
 const StyledGrid = styled(Grid)`
   && {
-    font-size: 13px;
+    font-size: 14px;
     padding: 10px;
+    line-height: 20px;
+    .trackname {
+      font-weight: 600;
+    }
+    .artist {
+      color: #696969;
+    }
+    .album {
+      color: #a9a9a9;
+    }
   }
 `;
 
@@ -27,7 +38,12 @@ const Btn = styled.button`
   }
 `;
 
+const addDataHandler = (data) => {
+  return songData(data);
+};
+
 const SearchItem = ({
+  searchData,
   collectionName,
   artistName,
   trackName,
@@ -35,10 +51,10 @@ const SearchItem = ({
   releaseDate,
 }) => (
   <GridContainer container>
-    <Grid item>
+    <Grid item xs={2.5}>
       <img src={artworkUrl100} alt="artword" />
     </Grid>
-    <StyledGrid item xs={8}>
+    <StyledGrid item xs={8.5}>
       <Grid container direction="column" justifyContent="center">
         <Grid item className="trackname">
           {trackName}
@@ -48,17 +64,13 @@ const SearchItem = ({
         </Grid>
         <Grid item className="album">
           {collectionName}
-        </Grid>
-        <Grid item className="year">
+          <DotIcon />
           {releaseDate}
         </Grid>
       </Grid>
     </StyledGrid>
     <Grid item xs={1}>
-      {/* <Btn onClick={this.addDataHandler.bind(this, this.props.data)}>
-        <RiAddCircleFill />
-      </Btn> */}
-      <Btn>
+      <Btn onClick={addDataHandler.bind(this, searchData)}>
         <RiAddCircleFill />
       </Btn>
     </Grid>

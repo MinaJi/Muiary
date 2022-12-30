@@ -41,11 +41,13 @@ const StyledContainer = styled(Grid)`
   }
 `;
 
-function CreateItem() {
+function CreateItem({ songData }) {
   const { user } = UserAuth();
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+
+  // console.log("? " + songData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,6 +64,9 @@ function CreateItem() {
     <StyledContainer container direction="column" alignItems="center">
       <form onSubmit={handleSubmit}>
         <Grid item className="addInfo">
+          {/* 데이터가 넘어오면 버튼이 사라지게? / 아니면 삭제버튼?
+          아니면 다시검색할수도 있으니 검색버튼 그래도 놔둬야하나? 
+          / 그리드 영역 안에는 넘어온 데이터의 아트워크url이 보이게 */}
           <button
             className="iconBtn"
             onClick={(e) => {

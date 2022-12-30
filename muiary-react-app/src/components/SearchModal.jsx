@@ -7,7 +7,6 @@ import SearchBar from "./searchbar";
 import { itunesApiRequest, mediaTypes } from "../apis/api";
 import NoResults from "./NoResults";
 import { Component } from "react";
-import { useEffect } from "react";
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -64,8 +63,8 @@ class SearchModal extends Component {
 
   async updateSearch(text, media) {
     const response = await itunesApiRequest(text, media);
-    // console.log(response.results[0].releaseDate);
     this.setState({ searchResults: response.results });
+    console.log(response.results);
   }
 
   // async updateSearch(text, media) {
@@ -79,18 +78,6 @@ class SearchModal extends Component {
   render() {
     const { searchResults } = this.state;
     const closeModal = this.props.closeModal;
-
-    // const dateFormat = (id, releaseDate) => {
-    //   searchResults.map(()=>({
-    //     releaseDate: "2022"
-    //   }))
-    // }
-
-    // useEffect(() => {
-    //   searchResults.map(() => ({
-    //     releaseDate: "2022",
-    //   }));
-    // });
 
     return (
       <ModalBackground>
@@ -122,7 +109,14 @@ class SearchModal extends Component {
             />
           </Grid>
           <Grid item className="searchResults">
-            <SearchResultList items={searchResults} />
+            {this.state.searchResults <= 0 ? (
+              <NoResults />
+            ) : (
+              <SearchResultList
+                items={searchResults}
+                data={this.state.searchResults}
+              />
+            )}
           </Grid>
         </ModalContainer>
       </ModalBackground>
