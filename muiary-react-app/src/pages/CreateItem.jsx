@@ -41,13 +41,11 @@ const StyledContainer = styled(Grid)`
   }
 `;
 
-function CreateItem({ songData }) {
+function CreateItem({ props }) {
   const { user } = UserAuth();
   const [openModal, setOpenModal] = useState(false);
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-
-  // console.log("? " + songData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

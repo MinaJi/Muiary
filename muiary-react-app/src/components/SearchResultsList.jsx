@@ -9,13 +9,13 @@ const Div = styled.div`
   padding: 10px;
 `;
 
-const SearchResultsList = ({ items }) => {
+const SearchResultsList = ({ items, closeModal }) => {
   items.forEach((element) => {
     element.releaseDate = moment.utc(element.releaseDate).format("YYYY");
   });
 
   const itemsArray = items.map((item, index) => (
-    <SearchItem key={index} {...item} searchData={item} />
+    <SearchItem key={index} {...item} searchData={item} closeModal={closeModal} />
   ));
   return <Div>{itemsArray}</Div>;
 };

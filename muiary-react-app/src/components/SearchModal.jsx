@@ -64,7 +64,7 @@ class SearchModal extends Component {
   async updateSearch(text, media) {
     const response = await itunesApiRequest(text, media);
     this.setState({ searchResults: response.results });
-    console.log(response.results);
+    // console.log(response.results);
   }
 
   // async updateSearch(text, media) {
@@ -110,14 +110,22 @@ class SearchModal extends Component {
           </Grid>
           <Grid item className="searchResults">
             {this.state.searchResults <= 0 ? (
-              <NoResults />
+              <NoResults closeModal={closeModal} />
             ) : (
               <SearchResultList
                 items={searchResults}
                 data={this.state.searchResults}
+                closeModal={closeModal}
               />
             )}
           </Grid>
+          <button
+            onClick={(e) => {
+              closeModal(false);
+            }}
+          >
+            닫기
+          </button>
         </ModalContainer>
       </ModalBackground>
     );

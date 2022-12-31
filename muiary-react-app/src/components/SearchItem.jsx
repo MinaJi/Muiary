@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { RiAddCircleFill } from "react-icons/ri";
 import { DotIcon } from "../assets/svgs/index";
+import { Component } from "react";
 
 const GridContainer = styled(Grid)`
   && {
@@ -38,43 +39,64 @@ const Btn = styled.button`
   }
 `;
 
-const addDataHandler = (data) => {
-  return songData(data);
-};
+class SearchItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      songData: "",
+    };
+  }
 
-const SearchItem = ({
-  searchData,
-  collectionName,
-  artistName,
-  trackName,
-  artworkUrl100,
-  releaseDate,
-}) => (
-  <GridContainer container>
-    <Grid item xs={2.5}>
-      <img src={artworkUrl100} alt="artword" />
-    </Grid>
-    <StyledGrid item xs={8.5}>
-      <Grid container direction="column" justifyContent="center">
-        <Grid item className="trackname">
-          {trackName}
+  addDataHandler = (data) => {
+    this.setState({ songData: data });
+    this.props.closeModal(false);
+    // console.log(data);
+  };
+
+  render() {
+    const {
+      artworkUrl100,
+      trackName,
+      artistName,
+      collectionName,
+      releaseDate,
+      searchData,
+    } = this.props;
+
+    const closeModal = this.props.closeModal;
+
+    return (
+      <GridContainer container>
+        <Grid item xs={2.5}>
+          <img src={artworkUrl100} alt="artwork" />
         </Grid>
-        <Grid item className="artist">
-          {artistName}
+        <StyledGrid item xs={8.5}>
+          <Grid container direction="column" justifyContent="center">
+            <Grid item className="trackname">
+              {trackName}
+            </Grid>
+            <Grid item className="artist">
+              {artistName}
+            </Grid>
+            <Grid item className="album">
+              {collectionName}
+              <DotIcon />
+              {releaseDate}
+            </Grid>
+          </Grid>
+        </StyledGrid>
+        <Grid item xs={1}>
+          <Btn
+            onClick={() => {
+              closeModal(false);
+            }}
+          >
+            <RiAddCircleFill />
+          </Btn>
         </Grid>
-        <Grid item className="album">
-          {collectionName}
-          <DotIcon />
-          {releaseDate}
-        </Grid>
-      </Grid>
-    </StyledGrid>
-    <Grid item xs={1}>
-      <Btn onClick={addDataHandler.bind(this, searchData)}>
-        <RiAddCircleFill />
-      </Btn>
-    </Grid>
-  </GridContainer>
-);
+      </GridContainer>
+    );
+  }
+}
 
 export default SearchItem;
