@@ -41,6 +41,18 @@ const StyledContainer = styled(Grid)`
   }
 `;
 
+const Btn = styled.button`
+  background-color: black;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  :hover {
+    background-color: #f73859;
+  }
+`;
+
 function CreateItem({ props }) {
   const { user } = UserAuth();
   const [openModal, setOpenModal] = useState(false);
@@ -62,9 +74,6 @@ function CreateItem({ props }) {
     <StyledContainer container direction="column" alignItems="center">
       <form onSubmit={handleSubmit}>
         <Grid item className="addInfo">
-          {/* 데이터가 넘어오면 버튼이 사라지게? / 아니면 삭제버튼?
-          아니면 다시검색할수도 있으니 검색버튼 그래도 놔둬야하나? 
-          / 그리드 영역 안에는 넘어온 데이터의 아트워크url이 보이게 */}
           <button
             className="iconBtn"
             onClick={(e) => {
@@ -75,11 +84,11 @@ function CreateItem({ props }) {
             <RiAddCircleLine />
           </button>
         </Grid>
-        <Grid item>
+        <Grid item className="title-wrapper">
           <p>Title</p>
           <input className="title" onChange={(e) => setTitle(e.target.value)} />
         </Grid>
-        <Grid item>
+        <Grid item className="contents-wrapper">
           <p>Contents</p>
           <textarea
             className="contents"
@@ -87,7 +96,7 @@ function CreateItem({ props }) {
           />
         </Grid>
         <Grid item>
-          <button type="submit">Submit</button>
+          <Btn type="submit">Submit</Btn>
         </Grid>
       </form>
       {openModal && <SearchModal closeModal={setOpenModal} />}

@@ -119,13 +119,6 @@ class SearchModal extends Component {
               />
             )}
           </Grid>
-          <button
-            onClick={(e) => {
-              closeModal(false);
-            }}
-          >
-            닫기
-          </button>
         </ModalContainer>
       </ModalBackground>
     );

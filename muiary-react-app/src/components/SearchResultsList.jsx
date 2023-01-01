@@ -15,7 +15,12 @@ const SearchResultsList = ({ items, closeModal }) => {
   });
 
   const itemsArray = items.map((item, index) => (
-    <SearchItem key={index} {...item} searchData={item} closeModal={closeModal} />
+    <SearchItem
+      key={index}
+      {...item}
+      searchData={item}
+      closeModal={closeModal}
+    />
   ));
   return <Div>{itemsArray}</Div>;
 };

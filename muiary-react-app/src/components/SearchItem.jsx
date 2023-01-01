@@ -47,10 +47,11 @@ class SearchItem extends Component {
     };
   }
 
-  addDataHandler = (data) => {
-    this.setState({ songData: data });
-    this.props.closeModal(false);
-    // console.log(data);
+  addDataHandler = (data, closeModal) => {
+    console.log(data);
+    closeModal(false);
+    return 
+    // this.setState({ songData: data });
   };
 
   render() {
@@ -86,11 +87,7 @@ class SearchItem extends Component {
           </Grid>
         </StyledGrid>
         <Grid item xs={1}>
-          <Btn
-            onClick={() => {
-              closeModal(false);
-            }}
-          >
+          <Btn onClick={this.addDataHandler.bind(this, searchData, closeModal)}>
             <RiAddCircleFill />
           </Btn>
         </Grid>

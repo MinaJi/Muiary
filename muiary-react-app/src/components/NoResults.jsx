@@ -14,19 +14,12 @@ const Div = styled(Grid)`
   }
 `;
 
-function NoResults({ closeModal }) {
+function NoResults() {
   return (
     <Div container alignItems="center" justifyContent="center">
       <Grid item>
         <p>No Search Results</p>
       </Grid>
-      <button
-        onClick={() => {
-          closeModal(false);
-        }}
-      >
-        닫기
-      </button>
     </Div>
   );
 }
