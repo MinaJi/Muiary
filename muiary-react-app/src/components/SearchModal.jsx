@@ -16,6 +16,8 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #00000030;
+  top: 0;
+  z-index: 300;
 `;
 
 const ModalContainer = styled(Grid)`
@@ -64,20 +66,12 @@ class SearchModal extends Component {
   async updateSearch(text, media) {
     const response = await itunesApiRequest(text, media);
     this.setState({ searchResults: response.results });
-    // console.log(response.results);
   }
-
-  // async updateSearch(text, media) {
-  //   const response = await itunesApiRequest(text, media);
-  //   const artWorkUrl = response.results[].artworkUrl100;
-  //   this.setState({ searchResults: response.results });
-  //   console.log("주소" + artWorkUrl);
-  //   console.log("데이터?" + response.results[0].artworkUrl100);
-  // }
 
   render() {
     const { searchResults } = this.state;
     const closeModal = this.props.closeModal;
+    const setSongData = this.props.setSongData;
 
     return (
       <ModalBackground>
@@ -116,6 +110,7 @@ class SearchModal extends Component {
                 items={searchResults}
                 data={this.state.searchResults}
                 closeModal={closeModal}
+                setSongData={setSongData}
               />
             )}
           </Grid>

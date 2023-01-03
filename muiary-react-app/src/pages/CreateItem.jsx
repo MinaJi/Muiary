@@ -7,9 +7,11 @@ import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
+import MainHeader from "../components/MainHeader";
 
 const StyledContainer = styled(Grid)`
   && {
+    padding-top: 65px;
     font-size: 30px;
     input,
     textarea {
@@ -17,20 +19,34 @@ const StyledContainer = styled(Grid)`
       border: 1px solid gray;
       border-radius: 10px;
     }
-    .addInfo {
+    .form-wrapper {
+      width: 700px;
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid silver;
+    }
+    .add {
       width: 150px;
       height: 150px;
       border: 1px solid black;
       border-radius: 10px;
     }
-    .iconBtn {
+    .icon-btn {
+      width: 50px;
+      height: 50px;
       background-color: inherit;
       border: none;
       cursor: pointer;
       display: block;
       margin: 0 auto;
       margin-top: 50px;
-      font-size: 50px;
+      font-size: 30px;
+      :hover {
+        color: #f73859;
+      }
+    }
+    .songdata-wrapper {
+      background-color: lightblue;
     }
     .title {
       height: 40px;
@@ -53,9 +69,10 @@ const Btn = styled.button`
   }
 `;
 
-function CreateItem({ props }) {
+function CreateItem() {
   const { user } = UserAuth();
   const [openModal, setOpenModal] = useState(false);
+  const [songData, setSongData] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
@@ -65,42 +82,68 @@ function CreateItem({ props }) {
       userId: user.uid,
       title: title,
       contents: contents,
-      musicItem: "",
+      musicItem: songData,
     });
     console.log("글작성완료~");
   };
 
   return (
-    <StyledContainer container direction="column" alignItems="center">
-      <form onSubmit={handleSubmit}>
-        <Grid item className="addInfo">
-          <button
-            className="iconBtn"
-            onClick={(e) => {
-              e.preventDefault();
-              setOpenModal(true);
-            }}
-          >
-            <RiAddCircleLine />
-          </button>
+    <>
+      <MainHeader />
+      {/* <img src={songData.artworkUrl100} alt="none" width="500px" /> */}
+      <StyledContainer container direction="column" alignItems="center">
+        <Grid item className="form-wrapper">
+          <form onSubmit={handleSubmit}>
+            <Grid container className="songdata-wrapper">
+              <Grid item xs={3}>
+                <div className="add">
+                  <button
+                    className="icon-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenModal(true);
+                    }}
+                  >
+                    <RiAddCircleLine />
+                  </button>
+                </div>
+              </Grid>
+              <Grid item xs={9}>
+                {songData ? (
+                  <div>
+                    <p>{songData.collectionName}</p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>No songs selected...</p>
+                  </div>
+                )}
+              </Grid>
+            </Grid>
+            <Grid item className="title-wrapper">
+              <p>Title</p>
+              <input
+                className="title"
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid item className="contents-wrapper">
+              <p>Contents</p>
+              <textarea
+                className="contents"
+                onChange={(e) => setContents(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <Btn type="submit">Submit</Btn>
+            </Grid>
+          </form>
         </Grid>
-        <Grid item className="title-wrapper">
-          <p>Title</p>
-          <input className="title" onChange={(e) => setTitle(e.target.value)} />
-        </Grid>
-        <Grid item className="contents-wrapper">
-          <p>Contents</p>
-          <textarea
-            className="contents"
-            onChange={(e) => setContents(e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <Btn type="submit">Submit</Btn>
-        </Grid>
-      </form>
-      {openModal && <SearchModal closeModal={setOpenModal} />}
-    </StyledContainer>
+        {openModal && (
+          <SearchModal closeModal={setOpenModal} setSongData={setSongData} />
+        )}
+      </StyledContainer>
+    </>
   );
 }
 

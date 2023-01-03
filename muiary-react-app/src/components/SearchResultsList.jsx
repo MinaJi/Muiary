@@ -9,7 +9,7 @@ const Div = styled.div`
   padding: 10px;
 `;
 
-const SearchResultsList = ({ items, closeModal }) => {
+const SearchResultsList = ({ items, closeModal, setSongData }) => {
   items.forEach((element) => {
     element.releaseDate = moment.utc(element.releaseDate).format("YYYY");
   });
@@ -20,6 +20,7 @@ const SearchResultsList = ({ items, closeModal }) => {
       {...item}
       searchData={item}
       closeModal={closeModal}
+      setSongData={setSongData}
     />
   ));
   return <Div>{itemsArray}</Div>;

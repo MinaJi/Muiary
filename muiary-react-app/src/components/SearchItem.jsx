@@ -47,11 +47,12 @@ class SearchItem extends Component {
     };
   }
 
-  addDataHandler = (data, closeModal) => {
+  addDataHandler = (data, closeModal, setSongData) => {
     console.log(data);
+    const url = data.artworkUrl100;
+    data.artworkUrl100 = url.replace(/100x100bb.jpg/g, "/1200x1200bb.jpg");
+    setSongData(data);
     closeModal(false);
-    return 
-    // this.setState({ songData: data });
   };
 
   render() {
@@ -65,6 +66,7 @@ class SearchItem extends Component {
     } = this.props;
 
     const closeModal = this.props.closeModal;
+    const setSongData = this.props.setSongData;
 
     return (
       <GridContainer container>
@@ -87,7 +89,14 @@ class SearchItem extends Component {
           </Grid>
         </StyledGrid>
         <Grid item xs={1}>
-          <Btn onClick={this.addDataHandler.bind(this, searchData, closeModal)}>
+          <Btn
+            onClick={this.addDataHandler.bind(
+              this,
+              searchData,
+              closeModal,
+              setSongData
+            )}
+          >
             <RiAddCircleFill />
           </Btn>
         </Grid>
