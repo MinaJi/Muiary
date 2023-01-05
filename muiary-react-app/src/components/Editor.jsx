@@ -1,30 +1,66 @@
-import React from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-function Editor() {
-  return (
-    <CKEditor
-      editor={ClassicEditor}
-      data="<p>Hello from CKEditor 5!</p>"
-      onReady={(editor) => {
-        // You can store the "editor" and use when it is needed.
-        console.log("Editor is ready to use!", editor);
-      }}
-      onChange={(event, editor) => {
-        const data = editor.getData();
-        console.log({ event, editor, data });
-      }}
-      onBlur={(event, editor) => {
-        console.log("Blur.", editor);
-      }}
-      onFocus={(event, editor) => {
-        console.log("Focus.", editor);
-      }}
-    />
-  );
+class Editor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { editorHtml: "", theme: "snow" };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(html) {
+    this.setState({ editorHtml: html });
+    console.log(html);
+  }
+
+  render() {
+    return (
+      <div>
+        <ReactQuill
+          theme={this.state.theme}
+          onChange={this.handleChange}
+          value={this.state.editorHtml}
+          modules={Editor.modules}
+          formats={Editor.formats}
+          bounds={".app"}
+        />
+      </div>
+    );
+  }
 }
 
-export default Editor;
+Editor.modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
 
-// 리액트 Html parser 적용하기
+Editor.formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+];
+
+export default Editor;

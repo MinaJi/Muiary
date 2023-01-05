@@ -9,10 +9,11 @@ import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import MainHeader from "../components/MainHeader";
 import { DotIcon } from "../assets/svgs/index";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import parser from "html-react-parser";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -126,6 +127,9 @@ function CreateItem() {
     console.log("글작성완료~");
     navi(-1);
   };
+
+  const [addData, setVal] = useState("");
+  const [addedData, showData] = useState(0);
 
   return (
     <>
