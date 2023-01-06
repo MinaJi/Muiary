@@ -1,29 +1,33 @@
-import { async } from "@firebase/util";
-import { onAuthStateChanged } from "firebase/auth";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { Grid } from "@mui/material";
+import React from "react";
+import { BiGridAlt } from "react-icons/bi";
 import styled from "styled-components";
-import { UserAuth } from "../context/AuthContext";
-import { auth, db } from "../firebase-config";
 
-function BoardItem() {
-  const { user } = UserAuth();
-  const [boardItem, setBoardItem] = useState();
+const Bg = styled.div`
+  width: 200px;
+  height: 250px;
+  filter: blur(1rem);
+`;
 
-  useEffect(() => {
-    const docRef = doc(db, `${user?.uid}/boardItems`);
-    const docSnap = getDoc(docRef);
+const GridContainer = styled(Grid)`
+  && {
+    width: max-content;
+    height: max-content;
+    padding: 20px;
+  }
+`;
 
-    const ordersRef = collection(db, `users/${user?.uid}/boardItems`);
-    const ordersQuerySnapshot = getDocs(ordersRef);
-
-    ordersQuerySnapshot.docs.forEach((doc) => {
-      console.log(doc.id, doc.data());
-    });
-  }, []);
-
-  return <div></div>;
+function BoardItem({ artwork, title, date }) {
+  return (
+    <GridContainer container direction="column">
+      {/* <Bg style={{ backgroundImage: `url(${artwork})` }} /> */}
+      <Grid item>
+        <img src={artwork} width="250px" alt="artwork" />
+      </Grid>
+      <Grid item>{title}</Grid>
+      <Grid item>{date}</Grid>
+    </GridContainer>
+  );
 }
 
 export default BoardItem;

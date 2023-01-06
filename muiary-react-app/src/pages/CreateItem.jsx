@@ -1,5 +1,5 @@
 import { Divider, Grid } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
@@ -11,6 +11,7 @@ import MainHeader from "../components/MainHeader";
 import { DotIcon } from "../assets/svgs/index";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
+import moment, { now } from "moment";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -108,6 +109,8 @@ function CreateItem() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
+  const date = moment().format('YYYY-MM-DD, h:mm:ss a');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await addDoc(collection(db, "users", `${user.uid}`, "boardItems"), {
@@ -115,6 +118,7 @@ function CreateItem() {
       title: title,
       contents: contents,
       musicItem: songData,
+      date: date,
       like: false,
       saved: false,
     });

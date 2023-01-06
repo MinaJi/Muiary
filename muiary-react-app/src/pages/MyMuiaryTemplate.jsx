@@ -6,27 +6,34 @@ import MainHeader from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
 import MyBoardItemLists from "../components/MyBoardItemLists";
 
-const ProfileDiv = styled(Grid)`
+const GridContainer = styled(Grid)`
   && {
-    background-color: ${(props) => props.theme.profileBgColor};
-    color: ${(props) => props.theme.textColor};
-    height: 100vh;
+    .side-div {
+      background-color: ${(props) => props.theme.profileBgColor};
+      color: ${(props) => props.theme.textColor};
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+    .contents {
+      margin-top: 60px;
+    }
   }
 `;
 
 function MyMuiaryTemplate() {
   const navi = useNavigate();
   return (
-    <Grid container>
+    <GridContainer container>
       <MainHeader />
-      <ProfileDiv item xs={3}>
+      <Grid item xs={2} className="side-div">
         <MuiaryProfile />
-      </ProfileDiv>
-      <Grid item xs={9} style={{ paddingTop: "90px" }}>
+      </Grid>
+      <Grid item xs={10} className="contents">
         <MyBoardItemLists />
         <button onClick={() => navi("/mymuiary/upload")}>글쓰기</button>
       </Grid>
-    </Grid>
+    </GridContainer>
   );
 }
 
