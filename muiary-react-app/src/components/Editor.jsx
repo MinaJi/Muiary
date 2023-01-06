@@ -11,6 +11,7 @@ class Editor extends React.Component {
 
   handleChange(html) {
     this.setState({ editorHtml: html });
+    this.props.setContents(html);
     console.log(html);
   }
 
@@ -43,7 +44,6 @@ Editor.modules = {
     ],
   ],
   clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
     matchVisual: false,
   },
 };

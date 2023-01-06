@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import BoardItem from "./BoardItem";
 
 function MyBoardItemLists() {
   return (
-    <div>MyBoardItemLists</div>
-  )
+    <div>
+      <BoardItem />
+    </div>
+  );
 }
 
-export default MyBoardItemLists
+export default MyBoardItemLists;

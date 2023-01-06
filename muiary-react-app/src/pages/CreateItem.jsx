@@ -11,25 +11,13 @@ import MainHeader from "../components/MainHeader";
 import { DotIcon } from "../assets/svgs/index";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import parser from "html-react-parser";
 
 const StyledContainer = styled(Grid)`
   && {
     padding-top: 65px;
-    font-size: 30px;
-    input,
-    textarea {
-      width: 500px;
-      border: 1px solid gray;
-      border-radius: 10px;
-    }
     .form-wrapper {
       width: 1000px;
       padding: 2rem;
-      /* border-radius: 20px; */
-      /* border: 1px solid silver; */
     }
     .songdata-wrapper {
       padding: 10px;
@@ -64,11 +52,17 @@ const StyledContainer = styled(Grid)`
         color: #f73859;
       }
     }
-    .title {
-      height: 40px;
+    .title-wrapper {
+      padding: 10px;
+      input {
+        height: 40px;
+        width: 500px;
+        border: 1px solid gray;
+        border-radius: 15px;
+      }
     }
-    .contents {
-      height: 300px;
+    .contents-wrapper {
+      padding: 10px;
     }
   }
 `;
@@ -128,9 +122,6 @@ function CreateItem() {
     navi(-1);
   };
 
-  const [addData, setVal] = useState("");
-  const [addedData, showData] = useState(0);
-
   return (
     <>
       <MainHeader />
@@ -138,7 +129,7 @@ function CreateItem() {
         <Grid item className="form-wrapper">
           <form onSubmit={handleSubmit}>
             <Grid container className="songdata-wrapper">
-              <Grid item>
+              <Grid item xs={3}>
                 {songData ? (
                   <div className="artwork">
                     <img src={songData.artworkUrl100} alt="albumArtwork" />
@@ -157,7 +148,7 @@ function CreateItem() {
                   </div>
                 )}
               </Grid>
-              <Grid item>
+              <Grid item xs={9}>
                 {songData ? (
                   <SongDataGrid container direction="column">
                     <Grid item className="trackname">
@@ -200,18 +191,11 @@ function CreateItem() {
             </Grid>
             <Grid item className="title-wrapper">
               <p>Title</p>
-              <input
-                className="title"
-                onChange={(e) => setTitle(e.target.value)}
-              />
+              <input onChange={(e) => setTitle(e.target.value)} />
             </Grid>
             <Grid item className="contents-wrapper">
               <p>Contents</p>
-              {/* <textarea
-                className="contents"
-                onChange={(e) => setContents(e.target.value)}
-              /> */}
-              <Editor />
+              <Editor setContents={setContents} />
             </Grid>
             <Grid item>
               <Btn type="submit">Submit</Btn>
