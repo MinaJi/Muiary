@@ -16,6 +16,9 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeProvider";
 import ToggleSwitch from "./ToggleSwitch";
 import { UserAuth } from "../context/AuthContext";
+import { UserData } from "../context/UserDataContext";
+import { collection, query, where } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const Header = styled(Grid)`
   && {
@@ -69,22 +72,23 @@ const StyledIconBtn = styled(IconButton)`
   }
 `;
 
-const list = [
-  {
-    pages: "My muiary",
-    url: "/mymuiary",
-  },
-  {
-    pages: "menu1",
-    url: "/menu2",
-  },
-];
-
 function MainHeader({ handleOpenUserMenu }) {
   const navi = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [ThemeMode, toggleTheme] = useTheme();
   const { user, logOut } = UserAuth();
+  const { users } = UserData();
+
+  const list = [
+    {
+      pages: "My muiary",
+      url: `/muiary/${users.username}`,
+    },
+    {
+      pages: "Explore",
+      url: "/explore",
+    },
+  ];
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);

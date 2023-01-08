@@ -4,6 +4,7 @@ import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
 import { UserData } from "../context/UserDataContext";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const AvatarGrid = styled(Grid)`
   && {
@@ -41,13 +42,14 @@ const EditBtn = styled.button`
 function MuiaryProfile() {
   const { user } = UserAuth();
   const { users } = UserData();
+  const { username } = useParams();
 
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const handleEdit = () => {
     setOpenEditModal(true);
   };
-
+  
   return (
     <>
       <Grid container direction="column" alignItems="center">

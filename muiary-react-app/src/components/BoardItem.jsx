@@ -17,7 +17,7 @@ const GridContainer = styled(Grid)`
   }
 `;
 
-function BoardItem({ artwork, title, date }) {
+function BoardItem({ artwork, title, date, username }) {
   return (
     <GridContainer container direction="column">
       {/* <Bg style={{ backgroundImage: `url(${artwork})` }} /> */}
@@ -26,8 +26,11 @@ function BoardItem({ artwork, title, date }) {
       </Grid>
       <Grid item>{title}</Grid>
       <Grid item>{date}</Grid>
+      <Grid item>{username}</Grid>
     </GridContainer>
   );
 }
+
+// 정렬순서 날짜순으로 보이게 수정하기!!
 
 export default BoardItem;

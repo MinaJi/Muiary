@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import MainHeader from "../components/MainHeader";
@@ -12,6 +12,7 @@ import { DotIcon } from "../assets/svgs/index";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 import moment, { now } from "moment";
+import { UserData } from "../context/UserDataContext";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -104,17 +105,19 @@ const SongDataGrid = styled(Grid)`
 function CreateItem() {
   const navi = useNavigate();
   const { user } = UserAuth();
+  const { users } = UserData();
   const [openModal, setOpenModal] = useState(false);
   const [songData, setSongData] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
-  const date = moment().format('YYYY-MM-DD, h:mm:ss a');
+  const date = moment().format("YYYY-MM-DD, h:mm:ss a");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addDoc(collection(db, "users", `${user.uid}`, "boardItems"), {
+    await addDoc(collection(db, "boardItems"), {
       userId: user.uid,
+      username: users.username,
       title: title,
       contents: contents,
       musicItem: songData,
@@ -125,6 +128,21 @@ function CreateItem() {
     console.log("글작성완료~");
     navi(-1);
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   await addDoc(collection(db, "users", `${user.uid}`, "boardItems"), {
+  //     userId: user.uid,
+  //     title: title,
+  //     contents: contents,
+  //     musicItem: songData,
+  //     date: date,
+  //     like: false,
+  //     saved: false,
+  //   });
+  //   console.log("글작성완료~");
+  //   navi(-1);
+  // };
 
   return (
     <>
