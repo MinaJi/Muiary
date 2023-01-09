@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { db } from "../firebase-config";
 import { Grid } from "@mui/material";
-import BoardItem from "./BoardItem";
 import { useParams } from "react-router-dom";
+import BoardItemCard from "./BoardItemCard";
+import Skeleton from "react-loading-skeleton";
 
 function MyBoardItemLists() {
   const { username } = useParams();
   const [boardItem, setBoardItem] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function getAllDocs() {
     const boardDocs = {};
@@ -34,6 +36,7 @@ function MyBoardItemLists() {
       }
     };
     getBoardDocs();
+    setIsLoading(true);
   }, []);
 
   return (
@@ -41,7 +44,7 @@ function MyBoardItemLists() {
       {boardItem ? (
         <Grid container>
           {Object.keys(boardItem).map((item, i) => (
-            <BoardItem
+            <BoardItemCard
               key={i}
               artwork={boardItem[item].musicItem.artworkUrl100}
               title={boardItem[item].title}
