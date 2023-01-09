@@ -4,6 +4,7 @@ import { BiGridAlt } from "react-icons/bi";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useNavigate } from "react-router-dom";
 
 const Bg = styled.div`
   width: 200px;
@@ -16,6 +17,10 @@ const GridContainer = styled(Grid)`
     width: max-content;
     height: max-content;
     padding: 20px;
+    img {
+      width: 250px;
+      cursor: pointer;
+    }
     .content {
       margin-top: 6px;
       line-height: 23px;
@@ -30,12 +35,20 @@ const GridContainer = styled(Grid)`
   }
 `;
 
-function BoardItemCard({ artwork, title, date, username }) {
+function BoardItemCard({ artwork, title, date, itemId }) {
+  const navi = useNavigate();
+
   return (
     <GridContainer container direction="column">
       {/* <Bg style={{ backgroundImage: `url(${artwork})` }} /> */}
       <Grid item>
-        <img src={artwork} width="250px" alt="artwork" />
+        <img
+          src={artwork}
+          alt="artwork"
+          onClick={() => {
+            navi(`/muiary/pages/${itemId}`);
+          }}
+        />
       </Grid>
       <Grid item className="content">
         <Grid item className="title">

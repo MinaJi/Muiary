@@ -5,7 +5,7 @@ import { db } from "../firebase-config";
 import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import BoardItemCard from "./BoardItemCard";
-import Skeleton from "react-loading-skeleton";
+import SkeletonCard from "./SkeletonCard";
 
 function MyBoardItemLists() {
   const { username } = useParams();
@@ -31,17 +31,22 @@ function MyBoardItemLists() {
       try {
         const getBoardDocs = await getAllDocs();
         setBoardItem(getBoardDocs);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     getBoardDocs();
-    setIsLoading(true);
   }, []);
 
   return (
     <>
-      {boardItem ? (
+      {isLoading && (
+        <Grid container>
+          <SkeletonCard cards={3} />
+        </Grid>
+      )}
+      {!isLoading && (
         <Grid container>
           {Object.keys(boardItem).map((item, i) => (
             <BoardItemCard
@@ -50,11 +55,10 @@ function MyBoardItemLists() {
               title={boardItem[item].title}
               date={boardItem[item].date}
               username={boardItem[item].username}
+              itemId={item}
             />
           ))}
         </Grid>
-      ) : (
-        <div style={{ backgroundColor: "red" }}>없음</div>
       )}
     </>
   );

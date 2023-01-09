@@ -1,6 +1,8 @@
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import MyBoardItemLists from "./components/MyBoardItemLists";
 import { UserAuth } from "./context/AuthContext";
+import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
 import Main from "./pages/Main";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
@@ -49,7 +51,22 @@ function Router() {
             </RequireAuth>
           }
         />
-        <Route path="/mymuiary/upload" element={<CreateItem />} />
+        <Route
+          path="/muiary/pages/:itemId"
+          element={
+            <RequireAuth>
+              <BoardItem />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/muiary/upload"
+          element={
+            <RequireAuth>
+              <CreateItem />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </>
   );
