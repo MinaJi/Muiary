@@ -129,21 +129,6 @@ function CreateItem() {
     navi(-1);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   await addDoc(collection(db, "users", `${user.uid}`, "boardItems"), {
-  //     userId: user.uid,
-  //     title: title,
-  //     contents: contents,
-  //     musicItem: songData,
-  //     date: date,
-  //     like: false,
-  //     saved: false,
-  //   });
-  //   console.log("글작성완료~");
-  //   navi(-1);
-  // };
-
   return (
     <>
       <MainHeader />

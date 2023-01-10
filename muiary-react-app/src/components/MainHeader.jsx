@@ -17,8 +17,6 @@ import { useTheme } from "../context/themeProvider";
 import ToggleSwitch from "./ToggleSwitch";
 import { UserAuth } from "../context/AuthContext";
 import { UserData } from "../context/UserDataContext";
-import { collection, query, where } from "firebase/firestore";
-import { db } from "../firebase-config";
 
 const Header = styled(Grid)`
   && {

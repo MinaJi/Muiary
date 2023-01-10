@@ -2,7 +2,6 @@ import { Grid } from "@mui/material";
 import {
   collection,
   documentId,
-  getDoc,
   getDocs,
   query,
   where,
@@ -14,12 +13,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SingleItem from "../components/SingleItem";
 import { db } from "../firebase-config";
-
-const Bg = styled.div`
-  width: 200px;
-  height: 250px;
-  filter: blur(1rem);
-`;
 
 function BoardItem() {
   const { itemId } = useParams();
