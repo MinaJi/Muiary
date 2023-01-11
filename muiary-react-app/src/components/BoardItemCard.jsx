@@ -6,12 +6,6 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useNavigate } from "react-router-dom";
 
-const Bg = styled.div`
-  width: 200px;
-  height: 250px;
-  filter: blur(1rem);
-`;
-
 const GridContainer = styled(Grid)`
   && {
     width: max-content;
@@ -27,6 +21,9 @@ const GridContainer = styled(Grid)`
     }
     .title {
       font-weight: 500;
+      p {
+        cursor: pointer;
+      }
     }
     .date {
       font-size: 15px;
@@ -52,7 +49,13 @@ function BoardItemCard({ artwork, title, date, itemId }) {
       </Grid>
       <Grid item className="content">
         <Grid item className="title">
-          <p>{title}</p>
+          <p
+            onClick={() => {
+              navi(`/muiary/pages/${itemId}`);
+            }}
+          >
+            {title}
+          </p>
         </Grid>
         <Grid item className="date">
           <p>{date}</p>

@@ -4,8 +4,15 @@ import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
 import { useState } from "react";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import {
+  addDoc,
+  collection,
+  doc,
+  Firestore,
+  setDoc,
+  Timestamp,
+} from "firebase/firestore";
+import { db, serverStamp } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import MainHeader from "../components/MainHeader";
 import { DotIcon } from "../assets/svgs/index";
@@ -111,7 +118,7 @@ function CreateItem() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
-  const date = moment().format("YYYY-MM-DD, h:mm:ss a");
+  const date = moment().format("YYYY-MM-DD, LTS");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,6 +129,7 @@ function CreateItem() {
       contents: contents,
       musicItem: songData,
       date: date,
+      timestamp: new Date(),
       like: false,
       saved: false,
     });

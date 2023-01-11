@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
-import { UserData } from "../context/UserDataContext";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const AvatarGrid = styled(Grid)`
@@ -44,6 +43,7 @@ const EditBtn = styled.button`
 
 function MuiaryProfile() {
   const { username } = useParams();
+  const { user } = UserAuth();
   const [userdata, setUserdata] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
 
@@ -99,6 +99,11 @@ function MuiaryProfile() {
           <Grid item>
             <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
           </Grid>
+          {user.uid !== item && (
+            <Grid item>
+              <button>팔로우하기</button>
+            </Grid>
+          )}
         </Grid>
       ))}
     </>

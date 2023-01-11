@@ -49,10 +49,15 @@ function BoardItem() {
         <SingleItem
           key={i}
           artwork={boardItem[item].musicItem.artworkUrl100}
+          trackName={boardItem[item].musicItem.trackName}
+          artistName={boardItem[item].musicItem.artistName}
+          collectionName={boardItem[item].musicItem.collectionName}
+          releaseDate={boardItem[item].musicItem.releaseDate}
           title={boardItem[item].title}
+          contents={boardItem[item].contents}
           date={boardItem[item].date}
           username={boardItem[item].username}
-          contents={boardItem[item].contents}
+          userId={boardItem[item].userId}
         />
       ))}
     </>

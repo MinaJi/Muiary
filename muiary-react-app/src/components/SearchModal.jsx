@@ -78,7 +78,7 @@ class SearchModal extends Component {
         <ModalContainer container>
           <Grid container className="title">
             <Grid item xs={11}>
-              <h1>Search</h1>
+              <p style={{ fontSize: "28px" }}>Search</p>
             </Grid>
             <Grid item xs={1} className="titleCloseBtn">
               <button

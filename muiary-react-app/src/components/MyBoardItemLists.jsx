@@ -6,6 +6,7 @@ import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import BoardItemCard from "./BoardItemCard";
 import SkeletonCard from "./SkeletonCard";
+import moment from "moment";
 
 function MyBoardItemLists() {
   const { username } = useParams();
@@ -17,7 +18,7 @@ function MyBoardItemLists() {
     const q = query(
       collection(db, "boardItems"),
       where("username", "==", `${username}`),
-      orderBy("date", "desc")
+      orderBy("timestamp", "desc")
     );
     const qSnapshot = await getDocs(q);
     qSnapshot.forEach((doc) => {

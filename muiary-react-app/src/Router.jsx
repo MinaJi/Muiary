@@ -30,27 +30,31 @@ function Router() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/password-reset" element={<ResetPassword />} />
-        <Route
-          path="/mypage"
-          element={
-            <RequireAuth>
-              <Mypage />
-            </RequireAuth>
-          }
-        >
-          <Route path="/mypage/profile" element={<MypageProfile />} />
-          <Route path="/mypage/account" element={<MypageAccount />} />
-          <Route path="/mypage/saved" element={<MypageSaved />} />
-          <Route path="/mypage/liked" element={<MypageLike />} />
-        </Route>
-        <Route
-          path="/muiary/:username"
-          element={
-            <RequireAuth>
-              <MyMuiaryTemplate />
-            </RequireAuth>
-          }
-        />
+        <>
+          <Route
+            path="/mypage"
+            element={
+              <RequireAuth>
+                <Mypage />
+              </RequireAuth>
+            }
+          >
+            <Route path="profile" element={<MypageProfile />} />
+            <Route path="account" element={<MypageAccount />} />
+            <Route path="saved" element={<MypageSaved />} />
+            <Route path="liked" element={<MypageLike />} />
+          </Route>
+        </>
+        <>
+          <Route
+            path="/muiary/:username"
+            element={
+              <RequireAuth>
+                <MyMuiaryTemplate />
+              </RequireAuth>
+            }
+          />
+        </>
         <Route
           path="/muiary/pages/:itemId"
           element={

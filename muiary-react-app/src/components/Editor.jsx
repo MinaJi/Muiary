@@ -42,6 +42,7 @@ Editor.modules = {
       { indent: "-1" },
       { indent: "+1" },
     ],
+    [{ align: [] }, { color: [] }],
   ],
   clipboard: {
     matchVisual: false,
@@ -61,6 +62,8 @@ Editor.formats = [
   "bullet",
   "indent",
   "link",
+  "align",
+  "color",
 ];
 
 export default Editor;
