@@ -1,7 +1,7 @@
 export async function youtubeSearch(text) {
   const url = new URL("https://www.googleapis.com/youtube/v3/search?");
   const params = {
-    key: "AIzaSyCG22j7IzlgROf-G5UdfagEJXNZCw5FeOI",
+    key: process.env.REACT_APP_API_KEY,
     part: "snippet",
     q: text,
     maxResults: 1,
