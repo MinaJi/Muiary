@@ -9,10 +9,10 @@ import "../css/quill.snow.css";
 import { FastAverageColor } from "fast-average-color";
 import BoardProfile from "./BoardProfile";
 import { UserAuth } from "../context/AuthContext";
-import axios from "axios";
 import { youtubeSearch } from "../apis/youtube";
-import { useState } from "react";
-import { async } from "@firebase/util";
+import MenuIcon from "@mui/icons-material/Menu";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { RiHeart2Line, RiHeart2Fill, RiBookmarkLine } from "react-icons/ri";
 
 const GridContainer = styled(Grid)`
   && {
@@ -45,8 +45,6 @@ const GridContainer = styled(Grid)`
       }
     }
     .title {
-      /* font-size: 50px; */
-      /* font-weight: 800; */
       font-size: 28px;
       font-weight: 600;
     }
@@ -104,11 +102,29 @@ const GridContainer = styled(Grid)`
       }
     }
     .side-nav {
-      button {
+      .menu-items {
         position: fixed;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        font-size: 30px;
+        cursor: pointer;
+        padding-bottom: 6px;
+        :hover {
+          color: #f73859;
+        }
       }
     }
   }
+`;
+
+const Btn = styled.button`
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 35px;
+  padding: 0;
 `;
 
 function SingleItem({
@@ -154,11 +170,13 @@ function SingleItem({
           <Grid container className="header">
             <img src={artwork} alt="artwork" id="artwork-bg" />
           </Grid>
-          <Grid item className="title">
-            <p>{title}</p>
-          </Grid>
-          <Grid item>
-            <p>{date}</p>
+          <Grid item className="title-wrapper">
+            <Grid item>
+              <p className="title">{title}</p>
+            </Grid>
+            <Grid item>
+              <p>{date}</p>
+            </Grid>
           </Grid>
           <Divider />
           <Grid container className="body-wrapper">
@@ -180,7 +198,9 @@ function SingleItem({
                 </Grid>
                 <Divider />
                 <Grid item>
-                  <button onClick={urlOpenHandler}>유튜브</button>
+                  <Btn onClick={urlOpenHandler}>
+                    <YouTubeIcon fontSize="inherit" />
+                  </Btn>
                 </Grid>
               </Grid>
             </Grid>
@@ -195,7 +215,27 @@ function SingleItem({
           </Grid>
         </Grid>
         <Grid item xs={1} className="side-nav">
-          {user.uid === userId && <button>수정, 삭제</button>}
+          <Grid container direction="column">
+            <Grid item className="menu-items">
+              {user.uid === userId && (
+                <Grid item>
+                  <button>
+                    <MenuIcon fontSize="inherit" />
+                  </button>
+                </Grid>
+              )}
+              <Grid item>
+                <button>
+                  <RiHeart2Line />
+                </button>
+              </Grid>
+              <Grid item>
+                <button>
+                  <RiBookmarkLine className="icon" />
+                </button>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </GridContainer>
     </>

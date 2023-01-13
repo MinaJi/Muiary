@@ -8,11 +8,12 @@ body {
     background-color: ${(props) => props.theme.bgColor};
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    color: ${(props) => props.theme.textColor}
+    color: ${(props) => props.theme.textColor};
 }
 button {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
+    color: ${(props) => props.theme.textColor};
 }
 input, textarea, select {
     font-family: 'Montserrat', sans-serif;

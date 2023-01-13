@@ -6,7 +6,6 @@ import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import BoardItemCard from "./BoardItemCard";
 import SkeletonCard from "./SkeletonCard";
-import moment from "moment";
 
 function MyBoardItemLists() {
   const { username } = useParams();
@@ -23,6 +22,7 @@ function MyBoardItemLists() {
     const qSnapshot = await getDocs(q);
     qSnapshot.forEach((doc) => {
       boardDocs[doc.id] = doc.data();
+      // console.log(doc.data());
     });
     return boardDocs;
   }

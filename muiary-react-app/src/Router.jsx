@@ -4,6 +4,7 @@ import MyBoardItemLists from "./components/MyBoardItemLists";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
+import ExploreFeed from "./pages/ExploreFeed";
 import Main from "./pages/Main";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
 import Mypage from "./pages/Mypage";
@@ -54,6 +55,7 @@ function Router() {
               </RequireAuth>
             }
           />
+          <Route path="/explore" element={<ExploreFeed />} />
         </>
         <Route
           path="/muiary/pages/:itemId"
