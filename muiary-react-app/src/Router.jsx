@@ -1,11 +1,11 @@
 import React from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import MyBoardItemLists from "./components/MyBoardItemLists";
+import { Navigate, Route, Routes, useLocation, Switch } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
 import ExploreFeed from "./pages/ExploreFeed";
 import Main from "./pages/Main";
+import Muiary from "./pages/Muiary";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
 import Mypage from "./pages/Mypage";
 import MypageAccount from "./pages/MypageAccount";
@@ -46,33 +46,50 @@ function Router() {
             <Route path="liked" element={<MypageLike />} />
           </Route>
         </>
+
         <>
           <Route
-            path="/muiary/:username"
+            path="/muiary"
             element={
               <RequireAuth>
-                <MyMuiaryTemplate />
+                <Muiary />
+              </RequireAuth>
+            }
+          >
+            <Route path=":username" element={<MyMuiaryTemplate />} />
+            <Route path="explore" element={<ExploreFeed />} />
+          </Route>
+        </>
+
+        <Route path="/explore" element={<ExploreFeed />} />
+        {/* <>
+          <Route path="/muiary">
+            <Route
+              path="/muiary/:username"
+              element={
+                <RequireAuth>
+                  <MyMuiaryTemplate />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/muiary/pages/:itemId"
+              element={
+                <RequireAuth>
+                  <BoardItem />
+                </RequireAuth>
+              }
+            />
+          </Route>
+          <Route
+            path="/muiary/upload"
+            element={
+              <RequireAuth>
+                <CreateItem />
               </RequireAuth>
             }
           />
-          <Route path="/explore" element={<ExploreFeed />} />
-        </>
-        <Route
-          path="/muiary/pages/:itemId"
-          element={
-            <RequireAuth>
-              <BoardItem />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/muiary/upload"
-          element={
-            <RequireAuth>
-              <CreateItem />
-            </RequireAuth>
-          }
-        />
+        </> */}
       </Routes>
     </>
   );

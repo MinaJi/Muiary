@@ -20,6 +20,8 @@ export const lightTheme = {
   signupBg: "#F73859",
   inputBorderColor: "#DDDDDD",
   placeholderText: "#808080",
+  cardBg: "#fff",
+  cardBorder: "1px solid #ebebebff",
 };
 
 export const darkTheme = {
@@ -44,6 +46,8 @@ export const darkTheme = {
   signupBg: "#1d232a",
   inputBorderColor: "#454c59",
   placeholderText: "#C0C0C0",
+  cardBg: "#111417",
+  cardBorder: "1px solid #3c3e42",
 };
 
 export const theme = {

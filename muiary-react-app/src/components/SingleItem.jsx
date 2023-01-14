@@ -125,6 +125,9 @@ const Btn = styled.button`
   cursor: pointer;
   font-size: 35px;
   padding: 0;
+  :hover {
+    color: #ff0000;
+  }
 `;
 
 function SingleItem({

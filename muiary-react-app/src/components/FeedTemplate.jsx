@@ -2,14 +2,15 @@ import { collection, getDocs } from "firebase/firestore";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import Card from "../components/Card";
+import FeedItemCard from "./FeedItemCard";
 import { db } from "../firebase-config";
 import { Grid } from "@mui/material";
-import _, { random } from "lodash";
-import styled from "styled-components";
+import _ from "lodash";
+import FeedCardsSkeleton from "./FeedCardsSkeleton";
 
 function FeedTemplate() {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +21,9 @@ function FeedTemplate() {
         snapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });
-        randomList = _.sampleSize(list, 3);
+        randomList = _.sampleSize(list, 12);
         setData(randomList);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -29,13 +31,21 @@ function FeedTemplate() {
     fetchData();
   }, []);
 
-  console.log(data);
-
   return (
-    <div>
-      {data.length === 0 ? <p>loading...</p> : <>{data[0].title}</>}
-      <Card data={data} />
-    </div>
+    <>
+      {isLoading && (
+        <Grid container>
+          <FeedCardsSkeleton cards={6} />
+        </Grid>
+      )}
+      {!isLoading && (
+        <Grid container>
+          <Grid item>
+            <FeedItemCard data={data} />
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }
 

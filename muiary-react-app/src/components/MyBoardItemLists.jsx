@@ -22,7 +22,6 @@ function MyBoardItemLists() {
     const qSnapshot = await getDocs(q);
     qSnapshot.forEach((doc) => {
       boardDocs[doc.id] = doc.data();
-      // console.log(doc.data());
     });
     return boardDocs;
   }
