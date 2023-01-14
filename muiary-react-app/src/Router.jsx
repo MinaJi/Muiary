@@ -58,6 +58,8 @@ function Router() {
           >
             <Route path=":username" element={<MyMuiaryTemplate />} />
             <Route path="explore" element={<ExploreFeed />} />
+            <Route path="upload" element={<CreateItem />} />
+            <Route path="pages/:itemId" element={<BoardItem />} />
           </Route>
         </>
 
