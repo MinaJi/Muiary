@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes, useLocation, Switch } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
@@ -46,7 +46,6 @@ function Router() {
             <Route path="liked" element={<MypageLike />} />
           </Route>
         </>
-
         <>
           <Route
             path="/muiary"
@@ -57,41 +56,11 @@ function Router() {
             }
           >
             <Route path=":username" element={<MyMuiaryTemplate />} />
-            <Route path="explore" element={<ExploreFeed />} />
             <Route path="upload" element={<CreateItem />} />
             <Route path="pages/:itemId" element={<BoardItem />} />
           </Route>
         </>
-
         <Route path="/explore" element={<ExploreFeed />} />
-        {/* <>
-          <Route path="/muiary">
-            <Route
-              path="/muiary/:username"
-              element={
-                <RequireAuth>
-                  <MyMuiaryTemplate />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/muiary/pages/:itemId"
-              element={
-                <RequireAuth>
-                  <BoardItem />
-                </RequireAuth>
-              }
-            />
-          </Route>
-          <Route
-            path="/muiary/upload"
-            element={
-              <RequireAuth>
-                <CreateItem />
-              </RequireAuth>
-            }
-          />
-        </> */}
       </Routes>
     </>
   );

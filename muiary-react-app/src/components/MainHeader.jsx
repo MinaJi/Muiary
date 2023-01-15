@@ -84,7 +84,7 @@ function MainHeader({ handleOpenUserMenu }) {
     },
     {
       pages: "Explore",
-      url: "/muiary/explore",
+      url: "/explore",
     },
   ];
 

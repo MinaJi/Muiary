@@ -23,7 +23,7 @@ const Btn = styled.button`
 
 function BoardHeader() {
   return (
-    <Header container>
+    <Header container maxWidth="1400px">
       <Grid item>
         <Btn>
           <BsList />

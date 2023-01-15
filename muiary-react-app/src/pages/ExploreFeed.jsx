@@ -16,6 +16,7 @@ const GridContainer = styled(Grid)`
 function ExploreFeed() {
   return (
     <>
+      <MainHeader />
       <GridContainer container justifyContent="center">
         <Grid item className="contents-wrapper">
           <FeedTemplate />

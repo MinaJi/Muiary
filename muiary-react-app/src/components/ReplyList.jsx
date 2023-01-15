@@ -1,9 +1,11 @@
-import { collection, getDocs, orderBy, Query, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { db } from "../firebase-config";
 
 function ReplyList() {
   const [data, setData] = useState([]);
+  const { itemId } = useParams();
 
   useEffect(() => {
     let list = [];
@@ -11,6 +13,7 @@ function ReplyList() {
       try {
         const q = query(
           collection(db, "replyItems"),
+          where("boardItem", "==", `${itemId}`),
           orderBy("timestamp", "desc")
         );
         const snapshot = await getDocs(q);
@@ -23,7 +26,7 @@ function ReplyList() {
       }
     };
     getReplyDocs();
-  });
+  }, [data]);
 
   return (
     <div>

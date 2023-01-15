@@ -1,21 +1,11 @@
 import React from "react";
 import MuiaryProfile from "../components/MuiaryProfile";
 import styled from "styled-components";
-import { alertTitleClasses, Grid } from "@mui/material";
-import MainHeader from "../components/MainHeader";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import MyBoardItemLists from "../components/MyBoardItemLists";
 import { FaPen } from "react-icons/fa";
 import BoardHeader from "../components/BoardHeader";
-import BoardItem from "./BoardItem";
-import UserMenu from "../components/UserMenu";
-import { useState } from "react";
-import { useEffect } from "react";
-
-const Div = styled.div`
-  height: auto;
-  /* min-height: 100%; */
-`;
 
 const GridContainer = styled(Grid)`
   && {
@@ -74,52 +64,21 @@ const Btn = styled.button`
 
 function MyMuiaryTemplate() {
   const navi = useNavigate();
-  const [userMenu, setUserMenu] = useState(false);
-  const [mainpage, setMainpage] = useState(true);
-
-  const [size, setSize] = useState({
-    width: window.innerWidth,
-  });
-
-  useEffect(() => {
-    function handleResize() {
-      setSize({
-        width: window.innerWidth,
-      });
-    }
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (userMenu && size.width > 899) {
-        setUserMenu(false);
-        setMainpage(true);
-      }
-    };
-  });
-
-  const handleFunc = () => {
-    setUserMenu((prev) => !prev);
-    setMainpage((prev) => !prev);
-  };
 
   return (
     <>
-      <MainHeader handleOpenUserMenu={handleFunc} />
-      {userMenu && <UserMenu />}
-      {mainpage && (
-        <GridContainer container>
-          <Grid item xs={2} className="side-div">
-            <MuiaryProfile />
-          </Grid>
-          <Grid item xs={10} className="contents">
-            {/* <BoardHeader /> */}
-            <MyBoardItemLists />
-          </Grid>
-          <Btn onClick={() => navi("/muiary/upload")}>
-            <FaPen />
-          </Btn>
-        </GridContainer>
-      )}
+      <GridContainer container>
+        <BoardHeader />
+        {/* <Grid item xs={2} className="side-div">
+          <MuiaryProfile />
+        </Grid> */}
+        {/* <Grid item xs={10} className="contents"> */}
+        <MyBoardItemLists />
+        {/* </Grid> */}
+        <Btn onClick={() => navi("/muiary/upload")}>
+          <FaPen />
+        </Btn>
+      </GridContainer>
     </>
   );
 }

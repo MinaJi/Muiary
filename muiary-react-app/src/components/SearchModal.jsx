@@ -17,6 +17,8 @@ const ModalBackground = styled.div`
   align-items: center;
   background-color: #00000030;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 300;
 `;
 

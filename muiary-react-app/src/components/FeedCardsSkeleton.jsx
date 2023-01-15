@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Divider, Grid } from "@mui/material";
+import { Avatar, Divider, Grid } from "@mui/material";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -15,6 +15,16 @@ const Card = styled(Grid)`
     .divider {
       margin: 10px;
     }
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .profile {
+      height: 50px;
+      margin-left: 8px;
+      width: 192px;
+    }
   }
 `;
 
@@ -25,8 +35,13 @@ function FeedCardsSkeleton({ cards }) {
         .fill(0)
         .map((_, i) => (
           <Card container direction="column" key={i}>
-            <Grid item>
-              <Skeleton width="250" heigth="50px" />
+            <Grid container>
+              <Grid item>
+                <Skeleton className="avatar" />
+              </Grid>
+              <Grid item>
+                <Skeleton className="profile" />
+              </Grid>
             </Grid>
             <Divider className="divider" />
             <Grid item>

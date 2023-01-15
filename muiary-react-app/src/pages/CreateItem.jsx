@@ -1,24 +1,16 @@
 import { Divider, Grid } from "@mui/material";
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
 import { useState } from "react";
-import {
-  addDoc,
-  collection,
-  doc,
-  Firestore,
-  setDoc,
-  Timestamp,
-} from "firebase/firestore";
-import { db, serverStamp } from "../firebase-config";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
-import MainHeader from "../components/MainHeader";
 import { DotIcon } from "../assets/svgs/index";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
-import moment, { now } from "moment";
+import moment from "moment";
 import { UserData } from "../context/UserDataContext";
 
 const StyledContainer = styled(Grid)`
@@ -139,7 +131,6 @@ function CreateItem() {
 
   return (
     <>
-      <MainHeader />
       <StyledContainer container direction="column" alignItems="center">
         <Grid item className="form-wrapper">
           <form onSubmit={handleSubmit}>
