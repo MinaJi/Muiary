@@ -15,7 +15,7 @@ const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #00000030;
+  background-color: ${(props) => props.theme.modalBg};
   top: 0;
   right: 0;
   left: 0;
@@ -24,17 +24,22 @@ const ModalBackground = styled.div`
 
 const ModalContainer = styled(Grid)`
   && {
-    background-color: #ffffff;
+    background-color: ${(props) => props.theme.bgColor};
     width: 600px;
     height: 500px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     padding: 25px;
-    box-shadow: rgba(97, 97, 97, 0.35) 0px 5px 15px;
+    box-shadow: ${(props) => props.theme.modalBoxShadow};
     .title {
       color: #000000;
       font-weight: 600;
+      margin-bottom: 5px;
+      .text {
+        font-size: 28px;
+        color: ${(props) => props.theme.textColor};
+      }
     }
     .titleCloseBtn {
       display: flex;
@@ -52,7 +57,7 @@ const ModalContainer = styled(Grid)`
     .searchResults {
       margin-top: 20px;
       width: 100%;
-      border: 1px solid lightgray;
+      border: ${(props) => props.theme.inputBorder};
       border-radius: 10px;
     }
   }
@@ -80,7 +85,7 @@ class SearchModal extends Component {
         <ModalContainer container>
           <Grid container className="title">
             <Grid item xs={11}>
-              <p style={{ fontSize: "28px" }}>Search</p>
+              <p className="text">Search</p>
             </Grid>
             <Grid item xs={1} className="titleCloseBtn">
               <button
@@ -93,12 +98,7 @@ class SearchModal extends Component {
               </button>
             </Grid>
           </Grid>
-          <Grid
-            container
-            className="search"
-            justifyContent="space-between"
-            spacing={2}
-          >
+          <Grid item>
             <SearchBar
               mediaTypes={mediaTypes}
               startSearch={this.updateSearch}

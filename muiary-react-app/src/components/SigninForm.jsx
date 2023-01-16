@@ -132,19 +132,25 @@ function SigninForm() {
       <Grid item className="formlayout">
         <form onSubmit={handleSubmit}>
           <Grid item>
-            <p>Email</p>
+            <label for="email">
+              <p>Email</p>
+            </label>
             <StyledInput
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              id="email"
             />
           </Grid>
           <Grid item>
-            <p>Password</p>
+            <label for="password">
+              <p>Password</p>
+            </label>
             <div className="inputDiv">
               <input
                 className="passwordInput"
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
+                id="password"
               />
               <span
                 className="spanIcon"

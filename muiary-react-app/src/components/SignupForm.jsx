@@ -164,7 +164,9 @@ function SignupForm() {
     <GridContainer container direction="column" alignContent="center">
       <StyledForm onSubmit={handleSubmit}>
         <Grid item className="input-div">
-          <p>Email</p>
+          <label for="email">
+            <p>Email</p>
+          </label>
           <input
             type="email"
             id="email"
@@ -185,7 +187,9 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <p>Password</p>
+          <label for="password">
+            <p>Password</p>
+          </label>
           <div
             className={
               errors.password && touched.password
@@ -222,7 +226,9 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <p>Confirm Password</p>
+          <label for="confirmPassword">
+            <p>Confirm Password</p>
+          </label>
           <input
             type="password"
             id="confirmPassword"
@@ -247,7 +253,9 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <p>Username</p>
+          <label for="username">
+            <p>Username</p>
+          </label>
           <Tooltip
             message="Username is define your profile address."
             direction="top"

@@ -1,13 +1,17 @@
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { BsList } from "react-icons/bs";
 import { CgMenuGridR } from "react-icons/cg";
 
-const Header = styled(Grid)`
+const GridContainer = styled(Grid)`
   && {
     margin-top: 5px;
-    justify-content: flex-end;
+    max-width: 1100px;
+    .header {
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
   }
 `;
 
@@ -19,22 +23,27 @@ const Btn = styled.button`
   padding: 5px;
   border-radius: 10px;
   font-size: 20px;
+  cursor: pointer;
+  margin-left: 5px;
 `;
 
 function BoardHeader() {
   return (
-    <Header container maxWidth="1400px">
-      <Grid item>
-        <Btn>
-          <BsList />
-        </Btn>
+    <GridContainer container direction="column">
+      <Divider />
+      <Grid container className="header">
+        <Grid item>
+          <Btn>
+            <BsList />
+          </Btn>
+        </Grid>
+        <Grid item>
+          <Btn>
+            <CgMenuGridR />
+          </Btn>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Btn>
-          <CgMenuGridR />
-        </Btn>
-      </Grid>
-    </Header>
+    </GridContainer>
   );
 }
 

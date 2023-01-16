@@ -28,15 +28,15 @@ const StyledContainer = styled(Grid)`
         width: 230px;
         height: 230px;
         border-radius: 10px;
-        box-shadow: rgba(97, 97, 97, 0.434) 0px 5px 15px;
+        box-shadow: ${(props) => props.theme.addBoxShadow};
       }
     }
     .add {
       width: 230px;
       height: 230px;
-      border: 1px solid #eaeaea;
+      border: 1px solid ${(props) => props.theme.addBorder};
       border-radius: 10px;
-      box-shadow: rgba(97, 97, 97, 0.158) 0px 0px 20px;
+      box-shadow: ${(props) => props.theme.addBoxShadow};
     }
     .icon-btn {
       width: 50px;
@@ -58,7 +58,8 @@ const StyledContainer = styled(Grid)`
       input {
         height: 40px;
         width: 500px;
-        border: 1px solid gray;
+        border: ${(props) => props.theme.inputBorder};
+        background-color: ${(props) => props.theme.inputBg};
         border-radius: 15px;
       }
     }
@@ -196,12 +197,15 @@ function CreateItem() {
               </Grid>
             </Grid>
             <Grid item className="title-wrapper">
-              <p>Title</p>
-              <input onChange={(e) => setTitle(e.target.value)} />
+              <label for="title" className="title-label">
+                <p>Title</p>
+              </label>
+              <input onChange={(e) => setTitle(e.target.value)} id="title" />
             </Grid>
             <Grid item className="contents-wrapper">
-              <p>Contents</p>
-              <Editor setContents={setContents} />
+              <label for="contents">Contents</label>
+              {/* 이건 안되나보네 */}
+              <Editor setContents={setContents} id="contents" />
             </Grid>
             <Grid item>
               <Btn type="submit">Submit</Btn>

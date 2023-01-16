@@ -22,6 +22,10 @@ export const lightTheme = {
   placeholderText: "#808080",
   cardBg: "#fff",
   cardBorder: "1px solid #ebebebff",
+  modalBg: "#00000030",
+  modalBoxShadow: "rgba(97, 97, 97, 0.35) 0px 0px 15px",
+  addBorder: "#eaeaea",
+  addBoxShadow: "rgba(97, 97, 97, 0.158) 0px 0px 20px",
 };
 
 export const darkTheme = {
@@ -48,6 +52,10 @@ export const darkTheme = {
   placeholderText: "#C0C0C0",
   cardBg: "#111417",
   cardBorder: "1px solid #3c3e42",
+  modalBg: "#0000005f",
+  modalBoxShadow: "rgba(0, 0, 0, 0.553) 0px 0px 15px",
+  addBorder: "#21272f",
+  addBoxShadow: "rgba(0, 0, 0, 0.199) 0px 0px 20px",
 };
 
 export const theme = {

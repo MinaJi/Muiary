@@ -6,13 +6,14 @@ import styled from "styled-components";
 const SearchBarWrapper = styled(Grid)`
   && {
     .search-bar {
-      background-color: transparent;
+      background-color: ${(props) => props.theme.inputBg};
       border-radius: 10px;
-      border: 1px solid lightgray;
+      border: ${(props) => props.theme.inputBorder};
       height: 40px;
       width: 100%;
       padding-left: 10px;
       box-sizing: inherit;
+      color: ${(props) => props.theme.textColor};
     }
   }
 `;
@@ -20,9 +21,11 @@ const SearchBarWrapper = styled(Grid)`
 const OptionWrapper = styled(Grid)`
   && {
     .option-selector {
+      background-color: ${(props) => props.theme.inputBg};
+      color: ${(props) => props.theme.textColor};
       width: 100%;
       height: 40px;
-      border: 1px solid lightgrey;
+      border: ${(props) => props.theme.inputBorder};
       border-radius: 10px;
     }
   }
@@ -32,11 +35,18 @@ const BtnWrapper = styled(Grid)`
   && {
     .search-btn {
       height: 40px;
-      background-color: transparent;
+      background-color: ${(props) => props.theme.inputBg};
       cursor: pointer;
-      border: 1px solid lightgray;
+      border: ${(props) => props.theme.inputBorder};
       border-radius: 10px;
       font-size: 25px;
+      .icon {
+        margin-top: 5px;
+      }
+      :hover {
+        background-color: #f73859;
+        border: 1px solid #f73859;
+      }
     }
   }
 `;
@@ -76,7 +86,7 @@ class SearchBar extends Component {
     ));
 
     return (
-      <>
+      <Grid container spacing={1}>
         <SearchBarWrapper item xs={8}>
           <input
             className="search-bar"
@@ -103,7 +113,7 @@ class SearchBar extends Component {
             <BiSearchAlt className="icon" />
           </button>
         </BtnWrapper>
-      </>
+      </Grid>
     );
   }
 }
