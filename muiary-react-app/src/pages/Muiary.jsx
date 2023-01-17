@@ -1,11 +1,13 @@
 import { Grid } from "@mui/material";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import MainHeader from "../components/MainHeader";
 import MuiaryProfile from "../components/MuiaryProfile";
 import UserMenu from "../components/UserMenu";
+import { db } from "../firebase-config";
 
 const GridContainer = styled(Grid)`
   && {

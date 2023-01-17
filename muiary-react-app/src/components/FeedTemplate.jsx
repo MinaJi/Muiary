@@ -30,6 +30,7 @@ function FeedTemplate() {
     };
     fetchData();
   }, []);
+  // 계속 바뀌지않고 1시간에 1번씩 바뀌게 하기!!!!!!!!
 
   return (
     <>

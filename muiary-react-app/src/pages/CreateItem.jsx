@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 import moment from "moment";
 import { UserData } from "../context/UserDataContext";
+import MuiaryProfile from "../components/MuiaryProfile";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -197,13 +198,13 @@ function CreateItem() {
               </Grid>
             </Grid>
             <Grid item className="title-wrapper">
-              <label for="title" className="title-label">
+              <label htmlFor="title" className="title-label">
                 <p>Title</p>
               </label>
               <input onChange={(e) => setTitle(e.target.value)} id="title" />
             </Grid>
             <Grid item className="contents-wrapper">
-              <label for="contents">Contents</label>
+              <label htmlFor="contents">Contents</label>
               {/* 이건 안되나보네 */}
               <Editor setContents={setContents} id="contents" />
             </Grid>

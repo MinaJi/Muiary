@@ -22,8 +22,8 @@ const Div = styled(Grid)`
         font-size: 25px;
         margin-left: 48px;
       }
-      animation: bounce;
-      animation-duration: 1.1s;
+      /* animation: bounce;
+      animation-duration: 1.1s; */
     }
   }
 `;

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { async } from "@firebase/util";
 
 const AvatarGrid = styled(Grid)`
   && {
@@ -51,30 +52,50 @@ function MuiaryProfile() {
     setOpenEditModal(true);
   };
 
-  async function getAllUsers() {
-    const userData = {};
-    const q = query(
-      collection(db, "users"),
-      where("username", "==", `${username}`)
-    );
-    const qSnapshot = await getDocs(q);
-    qSnapshot.forEach((doc) => {
-      userData[doc.id] = doc.data();
-    });
-    return userData;
-  }
+  // async function getAllUsers() {
+  //   const userData = {};
+  //   const q = query(
+  //     collection(db, "users"),
+  //     where("username", "==", `${username}`)
+  //   );
+  //   const qSnapshot = await getDocs(q);
+  //   qSnapshot.forEach((doc) => {
+  //     userData[doc.id] = doc.data();
+  //   });
+  //   return userData;
+  // }
+
+  // useEffect(() => {
+  //   const getUserDocs = async () => {
+  //     try {
+  //       const getUserDocs = await getAllUsers();
+  //       setUserdata(getUserDocs);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getUserDocs();
+  // }, [username]);
 
   useEffect(() => {
-    const getUserDocs = async () => {
+    let userList = [];
+    const getUserData = async () => {
       try {
-        const getUserDocs = await getAllUsers();
-        setUserdata(getUserDocs);
+        const q = query(
+          collection(db, "users"),
+          where("username", "==", `${username}`)
+        );
+        const snapshot = await getDocs(q);
+        snapshot.forEach((doc) => {
+          userList.push({ id: doc.id, ...doc.data() });
+        });
+        setUserdata(userList);
       } catch (error) {
         console.log(error);
       }
     };
-    getUserDocs();
-  }, []);
+    getUserData();
+  }, [userdata, username]); // []종속성있어야하나?
 
   return (
     <>
@@ -99,7 +120,7 @@ function MuiaryProfile() {
           <Grid item>
             <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
           </Grid>
-          {user.uid !== item && (
+          {user.uid !== item.id && (
             <Grid item>
               <button>팔로우하기</button>
             </Grid>
