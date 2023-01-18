@@ -68,14 +68,14 @@ function MyMuiaryTemplate() {
   return (
     <>
       <GridContainer container>
-        <BoardHeader />
-        {/* <Grid item xs={2} className="side-div">
+        <Grid item xs={2} className="side-div">
           <MuiaryProfile />
-        </Grid> */}
-        {/* <Grid item xs={10} className="contents"> */}
-        <MyBoardItemLists />
-        {/* </Grid> */}
-        <Btn onClick={() => navi("/muiary/upload")}>
+        </Grid>
+        <Grid item xs={10} className="contents">
+          <BoardHeader />
+          <MyBoardItemLists />
+        </Grid>
+        <Btn onClick={() => navi(`/muiary/upload`)}>
           <FaPen />
         </Btn>
       </GridContainer>

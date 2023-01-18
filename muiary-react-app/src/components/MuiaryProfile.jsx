@@ -120,7 +120,7 @@ function MuiaryProfile() {
           <Grid item>
             <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
           </Grid>
-          {user.uid !== item.id && (
+          {user.uid !== userdata[item].id && (
             <Grid item>
               <button>팔로우하기</button>
             </Grid>

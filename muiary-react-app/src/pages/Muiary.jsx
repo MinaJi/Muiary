@@ -1,38 +1,8 @@
-import { Grid } from "@mui/material";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
-import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 import MainHeader from "../components/MainHeader";
-import MuiaryProfile from "../components/MuiaryProfile";
 import UserMenu from "../components/UserMenu";
-import { db } from "../firebase-config";
-
-const GridContainer = styled(Grid)`
-  && {
-    direction: column;
-    @media screen and (max-width: 576px) {
-      flex-direction: column;
-    }
-    .side-div {
-      background-color: ${(props) => props.theme.profileBgColor};
-      color: ${(props) => props.theme.textColor};
-      height: 100vh;
-      /* width: 17%; */
-      position: sticky;
-      top: 0;
-      @media screen and (max-width: 576px) {
-        height: 30vh;
-        width: 100vw;
-      }
-    }
-    .contents {
-      width: 83%;
-      margin-top: 60px;
-    }
-  }
-`;
 
 function Muiary() {
   const [userMenu, setUserMenu] = useState(false);
@@ -65,22 +35,13 @@ function Muiary() {
 
   return (
     <>
-      <>
-        <MainHeader handleOpenUserMenu={handleFunc} />
-        {userMenu && <UserMenu />}
-      </>
-      <>
-        {mainpage && (
-          <GridContainer container>
-            <Grid item xs={2} className="side-div">
-              <MuiaryProfile />
-            </Grid>
-            <Grid item xs={10} className="contents">
-              <Outlet />
-            </Grid>
-          </GridContainer>
-        )}
-      </>
+      <MainHeader handleOpenUserMenu={handleFunc} />
+      {userMenu && <UserMenu />}
+      {mainpage && (
+        <>
+          <Outlet />
+        </>
+      )}
     </>
   );
 }

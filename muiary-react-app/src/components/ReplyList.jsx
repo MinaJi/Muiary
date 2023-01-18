@@ -33,7 +33,7 @@ function ReplyList() {
       }
     };
     getReplyDocs();
-  }, []); //[data]??
+  }, [data, itemId]);
 
   return (
     <div>

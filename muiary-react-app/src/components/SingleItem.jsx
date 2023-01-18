@@ -164,7 +164,6 @@ function SingleItem({
 
   return (
     <>
-      <MainHeader />
       <GridContainer container>
         <Grid item xs={1}>
           <BoardProfile username={username} />

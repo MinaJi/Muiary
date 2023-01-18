@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 import moment from "moment";
 import { UserData } from "../context/UserDataContext";
-import MuiaryProfile from "../components/MuiaryProfile";
 
 const StyledContainer = styled(Grid)`
   && {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import MuiaryProfile from "./components/MuiaryProfile";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
@@ -15,6 +16,7 @@ import MypageSaved from "./pages/MypageSaved";
 import ResetPassword from "./pages/ResetPassword";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import Test from "./pages/Test";
 
 function Router() {
   const { user } = UserAuth();
@@ -48,7 +50,7 @@ function Router() {
         </>
         <>
           <Route
-            path="/muiary"
+            path="/muiary/*"
             element={
               <RequireAuth>
                 <Muiary />
@@ -58,6 +60,7 @@ function Router() {
             <Route path=":username" element={<MyMuiaryTemplate />} />
             <Route path="upload" element={<CreateItem />} />
             <Route path="pages/:itemId" element={<BoardItem />} />
+            <Route path="testpage" element={<Test />} />
           </Route>
         </>
         <Route path="/explore" element={<ExploreFeed />} />
