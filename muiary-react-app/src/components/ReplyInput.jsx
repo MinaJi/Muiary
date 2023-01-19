@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { useState } from "react";
@@ -16,13 +16,18 @@ const InputDiv = styled.div`
   height: max-content;
   padding: 15px;
   button {
-    font-size: 25px;
+    font-size: 18px;
     width: max-content;
+    height: max-content;
+    padding: 5px;
     border: 1px solid silver;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: transparent;
     margin-left: 5px;
     cursor: pointer;
+    :hover {
+      background-color: #f73859;
+    }
   }
   input {
     border: 1px solid silver;
@@ -42,13 +47,17 @@ function ReplyInput() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (content === "") {
+      alert("댓글을 작성해주세욘");
+      return;
+    }
     try {
       await addDoc(collection(db, "replyItems"), {
         userId: user.uid,
         content: content,
         boardItem: itemId,
         date: date,
-        timestamp: new Date(),
+        timestamp: serverTimestamp(),
       }).then(e.target.reset());
     } catch (error) {
       console.log(error);

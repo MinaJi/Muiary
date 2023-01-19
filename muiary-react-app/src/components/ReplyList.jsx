@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import {
   collection,
   getDocs,
@@ -8,39 +9,64 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import { db } from "../firebase-config";
+
+const GridContainer = styled(Grid)`
+  && {
+    margin-top: 10px;
+    background-color: #ffffff70;
+    border-radius: 20px;
+  }
+`;
 
 function ReplyList() {
   const [data, setData] = useState([]);
   const { itemId } = useParams();
 
+  // useEffect(() => {
+  //   let list = [];
+  //   const getReplyDocs = async () => {
+  //     try {
+  //       const q = query(
+  //         collection(db, "replyItems"),
+  //         where("boardItem", "==", `${itemId}`),
+  //         orderBy("timestamp", "desc")
+  //       );
+  //       const snapshot = await getDocs(q);
+  //       snapshot.forEach((doc) => {
+  //         list.push({ id: doc.id, ...doc.data() });
+  //       });
+  //       setData(list);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getReplyDocs();
+  // }, []);
+
   useEffect(() => {
-    let list = [];
-    const getReplyDocs = async () => {
-      try {
-        const q = query(
-          collection(db, "replyItems"),
-          where("boardItem", "==", `${itemId}`),
-          orderBy("timestamp", "desc")
-        );
-        const snapshot = await getDocs(q);
-        snapshot.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        setData(list);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getReplyDocs();
-  }, [data, itemId]);
+    const q = query(
+      collection(db, "replyItems"),
+      where("boardItem", "==", `${itemId}`),
+      orderBy("timestamp", "desc")
+    );
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      let list = [];
+      querySnapshot.forEach((doc) => {
+        list.push({ ...doc.data(), id: doc.id });
+      });
+      setData(list);
+    });
+    return () => unsub();
+  }, []);
 
   return (
-    <div>
-      {data.map((item, i) => (
-        <div key={i}>{item.content}</div>
+    <GridContainer container>
+      {data.map((item) => (
+        <div key={item.id}>{item.content}</div>
       ))}
-    </div>
+    </GridContainer>
   );
 }
 
