@@ -13,6 +13,7 @@ import { list } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
 import ReplyUserProfile from "./ReplyUserProfile";
 
@@ -28,8 +29,7 @@ const GridContainer = styled(Grid)`
 function ReplyList() {
   const [data, setData] = useState([]);
   const { itemId } = useParams();
-  const navi = useNavigate();
-  const [userId, setUserId] = useState("");
+  const { user } = UserAuth();
 
   // useEffect(() => {
   //   let list = [];
@@ -67,7 +67,7 @@ function ReplyList() {
     });
     return () => unsub();
   }, []);
-  
+
   return (
     <GridContainer container>
       {data.map((item) => (
@@ -76,6 +76,11 @@ function ReplyList() {
             <ReplyUserProfile userId={item.userId} />
           </Grid>
           <Grid item>{item.content}</Grid>
+          {user.uid === item.userId && (
+            <Grid item>
+              <button>삭제하기</button>
+            </Grid>
+          )}
         </Grid>
       ))}
     </GridContainer>
