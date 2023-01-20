@@ -1,28 +1,35 @@
-import { Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   onSnapshot,
   orderBy,
   query,
   where,
 } from "firebase/firestore";
+import { list } from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "../firebase-config";
+import ReplyUserProfile from "./ReplyUserProfile";
 
 const GridContainer = styled(Grid)`
   && {
     margin-top: 10px;
     background-color: #ffffff70;
     border-radius: 20px;
+    padding: 15px;
   }
 `;
 
 function ReplyList() {
   const [data, setData] = useState([]);
   const { itemId } = useParams();
+  const navi = useNavigate();
+  const [userId, setUserId] = useState("");
 
   // useEffect(() => {
   //   let list = [];
@@ -60,11 +67,16 @@ function ReplyList() {
     });
     return () => unsub();
   }, []);
-
+  
   return (
     <GridContainer container>
       {data.map((item) => (
-        <div key={item.id}>{item.content}</div>
+        <Grid container key={item.id}>
+          <Grid item>
+            <ReplyUserProfile userId={item.userId} />
+          </Grid>
+          <Grid item>{item.content}</Grid>
+        </Grid>
       ))}
     </GridContainer>
   );

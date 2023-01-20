@@ -62,7 +62,6 @@ function ReplyInput() {
     } catch (error) {
       console.log(error);
     }
-    console.log("댓글 작성완료");
   };
 
   return (

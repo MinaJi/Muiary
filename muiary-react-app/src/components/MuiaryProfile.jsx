@@ -95,7 +95,7 @@ function MuiaryProfile() {
       }
     };
     getUserData();
-  }, [userdata, username]); // []종속성있어야하나?
+  }, []); // [userdata, username] 종속성있어야하나?
 
   return (
     <>
