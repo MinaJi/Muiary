@@ -1,4 +1,5 @@
 import { async } from "@firebase/util";
+import { Divider, Grid } from "@mui/material";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import moment from "moment";
 import React from "react";
@@ -9,33 +10,53 @@ import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
 import ReplyList from "./ReplyList";
 
-const InputDiv = styled.div`
-  background-color: #ffffff77;
-  border: none;
-  border-radius: 20px;
-  height: max-content;
-  padding: 15px;
-  button {
-    font-size: 18px;
-    width: max-content;
+const InputDiv = styled(Grid)`
+  && {
+    background-color: #ffffff77;
+    border: none;
+    border-radius: 20px;
     height: max-content;
-    padding: 5px;
-    border: 1px solid silver;
-    border-radius: 20px;
-    background-color: transparent;
-    margin-left: 5px;
-    cursor: pointer;
-    :hover {
-      background-color: #f73859;
+    padding: 15px;
+    button {
+      font-size: 18px;
+      width: max-content;
+      height: max-content;
+      padding: 5px;
+      border: 1px solid silver;
+      border-radius: 20px;
+      background-color: transparent;
+      margin-left: 5px;
+      cursor: pointer;
+      :hover {
+        background-color: #f73859;
+      }
     }
-  }
-  input {
-    border: 1px solid silver;
-    border-radius: 20px;
-    width: 800px;
-    height: 50px;
-    outline: none;
-    background-color: #ffffff;
+    .input-wrapper {
+      border: 1px solid silver;
+      border-radius: 20px;
+      height: 50px;
+      outline: none;
+      background-color: #ffffff;
+      input {
+        width: 800px;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        border-radius: 20px;
+        height: 45px;
+      }
+      button {
+        border: none;
+        background-color: transparent;
+        /* color: ${(props) => props.theme.textColor}; */
+        color: silver;
+        font-size: 15px;
+        font-weight: 600;
+        :hover {
+          color: #f73859;
+        }
+      }
+    }
   }
 `;
 
@@ -65,7 +86,7 @@ function ReplyInput() {
   };
 
   return (
-    <div>
+    <Grid container>
       <InputDiv>
         <form onSubmit={handleSubmit}>
           <div>
@@ -81,17 +102,17 @@ function ReplyInput() {
             <button>🕺</button>
             {/* Make me dance! */}
           </div>
-          <hr />
-          <div>
+          <Divider />
+          <div className="input-wrapper">
             <input onChange={(e) => setContent(e.target.value)} />
-            <button>upload</button>
+            <button>Upload</button>
           </div>
         </form>
+        <div>
+          <ReplyList />
+        </div>
       </InputDiv>
-      <div>
-        <ReplyList />
-      </div>
-    </div>
+    </Grid>
   );
 }
 

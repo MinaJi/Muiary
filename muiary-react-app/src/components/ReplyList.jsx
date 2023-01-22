@@ -20,9 +20,7 @@ import ReplyUserProfile from "./ReplyUserProfile";
 const GridContainer = styled(Grid)`
   && {
     margin-top: 10px;
-    background-color: #ffffff70;
-    border-radius: 20px;
-    padding: 15px;
+    /* padding: 15px; */
   }
 `;
 
