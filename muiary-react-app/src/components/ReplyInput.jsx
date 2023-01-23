@@ -17,7 +17,7 @@ const InputDiv = styled(Grid)`
     border-radius: 20px;
     height: max-content;
     padding: 15px;
-    button {
+    .btn {
       font-size: 18px;
       width: max-content;
       height: max-content;
@@ -64,7 +64,7 @@ function ReplyInput() {
   const { user } = UserAuth();
   const [content, setContent] = useState("");
   const { itemId } = useParams();
-  const date = moment().format("YYYY-MM-DD, LTS");
+  const date = moment().format("YYYY-MM-DD");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,15 +91,15 @@ function ReplyInput() {
         <form onSubmit={handleSubmit}>
           <div>
             <span>What do you think of this song?</span>
-            <button>👍</button>
+            <button className="btn">👍</button>
             {/* Good song. */}
-            <button>🔥</button>
+            <button className="btn">🔥</button>
             {/* It's LIT! */}
-            <button>❤️</button>
+            <button className="btn">❤️</button>
             {/* Love it. */}
-            <button>💯</button>
+            <button className="btn">💯</button>
             {/* 100% AGREE. */}
-            <button>🕺</button>
+            <button className="btn">🕺</button>
             {/* Make me dance! */}
           </div>
           <Divider />

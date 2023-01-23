@@ -1,26 +1,40 @@
-import { Avatar, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import {
   collection,
-  doc,
-  getDoc,
-  getDocs,
   onSnapshot,
   orderBy,
   query,
   where,
 } from "firebase/firestore";
-import { list } from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
 import ReplyUserProfile from "./ReplyUserProfile";
+import { MdDeleteForever } from "react-icons/md";
 
 const GridContainer = styled(Grid)`
   && {
     margin-top: 10px;
     /* padding: 15px; */
+    .content {
+      font-size: 15px;
+    }
+    .date {
+      font-size: 15px;
+      color: gray;
+    }
+    .delete-btn {
+      button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        :hover {
+          color: #f73859;
+        }
+      }
+    }
   }
 `;
 
@@ -28,27 +42,6 @@ function ReplyList() {
   const [data, setData] = useState([]);
   const { itemId } = useParams();
   const { user } = UserAuth();
-
-  // useEffect(() => {
-  //   let list = [];
-  //   const getReplyDocs = async () => {
-  //     try {
-  //       const q = query(
-  //         collection(db, "replyItems"),
-  //         where("boardItem", "==", `${itemId}`),
-  //         orderBy("timestamp", "desc")
-  //       );
-  //       const snapshot = await getDocs(q);
-  //       snapshot.forEach((doc) => {
-  //         list.push({ id: doc.id, ...doc.data() });
-  //       });
-  //       setData(list);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getReplyDocs();
-  // }, []);
 
   useEffect(() => {
     const q = query(
@@ -69,14 +62,21 @@ function ReplyList() {
   return (
     <GridContainer container>
       {data.map((item) => (
-        <Grid container key={item.id}>
-          <Grid item>
+        <Grid container key={item.id} className="reply-list">
+          <Grid item xs={2} className="profile">
             <ReplyUserProfile userId={item.userId} />
           </Grid>
-          <Grid item>{item.content}</Grid>
+          <Grid item xs={7} className="content">
+            {item.content}
+          </Grid>
+          <Grid item xs={2} className="date">
+            {item.date}
+          </Grid>
           {user.uid === item.userId && (
-            <Grid item>
-              <button>삭제하기</button>
+            <Grid item xs={1} className="delete-btn">
+              <button>
+                <MdDeleteForever />
+              </button>
             </Grid>
           )}
         </Grid>
