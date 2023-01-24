@@ -50,8 +50,8 @@ function ReplyUserProfile({ userId }) {
   return (
     <GridContainer container>
       {userData.map((item) => (
-        <>
-          <Grid item key={item.id}>
+        <Grid container key={item.id}>
+          <Grid item>
             <StyledAvatar
               src={item.profileImgUrl}
               onClick={() => navi(`/muiary/${item.username}`)}
@@ -60,7 +60,7 @@ function ReplyUserProfile({ userId }) {
           <Grid item className="username">
             @{item.username}
           </Grid>
-        </>
+        </Grid>
       ))}
     </GridContainer>
   );

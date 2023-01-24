@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
 import {
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
@@ -13,6 +15,7 @@ import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
 import ReplyUserProfile from "./ReplyUserProfile";
 import { MdDeleteForever } from "react-icons/md";
+import { async } from "@firebase/util";
 
 const GridContainer = styled(Grid)`
   && {
@@ -59,6 +62,14 @@ function ReplyList() {
     return () => unsub();
   }, []);
 
+  const deleteHandler = async (itemId) => {
+    try {
+      await deleteDoc(doc(db, "replyItems", itemId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <GridContainer container>
       {data.map((item) => (
@@ -74,7 +85,7 @@ function ReplyList() {
           </Grid>
           {user.uid === item.userId && (
             <Grid item xs={1} className="delete-btn">
-              <button>
+              <button onClick={deleteHandler.bind(this, item.id)}>
                 <MdDeleteForever />
               </button>
             </Grid>
