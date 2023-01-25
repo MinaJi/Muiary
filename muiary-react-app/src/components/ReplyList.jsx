@@ -85,7 +85,7 @@ function ReplyList() {
           </Grid>
           {user.uid === item.userId && (
             <Grid item xs={1} className="delete-btn">
-              <button onClick={deleteHandler.bind(this, item.id)}>
+              <button onClick={deleteHandler.bind(item.id)}>
                 <MdDeleteForever />
               </button>
             </Grid>

@@ -52,6 +52,7 @@ const InputDiv = styled(Grid)`
         color: silver;
         font-size: 15px;
         font-weight: 600;
+        cursor: pointer;
         :hover {
           color: #f73859;
         }

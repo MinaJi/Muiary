@@ -55,15 +55,17 @@ const StyledContainer = styled(Grid)`
     }
     .title-wrapper {
       padding: 10px;
+      font-size: 25px;
       input {
         height: 40px;
-        width: 500px;
+        width: 100%;
         border: ${(props) => props.theme.inputBorder};
         background-color: ${(props) => props.theme.inputBg};
         border-radius: 15px;
       }
     }
     .contents-wrapper {
+      font-size: 25px;
       padding: 10px;
     }
   }
