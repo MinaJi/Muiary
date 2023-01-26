@@ -74,17 +74,17 @@ function ReplyList() {
     <GridContainer container>
       {data.map((item) => (
         <Grid container key={item.id} className="reply-list">
-          <Grid item xs={2} className="profile">
+          <Grid item xs={2.5} className="profile">
             <ReplyUserProfile userId={item.userId} />
           </Grid>
-          <Grid item xs={7} className="content">
+          <Grid item xs={7.5} className="content">
             {item.content}
           </Grid>
-          <Grid item xs={2} className="date">
+          <Grid item xs={1.5} className="date">
             {item.date}
           </Grid>
           {user.uid === item.userId && (
-            <Grid item xs={1} className="delete-btn">
+            <Grid item xs={0.5} className="delete-btn">
               <button onClick={deleteHandler.bind(item.id)}>
                 <MdDeleteForever />
               </button>

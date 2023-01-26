@@ -61,6 +61,13 @@ const InputDiv = styled(Grid)`
   }
 `;
 
+const StyledDivder = styled(Divider)`
+  && {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+`;
+
 function ReplyInput() {
   const { user } = UserAuth();
   const [content, setContent] = useState("");
@@ -103,7 +110,7 @@ function ReplyInput() {
             <button className="btn">🕺</button>
             {/* Make me dance! */}
           </div>
-          <Divider />
+          <StyledDivder />
           <div className="input-wrapper">
             <input onChange={(e) => setContent(e.target.value)} />
             <button>Upload</button>
