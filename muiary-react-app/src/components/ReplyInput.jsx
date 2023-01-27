@@ -87,7 +87,7 @@ function ReplyInput() {
         boardItem: itemId,
         date: date,
         timestamp: serverTimestamp(),
-      }).then(e.target.reset());
+      }).then(e.target.reset(""));
     } catch (error) {
       console.log(error);
     }
@@ -99,16 +99,21 @@ function ReplyInput() {
         <form onSubmit={handleSubmit}>
           <div>
             <span>What do you think of this song?</span>
-            <button className="btn">👍</button>
-            {/* Good song. */}
-            <button className="btn">🔥</button>
-            {/* It's LIT! */}
-            <button className="btn">❤️</button>
-            {/* Love it. */}
-            <button className="btn">💯</button>
-            {/* 100% AGREE. */}
-            <button className="btn">🕺</button>
-            {/* Make me dance! */}
+            <button className="btn" value="Good song.">
+              👍
+            </button>
+            <button className="btn" value="It's LIT!">
+              🔥
+            </button>
+            <button className="btn" value="Love it">
+              ❤️
+            </button>
+            <button className="btn" value="100% AGREE.">
+              💯
+            </button>
+            <button className="btn" value="Make me dance!">
+              🕺
+            </button>
           </div>
           <StyledDivder />
           <div className="input-wrapper">
