@@ -36,18 +36,19 @@ const LeftDiv = styled(Grid)`
     background-clip: content-box;
     height: 100vh;
     position: fixed;
-    width: 15%;
   }
 `;
 
-const StyledMenu = styled(MenuItem)`
+const StyledMenuItem = styled(MenuItem)`
   && {
     font-weight: 500;
-    :hover {
-      /* background-color: ${(props) => props.theme.borderColor}; */
-    }
     .icon {
       color: ${(props) => props.theme.red};
+    }
+    .title-text {
+      @media screen and (max-width: 758px) {
+        display: none;
+      }
     }
   }
 `;
@@ -61,7 +62,6 @@ const RigthDiv = styled(Grid)`
 `;
 
 function Mypage() {
-  const { user } = UserAuth();
   const navi = useNavigate();
 
   return (
@@ -73,12 +73,12 @@ function Mypage() {
       <MainHeader />
       <LeftDiv item>
         {menu.map((item, i) => (
-          <StyledMenu key={i} onClick={() => navi(item.url)}>
+          <StyledMenuItem key={i} onClick={() => navi(item.url)}>
             <IconButton className="icon">
               <i className={item.icon}></i>
             </IconButton>
-            <span>{item.title}</span>
-          </StyledMenu>
+            <span className="title-text">{item.title}</span>
+          </StyledMenuItem>
         ))}
       </LeftDiv>
       <RigthDiv item>

@@ -32,9 +32,9 @@ export const AuthContextProvider = ({ children }) => {
     return EmailAuthProvider.credential(email, password);
   };
 
-  // const changePassword = (user, newPassword) => {
-  //   return updatePassword(user, newPassword);
-  // };
+  const changePassword = (user, newPassword) => {
+    return updatePassword(user, newPassword);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -47,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ createUser, signIn, user, logOut, credential }}
+      value={{ createUser, signIn, user, logOut, credential, changePassword }}
     >
       {children}
     </UserContext.Provider>

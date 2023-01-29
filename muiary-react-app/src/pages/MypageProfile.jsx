@@ -280,7 +280,7 @@ function MypageProfile() {
                 <Grid item xs={12}>
                   {showBtn && (
                     <>
-                      <Btn type="submit">Submit</Btn>
+                      <Btn type="submit">Update</Btn>
                     </>
                   )}
                 </Grid>

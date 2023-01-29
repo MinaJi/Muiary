@@ -46,7 +46,6 @@ const GridContainer = styled(Grid)`
     .inputDiv {
       background-color: ${(props) => props.theme.inputBg};
       display: flex;
-      margin-bottom: -7px;
       box-sizing: border-box;
       border: ${(props) => props.theme.inputBorder};
       border-radius: 20px;
@@ -132,7 +131,7 @@ function SigninForm() {
       <Grid item className="formlayout">
         <form onSubmit={handleSubmit}>
           <Grid item>
-            <label for="email">
+            <label htmlFor="email">
               <p>Email</p>
             </label>
             <StyledInput
@@ -142,7 +141,7 @@ function SigninForm() {
             />
           </Grid>
           <Grid item>
-            <label for="password">
+            <label htmlFor="password">
               <p>Password</p>
             </label>
             <div className="inputDiv">

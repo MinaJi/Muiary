@@ -19,7 +19,7 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0000008d;
+  background-color: ${(props) => props.theme.modalBg};
   top: 0;
   left: 0;
   z-index: 300;
@@ -27,14 +27,14 @@ const Background = styled.div`
 
 const ModalContainer = styled(Grid)`
   && {
-    background-color: #ffffff;
+    background-color: ${(props) => props.theme.bgColor};
     width: 350px;
-    height: 550px;
+    height: max-content;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     padding: 25px;
-    box-shadow: rgba(97, 97, 97, 0.35) 0px 5px 15px;
+    box-shadow: ${(props) => props.theme.modalBoxShadow};
     .item {
       margin: 0 auto;
     }
@@ -45,6 +45,7 @@ const StyledAvatar = styled(Avatar)`
   && {
     width: 200px;
     height: 200px;
+    margin-top: 10px;
   }
 `;
 

@@ -87,7 +87,9 @@ function ReplyInput() {
         boardItem: itemId,
         date: date,
         timestamp: serverTimestamp(),
-      }).then(e.target.reset(""));
+      })
+        .then(e.target.reset(""))
+        .then(setContent(""));
     } catch (error) {
       console.log(error);
     }
@@ -99,19 +101,39 @@ function ReplyInput() {
         <form onSubmit={handleSubmit}>
           <div>
             <span>What do you think of this song?</span>
-            <button className="btn" value="Good song.">
+            <button
+              className="btn"
+              value="Good song."
+              onClick={(e) => setContent(e.target.value)}
+            >
               👍
             </button>
-            <button className="btn" value="It's LIT!">
+            <button
+              className="btn"
+              value="It's LIT!"
+              onClick={(e) => setContent(e.target.value)}
+            >
               🔥
             </button>
-            <button className="btn" value="Love it">
+            <button
+              className="btn"
+              value="Love it"
+              onClick={(e) => setContent(e.target.value)}
+            >
               ❤️
             </button>
-            <button className="btn" value="100% AGREE.">
+            <button
+              className="btn"
+              value="100% AGREE."
+              onClick={(e) => setContent(e.target.value)}
+            >
               💯
             </button>
-            <button className="btn" value="Make me dance!">
+            <button
+              className="btn"
+              value="Make me dance!"
+              onClick={(e) => setContent(e.target.value)}
+            >
               🕺
             </button>
           </div>
