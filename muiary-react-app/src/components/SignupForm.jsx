@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase-config";
 import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
@@ -11,6 +19,7 @@ import { RiInformationLine, RiInformationFill } from "react-icons/ri";
 import { Tooltip } from "./tooltips/Tooltip";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { useState } from "react";
+import { async } from "@firebase/util";
 
 const GridContainer = styled(Grid)`
   && {
@@ -128,23 +137,34 @@ function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (values, actions) => {
-    try {
-      await createUser(values.email, values.password).then((res) => {
-        setDoc(doc(db, "users", res.user.uid), {
-          email: values.email,
-          username: values.username,
-          nickname:
-            values.username + Math.floor(100000 + Math.random() * 900000),
-          registerDate: new Date().toUTCString(),
-          dateOfBirth: "",
-          country: "",
-          bio: "",
-          profileImgUrl: "",
+    const usernamesRef = doc(db, "usernames", values.username);
+    const snapshot = await getDoc(usernamesRef);
+
+    if (!snapshot.exists()) {
+      try {
+        await createUser(values.email, values.password).then((res) => {
+          setDoc(doc(db, "users", res.user.uid), {
+            email: values.email,
+            username: values.username,
+            nickname:
+              values.username + Math.floor(100000 + Math.random() * 900000),
+            registerDate: new Date().toUTCString(),
+            dateOfBirth: "",
+            country: "",
+            bio: "",
+            profileImgUrl: "",
+          });
+          setDoc(doc(db, "usernames", values.username), {
+            username: values.username,
+            uid: res.user.uid,
+          });
         });
-      });
-      navi("/");
-    } catch (error) {
-      console.log(error.message);
+        navi("/");
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      alert("이미 존재하는 아이디입니다!");
     }
   };
 
@@ -164,7 +184,7 @@ function SignupForm() {
     <GridContainer container direction="column" alignContent="center">
       <StyledForm onSubmit={handleSubmit}>
         <Grid item className="input-div">
-          <label for="email">
+          <label htmlFor="email">
             <p>Email</p>
           </label>
           <input
@@ -187,7 +207,7 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <label for="password">
+          <label htmlFor="password">
             <p>Password</p>
           </label>
           <div
@@ -226,7 +246,7 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <label for="confirmPassword">
+          <label htmlFor="confirmPassword">
             <p>Confirm Password</p>
           </label>
           <input
@@ -253,7 +273,7 @@ function SignupForm() {
           )}
         </Grid>
         <Grid item className="input-div">
-          <label for="username">
+          <label htmlFor="username">
             <p>Username</p>
           </label>
           <Tooltip
