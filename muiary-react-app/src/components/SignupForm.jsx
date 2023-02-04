@@ -3,15 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { useFormik } from "formik";
 import { formSchemas } from "../schemas";
@@ -19,7 +11,6 @@ import { RiInformationLine, RiInformationFill } from "react-icons/ri";
 import { Tooltip } from "./tooltips/Tooltip";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { useState } from "react";
-import { async } from "@firebase/util";
 
 const GridContainer = styled(Grid)`
   && {

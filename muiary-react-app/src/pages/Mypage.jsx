@@ -1,9 +1,7 @@
 import React from "react";
 import MainHeader from "../components/MainHeader";
 import styled from "styled-components";
-import { Container } from "@mui/system";
-import { Grid, IconButton, List, MenuItem } from "@mui/material";
-import { UserAuth } from "../context/AuthContext";
+import { Grid, IconButton, MenuItem } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -65,11 +63,7 @@ function Mypage() {
   const navi = useNavigate();
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
+    <>
       <MainHeader />
       <LeftDiv item>
         {menu.map((item, i) => (
@@ -82,9 +76,15 @@ function Mypage() {
         ))}
       </LeftDiv>
       <RigthDiv item>
-        <Outlet />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Outlet />
+        </motion.div>
       </RigthDiv>
-    </motion.div>
+    </>
   );
 }
 

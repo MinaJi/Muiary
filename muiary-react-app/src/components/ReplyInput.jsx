@@ -13,6 +13,7 @@ import ReplyList from "./ReplyList";
 const InputDiv = styled(Grid)`
   && {
     background-color: #ffffff77;
+    width: 100%;
     border: none;
     border-radius: 20px;
     height: max-content;

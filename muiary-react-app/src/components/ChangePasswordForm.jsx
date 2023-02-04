@@ -25,13 +25,8 @@ const GridContainer = styled(Grid)`
       font-weight: 600;
       margin-bottom: 5px;
     }
-    .info {
-      padding: 10px;
-      font-size: 13px;
-      color: #505050;
-      .icon {
-        padding-right: 2px;
-      }
+    .icon {
+      padding-right: 2px;
     }
   }
 `;
@@ -65,14 +60,14 @@ const FormContainer = styled(Grid)`
   }
 `;
 
-function ChangePasswordForm() {
+function ChangePasswordForm({ isFormOpened }) {
   const { changePassword, user } = UserAuth();
 
-  const [showEdit, setShowEdit] = useState(false);
+  // const [showEdit, setShowEdit] = useState(false);
 
-  const handleShowEdit = () => {
-    setShowEdit(true);
-  };
+  // const handleShowEdit = () => {
+  //   setShowEdit(true);
+  // };
 
   const onSubmit = async (values) => {
     // await reauthenticateWithCredential(user, credential);
@@ -96,60 +91,57 @@ function ChangePasswordForm() {
     });
 
   return (
-    <GridContainer container>
-      <Grid item>
-        <button onClick={handleShowEdit} className="btn">
-          Change password
-        </button>
-      </Grid>
-      {showEdit && (
-        <FormContainer container direction="column">
-          <Grid item>
-            <form onSubmit={handleSubmit}>
-              <Grid item>
-                <label htmlFor="newPassword">
-                  <p>New password</p>
-                </label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  value={values.newPassword}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item>
-                <label htmlFor="newPasswordConfirm">
-                  <p>Confirm new password</p>
-                </label>
-                <input
-                  type="password"
-                  id="newPasswordConfirm"
-                  value={values.newPasswordConfirm}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item>
-                <Grid container className="info">
-                  <Grid item className="icon">
-                    <RiInformationLine />
-                  </Grid>
-                  <Grid item>
-                    <p>
-                      Make sure password is at least 8 characters, including at
-                      least one number and letter and special characters, for
-                      example #,?,!.
-                    </p>
+    <>
+      {isFormOpened && (
+        <GridContainer container>
+          <FormContainer container direction="column">
+            <Grid item>
+              <form onSubmit={handleSubmit}>
+                <Grid item>
+                  <label htmlFor="newPassword">
+                    <p>New password</p>
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    value={values.newPassword}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item>
+                  <label htmlFor="newPasswordConfirm">
+                    <p>Confirm new password</p>
+                  </label>
+                  <input
+                    type="password"
+                    id="newPasswordConfirm"
+                    value={values.newPasswordConfirm}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item>
+                  <Grid container className="info">
+                    <Grid item className="icon">
+                      <RiInformationLine />
+                    </Grid>
+                    <Grid item>
+                      <p>
+                        Make sure password is at least 8 characters, including
+                        at least one number and letter and special characters,
+                        for example #,?,!.
+                      </p>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                <button type="submit">Update</button>
-              </Grid>
-            </form>
-          </Grid>
-        </FormContainer>
+                <Grid item>
+                  <button type="submit">Update</button>
+                </Grid>
+              </form>
+            </Grid>
+          </FormContainer>{" "}
+        </GridContainer>
       )}
-    </GridContainer>
+    </>
   );
 }
 

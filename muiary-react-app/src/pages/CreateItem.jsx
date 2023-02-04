@@ -78,6 +78,7 @@ const Btn = styled.button`
   padding: 10px;
   font-size: 20px;
   color: white;
+  cursor: pointer;
   :hover {
     background-color: #f73859;
   }
@@ -210,7 +211,7 @@ function CreateItem() {
               <Editor setContents={setContents} id="contents" />
             </Grid>
             <Grid item>
-              <Btn type="submit">Submit</Btn>
+              <Btn type="submit">Post</Btn>
             </Grid>
           </form>
         </Grid>

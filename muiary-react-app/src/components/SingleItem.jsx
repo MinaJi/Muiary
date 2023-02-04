@@ -165,10 +165,10 @@ function SingleItem({
   return (
     <>
       <GridContainer container>
-        <Grid item xs={1}>
+        <Grid item xs={1.5}>
           <BoardProfile username={username} />
         </Grid>
-        <Grid item className="grid-wrapper">
+        <Grid item xs={9} className="grid-wrapper">
           <Grid container className="header">
             <img src={artwork} alt="artwork" id="artwork-bg" />
           </Grid>
@@ -216,7 +216,7 @@ function SingleItem({
             <ReplyInput />
           </Grid>
         </Grid>
-        <Grid item xs={1} className="side-nav">
+        <Grid item xs={1.5} className="side-nav">
           <Grid container direction="column">
             <Grid item className="menu-items">
               {user.uid === userId && (

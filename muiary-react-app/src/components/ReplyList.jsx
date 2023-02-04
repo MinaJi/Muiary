@@ -15,7 +15,6 @@ import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
 import ReplyUserProfile from "./ReplyUserProfile";
 import { MdDeleteForever } from "react-icons/md";
-import { async } from "@firebase/util";
 
 const GridContainer = styled(Grid)`
   && {
