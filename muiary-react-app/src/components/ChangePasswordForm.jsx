@@ -62,6 +62,7 @@ const FormContainer = styled(Grid)`
 
 function ChangePasswordForm({ isFormOpened }) {
   const { changePassword, user } = UserAuth();
+  const { updateAlert, setUpdateAlert } = useState("");
 
   // const [showEdit, setShowEdit] = useState(false);
 
@@ -138,7 +139,12 @@ function ChangePasswordForm({ isFormOpened }) {
                 </Grid>
               </form>
             </Grid>
-          </FormContainer>{" "}
+          </FormContainer>
+          {updateAlert && (
+            <>
+              <p>변경완료!!</p>
+            </>
+          )}
         </GridContainer>
       )}
     </>

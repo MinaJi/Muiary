@@ -26,6 +26,8 @@ function MyBoardItemLists() {
     return boardDocs;
   }
 
+  console.log("보드", boardItem);
+
   useEffect(() => {
     const getBoardDocs = async () => {
       try {
@@ -51,7 +53,7 @@ function MyBoardItemLists() {
           {Object.keys(boardItem).map((item, i) => (
             <BoardItemCard
               key={i}
-              artwork={boardItem[item].musicItem.artworkUrl100}
+              artwork={boardItem[item].musicItem[0].artworkUrl100}
               title={boardItem[item].title}
               date={boardItem[item].date}
               username={boardItem[item].username}

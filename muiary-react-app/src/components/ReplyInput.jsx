@@ -32,30 +32,35 @@ const InputDiv = styled(Grid)`
         background-color: #f73859;
       }
     }
-    .input-wrapper {
+    .input-div {
       border: 1px solid silver;
       border-radius: 20px;
       height: 50px;
       outline: none;
       background-color: #ffffff;
+      display: flex;
+      flex-direction: row;
       input {
-        width: 800px;
+        width: 90%;
         border: none;
         background-color: transparent;
         outline: none;
         border-radius: 20px;
         height: 45px;
       }
-      button {
-        border: none;
-        background-color: transparent;
-        /* color: ${(props) => props.theme.textColor}; */
-        color: silver;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        :hover {
-          color: #f73859;
+      .button-wrapper {
+        width: 10%;
+        display: flex;
+        button {
+          border: none;
+          background-color: transparent;
+          color: silver;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          :hover {
+            color: #f73859;
+          }
         }
       }
     }
@@ -139,9 +144,11 @@ function ReplyInput() {
             </button>
           </div>
           <StyledDivder />
-          <div className="input-wrapper">
+          <div className="input-div">
             <input onChange={(e) => setContent(e.target.value)} />
-            <button>Upload</button>
+            <div className="button-wrapper">
+              <button>Upload</button>
+            </div>
           </div>
         </form>
         <div>

@@ -43,7 +43,7 @@ class SearchItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      songData: "",
+      songData: [],
     };
   }
 
@@ -51,7 +51,7 @@ class SearchItem extends Component {
     console.log(data);
     const url = data.artworkUrl100;
     data.artworkUrl100 = url.replace(/100x100bb.jpg/g, "/1200x1200bb.jpg");
-    setSongData(data);
+    setSongData((prevData) => [...prevData, data]);
     closeModal(false);
   };
 

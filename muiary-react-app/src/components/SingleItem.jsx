@@ -51,6 +51,9 @@ const GridContainer = styled(Grid)`
     .body-wrapper {
       padding-top: 20px;
       line-height: 32px;
+      @media screen and (max-width: 576px) {
+        flex-direction: column;
+      }
       img {
         width: 250px;
         height: 250px;
@@ -61,7 +64,10 @@ const GridContainer = styled(Grid)`
         padding: 20px;
         background-color: #ffffff50;
         border-radius: 20px;
-        height: 200px;
+        height: max-content;
+        @media screen and (max-width: 576px) {
+          background: red;
+        }
       }
       .trackname {
         font-size: 35px;
@@ -100,6 +106,9 @@ const GridContainer = styled(Grid)`
         border-radius: 20px;
         background-clip: padding-box;
       }
+    }
+    .divider {
+      padding: 7px;
     }
     .side-nav {
       .menu-items {
@@ -180,7 +189,7 @@ function SingleItem({
               <p>{date}</p>
             </Grid>
           </Grid>
-          <Divider />
+          <Divider className="divider" />
           <Grid container className="body-wrapper">
             <Grid item xs={3.5}>
               <img src={artwork} alt="artwork" />

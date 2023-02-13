@@ -5,13 +5,21 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db, storage } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 import { DotIcon } from "../assets/svgs/index";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 import moment from "moment";
 import { UserData } from "../context/UserDataContext";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadString,
+} from "firebase/storage";
+import { v4 } from "uuid";
+import { useEffect } from "react";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -113,11 +121,19 @@ function CreateItem() {
   const [songData, setSongData] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState("");
 
   const date = moment().format("YYYY-MM-DD, LTS");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const imgRef = ref(storage, `cover_images/${file.name + v4()}`);
+    uploadString(imgRef, file).then(() => {
+      getDownloadURL(imgRef).then((url) => {
+        setFileUrl(url);
+      });
+    });
     await addDoc(collection(db, "boardItems"), {
       userId: user.uid,
       username: users.username,
@@ -126,6 +142,7 @@ function CreateItem() {
       musicItem: songData,
       date: date,
       timestamp: new Date(),
+      coverImage: fileUrl,
       like: false,
       saved: false,
     });
@@ -183,6 +200,14 @@ function CreateItem() {
                       >
                         다시검색?
                       </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setOpenModal(true);
+                        }}
+                      >
+                        노래 추가하기
+                      </button>
                     </Grid>
                   </SongDataGrid>
                 ) : (
@@ -209,6 +234,14 @@ function CreateItem() {
               <label htmlFor="contents">Contents</label>
               {/* 이건 안되나보네 */}
               <Editor setContents={setContents} id="contents" />
+            </Grid>
+            <Grid item>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.value[0])}
+                id="file-input"
+              />
             </Grid>
             <Grid item>
               <Btn type="submit">Post</Btn>
