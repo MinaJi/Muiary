@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Avatar, Divider, Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

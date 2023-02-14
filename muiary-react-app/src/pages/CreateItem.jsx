@@ -12,14 +12,13 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 import moment from "moment";
 import { UserData } from "../context/UserDataContext";
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadString,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import { useEffect } from "react";
+import SongDataList from "../components/SongDataList";
+import AddIcon from "@mui/icons-material/Add";
+import { BiMusic } from "react-icons/bi";
+import { BsMusicNoteList } from "react-icons/bs";
+import SongDataDetailsList from "../components/SongDataDetailsList";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -60,6 +59,15 @@ const StyledContainer = styled(Grid)`
       :hover {
         color: #f73859;
       }
+    }
+    .icon-btn-2 {
+      background-color: black;
+      padding: 7px;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
     }
     .title-wrapper {
       padding: 10px;
@@ -118,22 +126,28 @@ function CreateItem() {
   const { user } = UserAuth();
   const { users } = UserData();
   const [openModal, setOpenModal] = useState(false);
+  const [openList, setOpenList] = useState(false);
   const [songData, setSongData] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
 
   const date = moment().format("YYYY-MM-DD, LTS");
 
-  const handleSubmit = async (e) => {
+  const fileHandler = (e) => {
     e.preventDefault();
-    const imgRef = ref(storage, `cover_images/${file.name + v4()}`);
-    uploadString(imgRef, file).then(() => {
-      getDownloadURL(imgRef).then((url) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fileRef = ref(storage, `cover_images/${v4()}`);
+    uploadBytes(fileRef, file).then(() => {
+      getDownloadURL(fileRef).then((url) => {
         setFileUrl(url);
       });
     });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     await addDoc(collection(db, "boardItems"), {
       userId: user.uid,
       username: users.username,
@@ -159,7 +173,7 @@ function CreateItem() {
               <Grid item xs={3}>
                 {songData ? (
                   <div className="artwork">
-                    <img src={songData.artworkUrl100} alt="albumArtwork" />
+                    <img src={songData[0].artworkUrl100} alt="albumArtwork" />
                   </div>
                 ) : (
                   <div className="add">
@@ -179,35 +193,60 @@ function CreateItem() {
                 {songData ? (
                   <SongDataGrid container direction="column">
                     <Grid item className="trackname">
-                      {songData.trackName}
+                      {songData[0].trackName}
                     </Grid>
                     <Grid item className="artistname">
-                      {songData.artistName}
+                      {songData[0].artistName}
                     </Grid>
                     <Grid item className="collectionname">
-                      {songData.collectionName}
+                      {songData[0].collectionName}
                       <DotIcon />
-                      {songData.releaseDate}
+                      {songData[0].releaseDate}
                     </Grid>
                     <Grid item>
                       <Divider />
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setOpenModal(true);
-                          setSongData("");
-                        }}
-                      >
-                        다시검색?
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setOpenModal(true);
-                        }}
-                      >
-                        노래 추가하기
-                      </button>
+                      <Grid container>
+                        <Grid item>
+                          <button
+                            className="icon-btn-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setOpenModal(true);
+                              setSongData("");
+                            }}
+                          >
+                            Remove All
+                          </button>
+                        </Grid>
+                        <Grid item>
+                          <button
+                            className="icon-btn-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setOpenModal(true);
+                            }}
+                          >
+                            <AddIcon fontSize="inherit" />
+                            <BiMusic />
+                          </button>
+                        </Grid>
+                        <Grid item>
+                          <button
+                            className="icon-btn-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setOpenList(true);
+                            }}
+                          >
+                            <BsMusicNoteList />
+                          </button>
+                        </Grid>
+                        <Grid item>
+                          {songData.length > 1 && (
+                            <SongDataList songData={songData} />
+                          )}
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </SongDataGrid>
                 ) : (
@@ -224,6 +263,9 @@ function CreateItem() {
                 )}
               </Grid>
             </Grid>
+            <Grid item>
+              {openList && <SongDataDetailsList songData={songData} />}
+            </Grid>
             <Grid item className="title-wrapper">
               <label htmlFor="title" className="title-label">
                 <p>Title</p>
@@ -239,7 +281,7 @@ function CreateItem() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setFile(e.target.value[0])}
+                onChange={fileHandler}
                 id="file-input"
               />
             </Grid>
