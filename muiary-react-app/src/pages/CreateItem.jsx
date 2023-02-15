@@ -264,7 +264,12 @@ function CreateItem() {
               </Grid>
             </Grid>
             <Grid item>
-              {openList && <SongDataDetailsList songData={songData} />}
+              {openList && (
+                <SongDataDetailsList
+                  songData={songData}
+                  setOpenList={setOpenList}
+                />
+              )}
             </Grid>
             <Grid item className="title-wrapper">
               <label htmlFor="title" className="title-label">
