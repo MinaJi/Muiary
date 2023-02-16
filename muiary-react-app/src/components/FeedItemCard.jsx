@@ -19,6 +19,7 @@ const Card = styled(Grid)`
     }
     img {
       width: 250px;
+      height: 250px;
       border-radius: 14px;
     }
     .icon {
@@ -26,6 +27,12 @@ const Card = styled(Grid)`
     }
     :hover {
       box-shadow: rgba(201, 201, 201, 0.305) 0px 0px 15px;
+    }
+    p {
+      width: 250px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 `;
@@ -39,13 +46,17 @@ function FeedItemCard({ data }) {
           <Divider className="divider" />
           <Grid item>
             <Link to={`/muiary/pages/${item.id}`}>
-              <img src={item.musicItem.artworkUrl100} alt="artwork" />
+              {!item.coverImage ? (
+                <img src={item.musicItem[0].artworkUrl100} alt="artwork" />
+              ) : (
+                <img src={item.coverImage} alt="coverpic" />
+              )}
             </Link>
           </Grid>
           <Grid item>
             <p>
               <BiMusic className="icon" />
-              {item.musicItem.trackName}
+              {item.musicItem[0].trackName}
             </p>
           </Grid>
           <Grid item>

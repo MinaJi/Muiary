@@ -19,10 +19,16 @@ const GridContainer = styled(Grid)`
 `;
 
 function SongDataList({ songData }) {
+  const deleteHandler = (e, i) => {
+    e.preventDefault();
+    console.log(i);
+  };
+
   return (
     <GridContainer container>
-      {songData.map((item, key) => (
-        <Grid item key={key} className="image-wrapper">
+      {songData.map((item, i) => (
+        <Grid item key={i} className="image-wrapper">
+          <button onClick={(e) => deleteHandler(e, i)}>삭제</button>
           <img src={item.artworkUrl100} alt="artwork" />
         </Grid>
       ))}

@@ -62,56 +62,55 @@ const GridContainer = styled(Grid)`
 
 function SongDataDetailsList({ songData, setOpenList }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <GridContainer container>
-        <Grid container className="list-header">
-          <Grid item xs={0.5}></Grid>
-          <Grid item xs={5}>
-            <p>Song</p>
+    <GridContainer container>
+      <Grid container className="list-header">
+        <Grid item xs={0.5}></Grid>
+        <Grid item xs={5}>
+          <p>Song</p>
+        </Grid>
+        <Grid item xs={3}>
+          <p>Artist</p>
+        </Grid>
+        <Grid item xs={3}>
+          <p>Album</p>
+        </Grid>
+        <Grid item className="close-icon-div">
+          <KeyboardArrowUpIcon
+            className="close-icon"
+            onClick={() => {
+              setOpenList(false);
+            }}
+          />
+        </Grid>
+      </Grid>
+      {songData.map((item, i) => (
+        <Grid
+          container
+          component={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          key={i}
+          direction="row"
+          className="list-item"
+          alignItems="center"
+        >
+          <Grid item>
+            <img src={item.artworkUrl100} alt="artwork" />
           </Grid>
-          <Grid item xs={3}>
-            <p>Artist</p>
+          <Grid item xs={5} className="list-item-wrapper">
+            <span>{item.trackName}</span>
           </Grid>
-          <Grid item xs={3}>
-            <p>Album</p>
+          <Grid item xs={3} className="list-item-wrapper">
+            <span>{item.artistName}</span>
           </Grid>
-          <Grid item className="close-icon-div">
-            <KeyboardArrowUpIcon
-              className="close-icon"
-              onClick={() => {
-                setOpenList(false);
-              }}
-            />
+          <Grid item xs={3} className="list-item-wrapper">
+            <span>{item.collectionName}</span>
           </Grid>
         </Grid>
-        {songData.map((item, i) => (
-          <Grid
-            container
-            key={i}
-            direction="row"
-            className="list-item"
-            alignItems="center"
-          >
-            <Grid item>
-              <img src={item.artworkUrl100} alt="artwork" />
-            </Grid>
-            <Grid item xs={5} className="list-item-wrapper">
-              <span>{item.trackName}</span>
-            </Grid>
-            <Grid item xs={3} className="list-item-wrapper">
-              <span>{item.artistName}</span>
-            </Grid>
-            <Grid item xs={3} className="list-item-wrapper">
-              <span>{item.collectionName}</span>
-            </Grid>
-          </Grid>
-        ))}
-      </GridContainer>
-    </motion.div>
+      ))}
+    </GridContainer>
   );
 }
 

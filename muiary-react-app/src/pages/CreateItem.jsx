@@ -19,6 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { BiMusic } from "react-icons/bi";
 import { BsMusicNoteList } from "react-icons/bs";
 import SongDataDetailsList from "../components/SongDataDetailsList";
+import { AnimatePresence, motion } from "framer-motion";
 
 const StyledContainer = styled(Grid)`
   && {
@@ -68,6 +69,9 @@ const StyledContainer = styled(Grid)`
       color: #fff;
       cursor: pointer;
       font-size: 18px;
+      :hover {
+        background-color: #f73859;
+      }
     }
     .title-wrapper {
       padding: 10px;
@@ -83,6 +87,10 @@ const StyledContainer = styled(Grid)`
     .contents-wrapper {
       font-size: 25px;
       padding: 10px;
+    }
+    .file-input-wrapper {
+      padding: 10px;
+      font-size: 25px;
     }
   }
 `;
@@ -133,6 +141,11 @@ function CreateItem() {
   const [fileUrl, setFileUrl] = useState("");
 
   const date = moment().format("YYYY-MM-DD, LTS");
+
+  const openListHandler = (e) => {
+    e.preventDefault();
+    setOpenList((prev) => !prev);
+  };
 
   const fileHandler = (e) => {
     e.preventDefault();
@@ -233,10 +246,7 @@ function CreateItem() {
                         <Grid item>
                           <button
                             className="icon-btn-2"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setOpenList(true);
-                            }}
+                            onClick={openListHandler}
                           >
                             <BsMusicNoteList />
                           </button>
@@ -264,25 +274,38 @@ function CreateItem() {
               </Grid>
             </Grid>
             <Grid item>
-              {openList && (
-                <SongDataDetailsList
-                  songData={songData}
-                  setOpenList={setOpenList}
-                />
-              )}
+              <AnimatePresence>
+                {openList && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <SongDataDetailsList
+                      songData={songData}
+                      setOpenList={setOpenList}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Grid>
             <Grid item className="title-wrapper">
-              <label htmlFor="title" className="title-label">
+              <label htmlFor="title">
                 <p>Title</p>
               </label>
               <input onChange={(e) => setTitle(e.target.value)} id="title" />
             </Grid>
             <Grid item className="contents-wrapper">
-              <label htmlFor="contents">Contents</label>
-              {/* 이건 안되나보네 */}
+              <label>
+                <p>Contents</p>
+              </label>
               <Editor setContents={setContents} id="contents" />
             </Grid>
-            <Grid item>
+            <Grid item className="file-input-wrapper">
+              <label htmlFor="file-input" className="file-input-label">
+                <p>Upload Cover</p>
+              </label>
               <input
                 type="file"
                 accept="image/*"
