@@ -7,29 +7,38 @@ const GridContainer = styled(Grid)`
     width: max-content;
     height: max-content;
     padding: 15px;
-    .image-wrapper {
+    .grid-wrapper {
+      margin: 3px;
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        width: max-content;
+        height: max-content;
+      }
       img {
         width: 45px;
         border-radius: 50%;
-        margin: 3px;
         cursor: pointer;
       }
     }
   }
 `;
 
-function SongDataList({ songData }) {
+function SongDataList({ songData, setSongData }) {
   const deleteHandler = (e, i) => {
     e.preventDefault();
-    console.log(i);
+    setSongData((songData) => {
+      return songData.filter((_, index) => index !== i);
+    });
   };
 
   return (
     <GridContainer container>
       {songData.map((item, i) => (
-        <Grid item key={i} className="image-wrapper">
-          <button onClick={(e) => deleteHandler(e, i)}>삭제</button>
+        <Grid item key={i} className="grid-wrapper">
           <img src={item.artworkUrl100} alt="artwork" />
+          <button onClick={(e) => deleteHandler(e, i)}>x</button>
         </Grid>
       ))}
     </GridContainer>

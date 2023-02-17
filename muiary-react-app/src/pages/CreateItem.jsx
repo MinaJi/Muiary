@@ -253,7 +253,10 @@ function CreateItem() {
                         </Grid>
                         <Grid item>
                           {songData.length > 1 && (
-                            <SongDataList songData={songData} />
+                            <SongDataList
+                              songData={songData}
+                              setSongData={setSongData}
+                            />
                           )}
                         </Grid>
                       </Grid>
@@ -285,6 +288,7 @@ function CreateItem() {
                     <SongDataDetailsList
                       songData={songData}
                       setOpenList={setOpenList}
+                      setSongData={setSongData}
                     />
                   </motion.div>
                 )}

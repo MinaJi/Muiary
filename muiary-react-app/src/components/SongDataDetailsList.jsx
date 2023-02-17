@@ -60,7 +60,14 @@ const GridContainer = styled(Grid)`
   }
 `;
 
-function SongDataDetailsList({ songData, setOpenList }) {
+function SongDataDetailsList({ songData, setOpenList, setSongData }) {
+  const deleteHandler = (e, i) => {
+    e.preventDefault();
+    setSongData((songData) => {
+      return songData.filter((_, index) => index !== i);
+    });
+  };
+
   return (
     <GridContainer container>
       <Grid container className="list-header">
@@ -107,6 +114,9 @@ function SongDataDetailsList({ songData, setOpenList }) {
           </Grid>
           <Grid item xs={3} className="list-item-wrapper">
             <span>{item.collectionName}</span>
+          </Grid>
+          <Grid item>
+            <button onClick={(e) => deleteHandler(e, i)}>삭제</button>
           </Grid>
         </Grid>
       ))}
