@@ -26,6 +26,7 @@ export const lightTheme = {
   modalBoxShadow: "rgba(97, 97, 97, 0.35) 0px 0px 15px",
   addBorder: "#eaeaea",
   addBoxShadow: "rgba(97, 97, 97, 0.158) 0px 0px 20px",
+  dataListBgColor: "#fafafa",
 };
 
 export const darkTheme = {
@@ -56,6 +57,7 @@ export const darkTheme = {
   modalBoxShadow: "rgba(0, 0, 0, 0.553) 0px 0px 15px",
   addBorder: "#21272f",
   addBoxShadow: "rgba(0, 0, 0, 0.199) 0px 0px 20px",
+  dataListBgColor: "#1e242d",
 };
 
 export const theme = {

@@ -1,7 +1,6 @@
 import { Divider, Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import MainHeader from "../components/MainHeader";
 import ReplyInput from "./ReplyInput";
 import { DotIcon } from "../assets/svgs/index";
 import parser from "html-react-parser";
@@ -44,10 +43,14 @@ const GridContainer = styled(Grid)`
         background: no-repeat;
       }
     }
-    .title {
-      font-size: 28px;
-      font-weight: 600;
+    .title-wrapper {
+      line-height: 28px;
+      .title {
+        font-size: 28px;
+        font-weight: 600;
+      }
     }
+
     .body-wrapper {
       padding-top: 20px;
       line-height: 32px;
@@ -65,12 +68,15 @@ const GridContainer = styled(Grid)`
         background-color: #ffffff50;
         border-radius: 20px;
         height: max-content;
+        max-height: 260px;
         @media screen and (max-width: 576px) {
           background: red;
         }
       }
       .trackname {
-        font-size: 35px;
+        /* font-size: 35px; */
+        font-size: 2.1875rem;
+        /* font-size: clamp(2.1875rem, 80vw, 0.8rem); */
         font-weight: 700;
       }
       .artist {
@@ -139,22 +145,24 @@ const Btn = styled.button`
   }
 `;
 
-function SingleItem({
-  artwork,
-  title,
-  contents,
-  date,
-  artistName,
-  trackName,
-  collectionName,
-  releaseDate,
-  userId,
-  username,
-}) {
+function SingleItem({ title, contents, date, userId, username, musicItem }) {
   const { user } = UserAuth();
+  const [indexNum, setIndexNum] = useState(0);
+
+  const goToPrev = () => {
+    const isFirstIndex = indexNum === 0;
+    const newIndex = isFirstIndex ? musicItem.length - 1 : indexNum - 1;
+    setIndexNum(newIndex);
+  };
+  const goToNext = () => {
+    const isLastIndex = indexNum === musicItem.length - 1;
+    const newIndex = isLastIndex ? 0 : indexNum + 1;
+    setIndexNum(newIndex);
+  };
+
   const fac = new FastAverageColor();
   fac
-    .getColorAsync(artwork)
+    .getColorAsync(musicItem[indexNum].artworkUrl100)
     .then((color) => {
       if (color.value[0] >= 230) {
         document.getElementById("artwork-bg").style.filter =
@@ -166,7 +174,9 @@ function SingleItem({
     });
 
   const urlOpenHandler = () => {
-    youtubeSearch(trackName + artistName).then((res) =>
+    youtubeSearch(
+      musicItem[indexNum].trackName + musicItem[indexNum].artistName
+    ).then((res) =>
       window.open("https://www.youtube.com/watch?v=" + res.items[0].id.videoId)
     );
   };
@@ -179,42 +189,49 @@ function SingleItem({
         </Grid>
         <Grid item xs={9} className="grid-wrapper">
           <Grid container className="header">
-            <img src={artwork} alt="artwork" id="artwork-bg" />
+            <img
+              src={musicItem[indexNum].artworkUrl100}
+              alt="artwork"
+              id="artwork-bg"
+            />
           </Grid>
           <Grid item className="title-wrapper">
             <Grid item>
               <p className="title">{title}</p>
             </Grid>
             <Grid item>
-              <p>{date}</p>
+              <p className="date">{date}</p>
             </Grid>
           </Grid>
           <Divider className="divider" />
           <Grid container className="body-wrapper">
-            <Grid item xs={3.5}>
-              <img src={artwork} alt="artwork" />
-            </Grid>
-            <Grid item xs={8.5}>
-              <Grid container className="body" direction="column" id="body">
-                <Grid item className="trackname">
-                  {trackName}
-                </Grid>
-                <Grid item className="artist">
-                  {artistName}
-                </Grid>
-                <Grid item className="album">
-                  {collectionName}
-                  <DotIcon />
-                  {releaseDate}
-                </Grid>
-                <Divider />
-                <Grid item>
-                  <Btn onClick={urlOpenHandler}>
-                    <YouTubeIcon fontSize="inherit" />
-                  </Btn>
+            <Grid container spacing={8}>
+              <Grid item xs={3}>
+                <img src={musicItem[indexNum].artworkUrl100} alt="artwork" />
+              </Grid>
+              <Grid item xs={9}>
+                <Grid container className="body" direction="column" id="body">
+                  <Grid item className="trackname">
+                    {musicItem[indexNum].trackName}
+                  </Grid>
+                  <Grid item className="artist">
+                    {musicItem[indexNum].artistName}
+                  </Grid>
+                  <Grid item className="album">
+                    {musicItem[indexNum].collectionName}
+                    <DotIcon />
+                    {musicItem[indexNum].releaseDate}
+                  </Grid>
+                  <Divider />
+                  <Grid item>
+                    <Btn onClick={urlOpenHandler}>
+                      <YouTubeIcon fontSize="inherit" />
+                    </Btn>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
+
             <Grid container className="contents-wrapper">
               <Grid item className="contents" xs={12}>
                 <div className="ql-editor">{parser(`${contents}`)}</div>
@@ -248,6 +265,8 @@ function SingleItem({
             </Grid>
           </Grid>
         </Grid>
+        <button onClick={goToPrev}>{"<"}</button>
+        <button onClick={goToNext}>{">"}</button>
       </GridContainer>
     </>
   );

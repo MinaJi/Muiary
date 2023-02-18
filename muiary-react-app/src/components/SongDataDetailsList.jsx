@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { motion } from "framer-motion";
 
 const GridContainer = styled(Grid)`
@@ -16,7 +17,7 @@ const GridContainer = styled(Grid)`
       cursor: pointer;
     }
     .list-item:nth-child(even) {
-      background-color: #fafafa;
+      background-color: ${(props) => props.theme.dataListBgColor};
     }
     .list-item-wrapper {
       padding: 10px 30px 10px 10px;
@@ -51,6 +52,16 @@ const GridContainer = styled(Grid)`
         100% {
           transform: translateX(0%);
         }
+      }
+    }
+    .icon-wrapper {
+      font-size: 14px;
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        stroke: gray;
+        stroke-width: 2;
       }
     }
     img {
@@ -90,36 +101,39 @@ function SongDataDetailsList({ songData, setOpenList, setSongData }) {
           />
         </Grid>
       </Grid>
-      {songData.map((item, i) => (
-        <Grid
-          container
-          component={motion.div}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-          key={i}
-          direction="row"
-          className="list-item"
-          alignItems="center"
-        >
-          <Grid item>
-            <img src={item.artworkUrl100} alt="artwork" />
+      {songData &&
+        songData.map((item, i) => (
+          <Grid
+            container
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            key={i}
+            direction="row"
+            className="list-item"
+            alignItems="center"
+          >
+            <Grid item xs={0.5}>
+              <img src={item.artworkUrl100} alt="artwork" />
+            </Grid>
+            <Grid item xs={5} className="list-item-wrapper">
+              <span>{item.trackName}</span>
+            </Grid>
+            <Grid item xs={3} className="list-item-wrapper">
+              <span>{item.artistName}</span>
+            </Grid>
+            <Grid item xs={3} className="list-item-wrapper">
+              <span>{item.collectionName}</span>
+            </Grid>
+            <Grid item xs={0.5} className="icon-wrapper">
+              <button onClick={(e) => deleteHandler(e, i)}>
+                <RemoveIcon fontSize="inherit" />
+              </button>
+            </Grid>
           </Grid>
-          <Grid item xs={5} className="list-item-wrapper">
-            <span>{item.trackName}</span>
-          </Grid>
-          <Grid item xs={3} className="list-item-wrapper">
-            <span>{item.artistName}</span>
-          </Grid>
-          <Grid item xs={3} className="list-item-wrapper">
-            <span>{item.collectionName}</span>
-          </Grid>
-          <Grid item>
-            <button onClick={(e) => deleteHandler(e, i)}>삭제</button>
-          </Grid>
-        </Grid>
-      ))}
+        ))}
     </GridContainer>
   );
 }

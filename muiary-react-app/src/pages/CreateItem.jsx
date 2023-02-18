@@ -173,7 +173,6 @@ function CreateItem() {
       like: false,
       saved: false,
     });
-    console.log("글작성완료~");
     navi(-1);
   };
 
@@ -184,9 +183,9 @@ function CreateItem() {
           <form onSubmit={handleSubmit}>
             <Grid container className="songdata-wrapper">
               <Grid item xs={3}>
-                {songData ? (
+                {songData.length >= 1 ? (
                   <div className="artwork">
-                    <img src={songData[0].artworkUrl100} alt="albumArtwork" />
+                    <img src={songData[0]?.artworkUrl100} alt="albumArtwork" />
                   </div>
                 ) : (
                   <div className="add">
@@ -203,18 +202,18 @@ function CreateItem() {
                 )}
               </Grid>
               <Grid item xs={9}>
-                {songData ? (
+                {songData.length >= 1 ? (
                   <SongDataGrid container direction="column">
                     <Grid item className="trackname">
-                      {songData[0].trackName}
+                      {songData[0]?.trackName}
                     </Grid>
                     <Grid item className="artistname">
-                      {songData[0].artistName}
+                      {songData[0]?.artistName}
                     </Grid>
                     <Grid item className="collectionname">
-                      {songData[0].collectionName}
+                      {songData[0]?.collectionName}
                       <DotIcon />
-                      {songData[0].releaseDate}
+                      {songData[0]?.releaseDate}
                     </Grid>
                     <Grid item>
                       <Divider />

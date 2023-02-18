@@ -33,6 +33,8 @@ function SongDataList({ songData, setSongData }) {
     });
   };
 
+  console.log("길이", songData.length);
+
   return (
     <GridContainer container>
       {songData.map((item, i) => (
