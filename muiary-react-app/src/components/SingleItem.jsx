@@ -1,5 +1,5 @@
-import { Divider, Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Divider, Grid, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ReplyInput from "./ReplyInput";
 import { DotIcon } from "../assets/svgs/index";
@@ -12,6 +12,12 @@ import { youtubeSearch } from "../apis/youtube";
 import MenuIcon from "@mui/icons-material/Menu";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { RiHeart2Line, RiHeart2Fill, RiBookmarkLine } from "react-icons/ri";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import LinkIcon from "@mui/icons-material/Link";
+import DeleteModal from "./DeleteModal";
 
 const GridContainer = styled(Grid)`
   && {
@@ -50,10 +56,10 @@ const GridContainer = styled(Grid)`
         font-weight: 600;
       }
     }
-
     .body-wrapper {
       padding-top: 20px;
       line-height: 32px;
+      position: relative;
       @media screen and (max-width: 576px) {
         flex-direction: column;
       }
@@ -63,31 +69,68 @@ const GridContainer = styled(Grid)`
         box-shadow: rgba(0, 0, 0, 0.145) 0px 0px 15px;
         border-radius: 7px;
       }
-      .body {
-        padding: 20px;
-        background-color: #ffffff50;
-        border-radius: 20px;
-        height: max-content;
-        max-height: 260px;
-        @media screen and (max-width: 576px) {
-          background: red;
+      .img-wrapper {
+        .overlay {
+          position: absolute;
+          margin-top: 20px;
+          top: 0;
+          bottom: 0;
+          height: 250px;
+          width: 250px;
+          opacity: 0;
+          transition: 0.3s ease;
+          background-color: #ffffff66;
+          border-radius: 7px;
+          .arrow-left {
+            position: absolute;
+            top: 45%;
+            left: 2%;
+            font-size: 30px;
+            cursor: pointer;
+            :hover {
+              color: #f73859;
+            }
+          }
+          .arrow-right {
+            position: absolute;
+            top: 45%;
+            right: 2%;
+            font-size: 30px;
+            cursor: pointer;
+            :hover {
+              color: #f73859;
+            }
+          }
         }
       }
-      .trackname {
-        /* font-size: 35px; */
-        font-size: 2.1875rem;
-        /* font-size: clamp(2.1875rem, 80vw, 0.8rem); */
-        font-weight: 700;
+      .img-wrapper:hover .overlay {
+        opacity: 1;
       }
-      .artist {
-        font-size: 25px;
-        color: #f73859;
-        font-weight: 600;
+    }
+    .body {
+      padding: 20px;
+      background-color: #ffffff50;
+      border-radius: 20px;
+      height: max-content;
+      max-height: 260px;
+      @media screen and (max-width: 576px) {
+        background: red;
       }
-      .album {
-        font-size: 16px;
-        color: inherit;
-      }
+    }
+    .trackname {
+      /* font-size: 35px; */
+      font-size: 2.1875rem;
+      /* font-size: clamp(2.1875rem, 80vw, 0.8rem); */
+      font-weight: 700;
+    }
+    .artist {
+      font-size: 25px;
+      color: #f73859;
+      font-weight: 600;
+    }
+    .album {
+      font-size: 16px;
+      color: inherit;
     }
     .contents-wrapper {
       background-color: #ffffff70;
@@ -145,9 +188,25 @@ const Btn = styled.button`
   }
 `;
 
+const SyledMenu = styled(Menu)`
+  && {
+    z-index: 0;
+    .MuiPaper-elevation8 {
+      width: 145px;
+    }
+    .copied {
+      color: #f73859;
+      font-weight: 500;
+    }
+  }
+`;
+
 function SingleItem({ title, contents, date, userId, username, musicItem }) {
   const { user } = UserAuth();
   const [indexNum, setIndexNum] = useState(0);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [isCopied, setIsCopied] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const goToPrev = () => {
     const isFirstIndex = indexNum === 0;
@@ -181,6 +240,22 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
     );
   };
 
+  const handleOpenNavMenu = (e) => {
+    setAnchorElNav(e.currentTarget);
+  };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const copyToClipboard = async () => {
+    const url = window.location.href;
+    await navigator.clipboard.writeText(url);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1500);
+  };
+
   return (
     <>
       <GridContainer container>
@@ -205,9 +280,27 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
           </Grid>
           <Divider className="divider" />
           <Grid container className="body-wrapper">
-            <Grid container spacing={8}>
-              <Grid item xs={3}>
-                <img src={musicItem[indexNum].artworkUrl100} alt="artwork" />
+            <Grid container spacing={10}>
+              <Grid item className="img-wrapper" xs={3}>
+                <img
+                  src={musicItem[indexNum].artworkUrl100}
+                  alt="artwork"
+                  className="artwork-img"
+                />
+                {musicItem.length > 1 && (
+                  <>
+                    <div className="overlay">
+                      <ArrowBackIosNewRoundedIcon
+                        className="arrow-left"
+                        onClick={goToPrev}
+                      />
+                      <ArrowForwardIosRoundedIcon
+                        className="arrow-right"
+                        onClick={goToNext}
+                      />
+                    </div>
+                  </>
+                )}
               </Grid>
               <Grid item xs={9}>
                 <Grid container className="body" direction="column" id="body">
@@ -223,15 +316,19 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
                     {musicItem[indexNum].releaseDate}
                   </Grid>
                   <Divider />
-                  <Grid item>
-                    <Btn onClick={urlOpenHandler}>
-                      <YouTubeIcon fontSize="inherit" />
-                    </Btn>
+                  <Grid container>
+                    <Grid item>
+                      <Btn onClick={urlOpenHandler}>
+                        <YouTubeIcon fontSize="inherit" />
+                      </Btn>
+                    </Grid>
+                    <Grid item>
+                      <span>Play on YouTube.</span>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-
             <Grid container className="contents-wrapper">
               <Grid item className="contents" xs={12}>
                 <div className="ql-editor">{parser(`${contents}`)}</div>
@@ -247,7 +344,7 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
             <Grid item className="menu-items">
               {user.uid === userId && (
                 <Grid item>
-                  <button>
+                  <button onClick={handleOpenNavMenu}>
                     <MenuIcon fontSize="inherit" />
                   </button>
                 </Grid>
@@ -256,6 +353,48 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
                 <button>
                   <RiHeart2Line />
                 </button>
+                <SyledMenu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setDeleteModal(true);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <DeleteIcon />
+                    </ListItemIcon>
+                    <p>Delete</p>
+                  </MenuItem>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <EditIcon />
+                    </ListItemIcon>
+                    <p>Edit</p>
+                  </MenuItem>
+                  <MenuItem onClick={copyToClipboard}>
+                    <ListItemIcon>
+                      <LinkIcon />
+                    </ListItemIcon>
+                    {isCopied ? (
+                      <p className="copied">Copied!</p>
+                    ) : (
+                      <p>Copy link</p>
+                    )}
+                  </MenuItem>
+                </SyledMenu>
               </Grid>
               <Grid item>
                 <button>
@@ -265,9 +404,8 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
             </Grid>
           </Grid>
         </Grid>
-        <button onClick={goToPrev}>{"<"}</button>
-        <button onClick={goToNext}>{">"}</button>
       </GridContainer>
+      {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} />}
     </>
   );
 }

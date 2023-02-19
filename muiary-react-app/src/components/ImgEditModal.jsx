@@ -68,7 +68,6 @@ const CloseBtn = styled(Grid)`
   && {
     display: flex;
     justify-content: flex-end;
-
     .btn {
       background-color: transparent;
       border: none;

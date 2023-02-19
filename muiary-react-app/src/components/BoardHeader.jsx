@@ -12,6 +12,9 @@ const GridContainer = styled(Grid)`
       justify-content: flex-end;
       margin-top: 10px;
     }
+    .divider {
+      width: 100vw;
+    }
   }
 `;
 
@@ -30,7 +33,7 @@ const Btn = styled.button`
 function BoardHeader() {
   return (
     <GridContainer container direction="column">
-      <Divider />
+      <Divider className="divider" />
       <Grid container className="header">
         <Grid item>
           <Btn>

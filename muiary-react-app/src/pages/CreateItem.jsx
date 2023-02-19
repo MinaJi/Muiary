@@ -317,7 +317,7 @@ function CreateItem() {
               />
             </Grid>
             <Grid item>
-              <Btn type="submit">Post</Btn>
+              <Btn type="submit">Share</Btn>
             </Grid>
           </form>
         </Grid>
