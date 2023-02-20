@@ -123,7 +123,7 @@ const SongDataGrid = styled(Grid)`
       font-weight: 500;
     }
     .collectionname {
-      font-size: 16px;
+      font-size: 16pxs;
       color: #a9a9a9;
     }
   }

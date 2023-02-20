@@ -51,7 +51,11 @@ function CardProfile(props) {
       {userData.map((item, i) => (
         <GridContainer container key={i} alignItems="stretch">
           <Grid item>
-            <Avatar src={item.profileImgUrl} className="avatar" />
+            <Avatar
+              src={item.profileImgUrl}
+              className="avatar"
+              alt="profile-image"
+            />
           </Grid>
           <Grid item className="container-wrapper">
             <Grid container direction="column">

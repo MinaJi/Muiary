@@ -12,9 +12,13 @@ const GridContainer = styled(Grid)`
       justify-content: flex-end;
       margin-top: 10px;
     }
-    .divider {
-      width: 100vw;
-    }
+  }
+`;
+
+const StyledDivider = styled(Divider)`
+  && {
+    padding-top: 5px;
+    width: 100%;
   }
 `;
 
@@ -32,21 +36,23 @@ const Btn = styled.button`
 
 function BoardHeader() {
   return (
-    <GridContainer container direction="column">
-      <Divider className="divider" />
-      <Grid container className="header">
-        <Grid item>
-          <Btn>
-            <BsList />
-          </Btn>
+    <>
+      <StyledDivider />
+      <GridContainer container direction="column">
+        <Grid container className="header">
+          <Grid item>
+            <Btn>
+              <BsList />
+            </Btn>
+          </Grid>
+          <Grid item>
+            <Btn>
+              <CgMenuGridR />
+            </Btn>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Btn>
-            <CgMenuGridR />
-          </Btn>
-        </Grid>
-      </Grid>
-    </GridContainer>
+      </GridContainer>
+    </>
   );
 }
 

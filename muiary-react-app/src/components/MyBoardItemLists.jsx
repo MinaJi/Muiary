@@ -6,6 +6,7 @@ import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import BoardItemCard from "./BoardItemCard";
 import SkeletonCard from "./SkeletonCard";
+import BoardHeader from "./BoardHeader";
 
 function MyBoardItemLists() {
   const { username } = useParams();

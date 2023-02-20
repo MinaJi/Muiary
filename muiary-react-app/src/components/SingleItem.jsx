@@ -201,7 +201,15 @@ const SyledMenu = styled(Menu)`
   }
 `;
 
-function SingleItem({ title, contents, date, userId, username, musicItem }) {
+function SingleItem({
+  docId,
+  title,
+  contents,
+  date,
+  userId,
+  username,
+  musicItem,
+}) {
   const { user } = UserAuth();
   const [indexNum, setIndexNum] = useState(0);
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -405,7 +413,7 @@ function SingleItem({ title, contents, date, userId, username, musicItem }) {
           </Grid>
         </Grid>
       </GridContainer>
-      {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} />}
+      {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} docId={docId} />}
     </>
   );
 }

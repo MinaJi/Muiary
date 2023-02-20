@@ -198,8 +198,6 @@ function MypageProfile() {
     setCountry(country);
   };
 
-  console.log(user.uid);
-
   return (
     <>
       <GridContainer container>

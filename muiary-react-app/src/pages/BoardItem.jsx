@@ -53,6 +53,7 @@ function BoardItem() {
             username={boardItem[item].username}
             userId={boardItem[item].userId}
             musicItem={boardItem[item].musicItem}
+            docId={item}
           />
         </Grid>
       ))}

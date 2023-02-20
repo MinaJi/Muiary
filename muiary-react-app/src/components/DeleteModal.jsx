@@ -2,6 +2,16 @@ import { Divider, Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -43,6 +53,12 @@ const ModalContainer = styled(Grid)`
     .body {
       padding: 25px;
       height: 200px;
+      text-align: center;
+      line-height: 20px;
+      .title-text-wrapper {
+        font-weight: 600;
+        margin: 0 auto;
+      }
     }
   }
 `;
@@ -52,10 +68,40 @@ const BtnContainer = styled(Grid)`
     .divider {
       width: 100%;
     }
+    .button-wrapper {
+      padding: 23px;
+      text-align: center;
+      button {
+        border: none;
+        background-color: transparent;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .delete-btn {
+        font-weight: 600;
+        color: #e11d48;
+      }
+    }
   }
 `;
 
-function DeleteModal({ setDeleteModal }) {
+function DeleteModal({ setDeleteModal, docId }) {
+  const navi = useNavigate();
+
+  const deleteHandler = async () => {
+    const q = query(
+      collection(db, "replyItems"),
+      where("boardItem", "==", `${docId}`)
+    );
+    const snapshot = await getDocs(q);
+    await deleteDoc(doc(db, "boardItems", `${docId}`)).then(
+      snapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+      })
+    );
+    navi(-1);
+  };
+
   return (
     <ModalBackground>
       <ModalContainer container direction="column">
@@ -69,17 +115,25 @@ function DeleteModal({ setDeleteModal }) {
             <MdClose />
           </button>
         </Grid>
-        <Grid item className="body">
-          <p>정말삭제?</p>
+        <Grid container className="body" alignItems="center">
+          <Grid item className="title-text-wrapper">
+            <p>Delete post?</p>
+          </Grid>
+          <Grid item>
+            <p>Deleting this post will also delete its comments, likes.</p>
+            <p>Are you sure you want to delete?</p>
+          </Grid>
         </Grid>
         <BtnContainer container direction="column">
           <Divider className="divider" />
-          <Grid item>
-            <button>YEs</button>
+          <Grid item className="button-wrapper">
+            <button className="delete-btn" onClick={deleteHandler}>
+              Delete
+            </button>
           </Grid>
           <Divider className="divider" />
-          <Grid item>
-            <button>No</button>
+          <Grid item className="button-wrapper">
+            <button onClick={() => setDeleteModal(false)}>Cancel</button>
           </Grid>
         </BtnContainer>
       </ModalContainer>

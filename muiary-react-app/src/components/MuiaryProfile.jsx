@@ -7,11 +7,10 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { async } from "@firebase/util";
 
 const AvatarGrid = styled(Grid)`
   && {
-    padding-top: 90px;
+    /* padding-top: 90px; */
     padding-bottom: 20px;
   }
   .avatar {
@@ -95,7 +94,7 @@ function MuiaryProfile() {
       }
     };
     getUserData();
-  }, []); // [userdata, username] 종속성있어야하나?
+  }, []);
 
   return (
     <>
@@ -118,7 +117,9 @@ function MuiaryProfile() {
             </Grid>
           )}
           <Grid item>
-            <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
+            {user.uid === userdata[item].id && (
+              <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
+            )}
           </Grid>
           {user.uid !== userdata[item].id && (
             <Grid item>

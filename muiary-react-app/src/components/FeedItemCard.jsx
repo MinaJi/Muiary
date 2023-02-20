@@ -17,7 +17,7 @@ const Card = styled(Grid)`
     .divider {
       margin: 10px;
     }
-    img {
+    .artwork-img {
       width: 250px;
       height: 250px;
       border-radius: 14px;
@@ -47,9 +47,17 @@ function FeedItemCard({ data }) {
           <Grid item>
             <Link to={`/muiary/pages/${item.id}`}>
               {!item.coverImage ? (
-                <img src={item.musicItem[0].artworkUrl100} alt="artwork" />
+                <img
+                  src={item.musicItem[0].artworkUrl100}
+                  alt="artwork"
+                  className="artwork-img"
+                />
               ) : (
-                <img src={item.coverImage} alt="coverpic" />
+                <img
+                  src={item.coverImage}
+                  alt="coverpic"
+                  className="artwork-img"
+                />
               )}
             </Link>
           </Grid>

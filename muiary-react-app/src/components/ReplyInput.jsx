@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { Divider, Grid } from "@mui/material";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import moment from "moment";
@@ -54,12 +53,14 @@ const InputDiv = styled(Grid)`
         button {
           border: none;
           background-color: transparent;
-          color: silver;
           font-size: 15px;
           font-weight: 600;
           cursor: pointer;
           :hover {
             color: #f73859;
+          }
+          :disabled {
+            color: silver;
           }
         }
       }
@@ -82,10 +83,6 @@ function ReplyInput() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (content === "") {
-      alert("댓글을 작성해주세욘");
-      return;
-    }
     try {
       await addDoc(collection(db, "replyItems"), {
         userId: user.uid,
@@ -101,6 +98,21 @@ function ReplyInput() {
     }
   };
 
+  const handleSubmitBtn = async (e) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, "replyItems"), {
+        userId: user.uid,
+        content: e.target.value,
+        boardItem: itemId,
+        date: date,
+        timestamp: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Grid container>
       <InputDiv>
@@ -108,37 +120,42 @@ function ReplyInput() {
           <div>
             <span>What do you think of this song?</span>
             <button
+              type="button"
               className="btn"
               value="Good song."
-              onClick={(e) => setContent(e.target.value)}
+              onClick={handleSubmitBtn}
             >
               👍
             </button>
             <button
+              type="button"
               className="btn"
               value="It's LIT!"
-              onClick={(e) => setContent(e.target.value)}
+              onClick={handleSubmitBtn}
             >
               🔥
             </button>
             <button
+              type="button"
               className="btn"
-              value="Love it"
-              onClick={(e) => setContent(e.target.value)}
+              value="Love it."
+              onClick={handleSubmitBtn}
             >
               ❤️
             </button>
             <button
+              type="button"
               className="btn"
               value="100% AGREE."
-              onClick={(e) => setContent(e.target.value)}
+              onClick={handleSubmitBtn}
             >
               💯
             </button>
             <button
+              type="button"
               className="btn"
               value="Make me dance!"
-              onClick={(e) => setContent(e.target.value)}
+              onClick={handleSubmitBtn}
             >
               🕺
             </button>
@@ -147,7 +164,9 @@ function ReplyInput() {
           <div className="input-div">
             <input onChange={(e) => setContent(e.target.value)} />
             <div className="button-wrapper">
-              <button>Upload</button>
+              <button type="submit" disabled={content === ""}>
+                Upload
+              </button>
             </div>
           </div>
         </form>

@@ -1,35 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MuiaryProfile from "../components/MuiaryProfile";
 import styled from "styled-components";
-import { Grid } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MyBoardItemLists from "../components/MyBoardItemLists";
 import { FaPen } from "react-icons/fa";
 import BoardHeader from "../components/BoardHeader";
+import EditThemeModal from "../components/EditThemeModal";
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
+import { UserAuth } from "../context/AuthContext";
+import { UserData } from "../context/UserDataContext";
 
-const GridContainer = styled(Grid)`
-  && {
-    direction: column;
-    @media screen and (max-width: 576px) {
-      flex-direction: column;
-    }
-    .side-div {
-      background-color: ${(props) => props.theme.profileBgColor};
-      color: ${(props) => props.theme.textColor};
-      height: 100vh;
-      /* width: 17%; */
-      position: sticky;
-      top: 0;
-      @media screen and (max-width: 576px) {
-        height: 30vh;
-        width: 100vw;
-      }
-    }
-    .contents {
-      width: 83%;
-      margin-top: 60px;
-    }
+const SideDiv = styled.div`
+  background-color: ${(props) => props.theme.profileBgColor};
+  color: ${(props) => props.theme.textColor};
+  height: 100vh;
+  width: 17%;
+  position: fixed;
+  top: 0;
+  margin-top: 65px;
+  @media screen and (max-width: 576px) {
+    height: 30vh;
+    width: 100vw;
   }
+  .profile-div {
+    margin-top: 20px;
+  }
+`;
+
+const Feed = styled.div`
+  width: 83%;
+  margin-left: 17%;
+  padding-top: 65px;
 `;
 
 const Btn = styled.button`
@@ -64,21 +74,41 @@ const Btn = styled.button`
 
 function MyMuiaryTemplate() {
   const navi = useNavigate();
+  const { username } = useParams();
+  const [editModal, setEditModal] = useState(false);
+  const [bgColor, setBgColor] = useState("");
+  const [textColor, setTextColor] = useState("");
+
+  useEffect(() => {
+    const getUserTheme = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, "userTheme", username));
+        setBgColor(snapshot.data().backgroundColor);
+        setTextColor(snapshot.data().textColor);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserTheme();
+  }, [bgColor, textColor]); // ?
 
   return (
     <>
-      <GridContainer container>
-        <Grid item xs={2} className="side-div">
+      <SideDiv style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}>
+        <div className="profile-div">
           <MuiaryProfile />
-        </Grid>
-        <Grid item xs={10} className="contents">
-          <BoardHeader />
-          <MyBoardItemLists />
-        </Grid>
-        <Btn onClick={() => navi(`/muiary/upload`)}>
-          <FaPen />
-        </Btn>
-      </GridContainer>
+        </div>
+        <button onClick={(e) => setEditModal(true)}>테마수정</button>
+      </SideDiv>
+      <Feed>
+        <MyBoardItemLists />
+      </Feed>
+      <Btn onClick={() => navi(`/muiary/upload`)}>
+        <FaPen />
+      </Btn>
+      {editModal && (
+        <EditThemeModal setEditModal={setEditModal} username={username} />
+      )}
     </>
   );
 }
