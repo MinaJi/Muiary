@@ -7,6 +7,13 @@ import { useParams } from "react-router-dom";
 import BoardItemCard from "./BoardItemCard";
 import SkeletonCard from "./SkeletonCard";
 import BoardHeader from "./BoardHeader";
+import styled from "styled-components";
+
+const GridContainer = styled(Grid)`
+  && {
+    width: 100%;
+  }
+`;
 
 function MyBoardItemLists() {
   const { username } = useParams();
@@ -41,7 +48,7 @@ function MyBoardItemLists() {
   }, []);
 
   return (
-    <>
+    <GridContainer container>
       {isLoading && (
         <Grid container>
           <SkeletonCard cards={3} />
@@ -62,7 +69,7 @@ function MyBoardItemLists() {
           ))}
         </Grid>
       )}
-    </>
+    </GridContainer>
   );
 }
 

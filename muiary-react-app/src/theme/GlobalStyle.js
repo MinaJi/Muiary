@@ -14,6 +14,7 @@ button {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     color: ${(props) => props.theme.textColor};
+    cursor: pointer;
 }
 input, textarea, select {
     font-family: 'Montserrat', sans-serif;

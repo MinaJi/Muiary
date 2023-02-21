@@ -59,7 +59,6 @@ const GridContainer = styled(Grid)`
       button {
         background-color: transparent;
         border: none;
-        cursor: pointer;
         stroke: gray;
         stroke-width: 2;
       }

@@ -1,11 +1,11 @@
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ChromePicker } from "react-color";
 import { MdClose } from "react-icons/md";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
-import { UserAuth } from "../context/AuthContext";
+import CheckIcon from "@mui/icons-material/Check";
 
 const Background = styled.div`
   width: 100vw;
@@ -24,25 +24,76 @@ const ModalContainer = styled(Grid)`
   && {
     background-color: ${(props) => props.theme.bgColor};
     width: max-content;
+    min-width: 320px;
     height: max-content;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    padding: 25px;
+    padding: 15px;
     box-shadow: ${(props) => props.theme.modalBoxShadow};
     .btn-wrapper {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 15px;
     }
     .close-btn {
       background-color: transparent;
       border: none;
-      font-size: 30px;
-      cursor: pointer;
+      font-size: 28px;
       :hover {
         color: #f73859;
       }
+    }
+    .title-wrapper {
+      margin-bottom: 28px;
+      font-size: 20px;
+      padding-left: 5%;
+      font-weight: 700;
+    }
+  }
+`;
+
+const ContainerWrapper = styled(Grid)`
+  && {
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-weight: 500;
+  }
+`;
+
+const ButtonContainer = styled(Grid)`
+  && {
+    padding: 15px;
+    margin-top: 5px;
+    button {
+      border: none;
+      border-radius: 20px;
+      padding: 10px;
+    }
+    .reset-btn {
+      background-color: transparent;
+      border: 1px solid silver;
+    }
+    .set-btn-wrapper {
+      text-align: right;
+    }
+    .set-btn {
+      background-color: black;
+      color: white;
+      :hover {
+        background-color: #f73859;
+      }
+    }
+  }
+`;
+
+const ColorPickerContainer = styled(Grid)`
+  && {
+    padding: 10px 10px 10px 0px;
+    button {
+      border: none;
+      background-color: transparent;
     }
   }
 `;
@@ -53,28 +104,31 @@ const Btn = styled.button`
   border-radius: 50%;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.082) 0px 0px 5px;
-  cursor: pointer;
 `;
 
-function EditThemeModal({ setEditModal, username }) {
+function EditThemeModal({
+  setEditModal,
+  username,
+  userBgColor,
+  userTextColor,
+  setUserBgColor,
+  setUserTextColor,
+}) {
   const [bgColorPicker, setBgColorPicker] = useState(false);
   const [textColorPicker, setTextColorPicker] = useState(false);
-  const [bgColor, setBgColor] = useState("");
-  const [textColor, setTextColor] = useState("");
+  const [bgColor, setBgColor] = useState(userBgColor);
+  const [textColor, setTextColor] = useState(userTextColor);
 
   const openBgColorPicker = () => {
-    setBgColorPicker(true);
+    setBgColorPicker((prev) => !prev);
   };
   const openTextColorPicker = () => {
-    setTextColorPicker(true);
+    setTextColorPicker((prev) => !prev);
   };
 
-  const setColorHandler = (e) => {
-    if (document.getElementById("bg-btn")) {
-      setBgColorPicker(false);
-    } else {
-      setTextColorPicker(false);
-    }
+  const handleResetTheme = () => {
+    setBgColor("");
+    setTextColor("");
   };
 
   const handleSetTheme = async () => {
@@ -82,7 +136,9 @@ function EditThemeModal({ setEditModal, username }) {
       await setDoc(doc(db, "userTheme", username), {
         backgroundColor: bgColor,
         textColor: textColor,
-      });
+      })
+        .then(setUserBgColor(bgColor), setUserTextColor(textColor))
+        .then(setEditModal(false));
     } catch (error) {
       console.log(error);
     }
@@ -101,68 +157,82 @@ function EditThemeModal({ setEditModal, username }) {
             <MdClose />
           </button>
         </Grid>
+        <Grid item className="title-wrapper">
+          <p>Theme settings</p>
+        </Grid>
         <Grid container>
-          <Grid item xs={9}>
-            <p>Background Color</p>
+          <Grid item>
+            <ContainerWrapper container alignItems="center">
+              <Grid item xs={7}>
+                <span>Background Color</span>
+              </Grid>
+              <Grid item>
+                <Btn
+                  onClick={openBgColorPicker}
+                  style={{ backgroundColor: `${bgColor}` }}
+                  id="bg-btn"
+                />
+              </Grid>
+            </ContainerWrapper>
           </Grid>
-          <Grid item xs={3}>
-            <Btn
-              onClick={openBgColorPicker}
-              style={{ backgroundColor: `${bgColor}` }}
-            />
+          <Grid item>
+            {bgColorPicker && (
+              <ColorPickerContainer container direction="column">
+                <Grid item>
+                  <ChromePicker
+                    color={bgColor}
+                    onChange={(color) => {
+                      setBgColor(color.hex);
+                    }}
+                  />
+                </Grid>
+              </ColorPickerContainer>
+            )}
           </Grid>
         </Grid>
-        {bgColorPicker && (
-          <Grid container direction="column">
-            <Grid item>
-              <ChromePicker
-                color={bgColor}
-                onChange={(color) => {
-                  setBgColor(color.hex);
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <button id="bg-btn" onClick={setColorHandler}>
-                선택
-              </button>
-            </Grid>
-          </Grid>
-        )}
+        <Divider />
         <Grid container>
-          <Grid item xs={9}>
-            <p>Text Color</p>
+          <Grid item>
+            <ContainerWrapper container alignItems="center">
+              <Grid item xs={7}>
+                <span>Text Color</span>
+              </Grid>
+              <Grid item>
+                <Btn
+                  onClick={openTextColorPicker}
+                  style={{ backgroundColor: `${textColor}` }}
+                />
+              </Grid>
+            </ContainerWrapper>
           </Grid>
-          <Grid item xs={3}>
-            <Btn
-              onClick={openTextColorPicker}
-              style={{ backgroundColor: `${textColor}` }}
-            />
+          <Grid item>
+            {textColorPicker && (
+              <ColorPickerContainer container direction="column">
+                <Grid item>
+                  <ChromePicker
+                    color={textColor}
+                    onChange={(color) => {
+                      setTextColor(color.hex);
+                    }}
+                  />
+                </Grid>
+              </ColorPickerContainer>
+            )}
           </Grid>
         </Grid>
-        {textColorPicker && (
-          <Grid container direction="column">
-            <Grid item>
-              <ChromePicker
-                color={textColor}
-                onChange={(color) => {
-                  setTextColor(color.hex);
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <button id="text-btn" onClick={setColorHandler}>
-                선택
-              </button>
-            </Grid>
+        <ButtonContainer container>
+          <Grid item xs={6}>
+            <button onClick={handleResetTheme} className="reset-btn">
+              Reset
+            </button>
           </Grid>
-        )}
-        <Grid item>
-          <button>Reset theme</button>
-        </Grid>
-        <Grid item>
-          <button onClick={handleSetTheme}>선택완료</button>
-        </Grid>
+          <Grid item xs={6} className="set-btn-wrapper">
+            <button onClick={handleSetTheme} className="set-btn">
+              <CheckIcon fontSize="inherit" />
+              Apply
+            </button>
+          </Grid>
+        </ButtonContainer>
       </ModalContainer>
     </Background>
   );

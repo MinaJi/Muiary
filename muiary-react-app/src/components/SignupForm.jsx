@@ -29,7 +29,6 @@ const Btn = styled.button`
   width: 100%;
   padding: 13px;
   margin: 3px;
-  cursor: pointer;
   :hover {
     background-color: ${(props) => props.theme.red};
     border: none;

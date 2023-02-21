@@ -26,7 +26,6 @@ const InputDiv = styled(Grid)`
       border-radius: 20px;
       background-color: transparent;
       margin-left: 5px;
-      cursor: pointer;
       :hover {
         background-color: #f73859;
       }
@@ -55,7 +54,6 @@ const InputDiv = styled(Grid)`
           background-color: transparent;
           font-size: 15px;
           font-weight: 600;
-          cursor: pointer;
           :hover {
             color: #f73859;
           }

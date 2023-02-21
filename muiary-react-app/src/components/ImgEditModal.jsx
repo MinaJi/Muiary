@@ -58,7 +58,6 @@ const Btn = styled.button`
   padding: 10px;
   font-size: 15px;
   margin-top: 10px;
-  cursor: pointer;
   :hover {
     background-color: #f73859;
   }
@@ -72,7 +71,6 @@ const CloseBtn = styled(Grid)`
       background-color: transparent;
       border: none;
       font-size: 30px;
-      cursor: pointer;
       :hover {
         color: #f73859;
       }

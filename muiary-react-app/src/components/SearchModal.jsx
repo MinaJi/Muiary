@@ -49,7 +49,6 @@ const ModalContainer = styled(Grid)`
       background-color: transparent;
       border: none;
       font-size: 30px;
-      cursor: pointer;
       :hover {
         color: #f73859;
       }

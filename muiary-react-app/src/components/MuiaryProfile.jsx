@@ -3,23 +3,26 @@ import styled from "styled-components";
 import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase-config";
+
+const GridContainer = styled(Grid)`
+  && {
+    padding: 20px;
+    @media screen and (max-width: 615px) {
+      flex-direction: row;
+    }
+  }
+`;
 
 const AvatarGrid = styled(Grid)`
   && {
-    /* padding-top: 90px; */
     padding-bottom: 20px;
-  }
-  .avatar {
-    width: 150px;
-    height: 150px;
-  }
-  @media screen and (max-width: 576px) {
     .avatar {
-      width: 50%;
+      width: 150px;
+      height: 150px;
+      @media screen and (max-width: 1000px) {
+        width: 90px;
+        height: 90px;
+      }
     }
   }
 `;
@@ -38,95 +41,47 @@ const EditBtn = styled.button`
   width: 100px;
   padding: 10px;
   margin: 3px;
-  cursor: pointer;
 `;
 
-function MuiaryProfile() {
-  const { username } = useParams();
+function MuiaryProfile({ userData }) {
   const { user } = UserAuth();
-  const [userdata, setUserdata] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const handleEdit = () => {
     setOpenEditModal(true);
   };
 
-  // async function getAllUsers() {
-  //   const userData = {};
-  //   const q = query(
-  //     collection(db, "users"),
-  //     where("username", "==", `${username}`)
-  //   );
-  //   const qSnapshot = await getDocs(q);
-  //   qSnapshot.forEach((doc) => {
-  //     userData[doc.id] = doc.data();
-  //   });
-  //   return userData;
-  // }
-
-  // useEffect(() => {
-  //   const getUserDocs = async () => {
-  //     try {
-  //       const getUserDocs = await getAllUsers();
-  //       setUserdata(getUserDocs);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getUserDocs();
-  // }, [username]);
-
-  useEffect(() => {
-    let userList = [];
-    const getUserData = async () => {
-      try {
-        const q = query(
-          collection(db, "users"),
-          where("username", "==", `${username}`)
-        );
-        const snapshot = await getDocs(q);
-        snapshot.forEach((doc) => {
-          userList.push({ id: doc.id, ...doc.data() });
-        });
-        setUserdata(userList);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUserData();
-  }, []);
-
   return (
     <>
-      {Object.keys(userdata).map((item, i) => (
-        <Grid container direction="column" alignItems="center" key={i}>
+      {Object.keys(userData).map((item, i) => (
+        <GridContainer container direction="column" alignItems="center" key={i}>
           <AvatarGrid item>
-            <Avatar className="avatar" src={userdata[item].profileImgUrl} />
+            <Avatar className="avatar" src={userData[item].profileImgUrl} />
           </AvatarGrid>
           <NameGrid item>
-            <p>{userdata[item].nickname}</p>
+            <p>{userData[item].nickname}</p>
           </NameGrid>
           <Grid item>
-            <p>@{userdata[item].username}</p>
+            <p>@{userData[item].username}</p>
           </Grid>
           {openEditModal ? (
             <Grid item>수정하기 기능 여기에 넣을거임</Grid>
           ) : (
             <Grid item>
-              <p>{userdata[item].bio}</p>
+              <p>{userData[item].bio}</p>
             </Grid>
           )}
           <Grid item>
-            {user.uid === userdata[item].id && (
+            {user.uid === userData[item].id && (
               <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
             )}
           </Grid>
-          {user.uid !== userdata[item].id && (
+          {user.uid !== userData[item].id && (
             <Grid item>
               <button>팔로우하기</button>
             </Grid>
           )}
-        </Grid>
+        </GridContainer>
       ))}
     </>
   );

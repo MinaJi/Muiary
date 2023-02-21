@@ -167,7 +167,6 @@ const GridContainer = styled(Grid)`
         background-color: transparent;
         border: none;
         font-size: 30px;
-        cursor: pointer;
         padding-bottom: 6px;
         :hover {
           color: #f73859;
@@ -180,7 +179,6 @@ const GridContainer = styled(Grid)`
 const Btn = styled.button`
   border: none;
   background: transparent;
-  cursor: pointer;
   font-size: 35px;
   padding: 0;
   :hover {
@@ -413,7 +411,9 @@ function SingleItem({
           </Grid>
         </Grid>
       </GridContainer>
-      {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} docId={docId} />}
+      {deleteModal && (
+        <DeleteModal setDeleteModal={setDeleteModal} docId={docId} />
+      )}
     </>
   );
 }

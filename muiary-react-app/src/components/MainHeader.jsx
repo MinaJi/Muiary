@@ -41,7 +41,6 @@ const Btn = styled.button`
   width: 72px;
   height: 40px;
   margin: 3px;
-  cursor: pointer;
   :hover {
     background-color: ${(props) => props.theme.red};
     border: none;
@@ -50,7 +49,6 @@ const Btn = styled.button`
 `;
 
 const TextBtn = styled.button`
-  cursor: pointer;
   border: none;
   background-color: inherit;
   font-size: 15px;

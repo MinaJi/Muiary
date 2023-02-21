@@ -14,7 +14,6 @@ import { RiInformationLine } from "react-icons/ri";
 const GridContainer = styled(Grid)`
   && {
     .btn {
-      cursor: pointer;
       background-color: #000000;
       color: white;
       border: none;
@@ -50,7 +49,6 @@ const FormContainer = styled(Grid)`
       height: max-content;
       padding: 8px;
       margin: 3px;
-      cursor: pointer;
       :hover {
         background-color: ${(props) => props.theme.red};
         border: 1px solid #f73859;

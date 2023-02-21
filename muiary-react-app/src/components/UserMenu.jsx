@@ -44,7 +44,6 @@ const Btn = styled.button`
   width: 100%;
   text-align: left;
   margin: 5px;
-  cursor: pointer;
   transition: color 0.25s;
   :hover {
     color: ${(props) => props.theme.red};

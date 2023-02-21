@@ -45,7 +45,6 @@ const ModalContainer = styled(Grid)`
       background-color: transparent;
       border: none;
       font-size: 28px;
-      cursor: pointer;
       :hover {
         color: #f73859;
       }
@@ -75,7 +74,6 @@ const BtnContainer = styled(Grid)`
         border: none;
         background-color: transparent;
         font-size: 18px;
-        cursor: pointer;
       }
       .delete-btn {
         font-weight: 600;

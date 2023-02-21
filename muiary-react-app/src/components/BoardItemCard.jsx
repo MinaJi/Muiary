@@ -13,6 +13,7 @@ const GridContainer = styled(Grid)`
       width: 250px;
       height: 250px;
       cursor: pointer;
+      border-radius: 5px;
     }
     .content {
       margin-top: 6px;
@@ -40,7 +41,6 @@ function BoardItemCard({ artwork, coverImage, title, date, itemId }) {
 
   return (
     <GridContainer container direction="column">
-      {/* <Bg style={{ backgroundImage: `url(${artwork})` }} /> */}
       <Grid item>
         {!coverImage ? (
           <img

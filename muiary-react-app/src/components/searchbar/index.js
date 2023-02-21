@@ -36,7 +36,6 @@ const BtnWrapper = styled(Grid)`
     .search-btn {
       height: 40px;
       background-color: ${(props) => props.theme.inputBg};
-      cursor: pointer;
       border: ${(props) => props.theme.inputBorder};
       border-radius: 10px;
       font-size: 25px;

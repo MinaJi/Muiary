@@ -87,7 +87,6 @@ const Btn = styled.button`
   width: 71px;
   height: 40px;
   margin: 3px;
-  cursor: pointer;
   :hover {
     background-color: ${(props) => props.theme.red};
     border: none;
@@ -101,7 +100,6 @@ const IconBtn = styled.button`
   border: none;
   background-color: transparent;
   align-content: center;
-  cursor: pointer;
   transition: all ease 0.7s;
   :hover {
     transform: rotate(90deg);

@@ -31,7 +31,6 @@ const StyledGrid = styled(Grid)`
 const Btn = styled.button`
   background-color: transparent;
   border: none;
-  cursor: pointer;
   font-size: 25px;
   color: ${(props) => props.theme.textColor};
   :hover {

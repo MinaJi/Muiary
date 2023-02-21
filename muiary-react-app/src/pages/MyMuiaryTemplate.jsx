@@ -9,7 +9,6 @@ import EditThemeModal from "../components/EditThemeModal";
 import {
   collection,
   doc,
-  documentId,
   getDoc,
   getDocs,
   query,
@@ -17,7 +16,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
-import { UserData } from "../context/UserDataContext";
 
 const SideDiv = styled.div`
   background-color: ${(props) => props.theme.profileBgColor};
@@ -27,12 +25,13 @@ const SideDiv = styled.div`
   position: fixed;
   top: 0;
   margin-top: 65px;
-  @media screen and (max-width: 576px) {
-    height: 30vh;
+  @media screen and (max-width: 615px) {
+    height: 20vh;
     width: 100vw;
   }
-  .profile-div {
-    margin-top: 20px;
+  .edit-theme-btn {
+    background-color: transparent;
+    border: none;
   }
 `;
 
@@ -49,7 +48,6 @@ const Btn = styled.button`
   width: 80px;
   height: 80px;
   color: white;
-  cursor: pointer;
   font-size: 28px;
   position: fixed;
   bottom: 4rem;
@@ -75,9 +73,31 @@ const Btn = styled.button`
 function MyMuiaryTemplate() {
   const navi = useNavigate();
   const { username } = useParams();
+  const { user } = UserAuth();
+  const [userData, setUserData] = useState([]);
   const [editModal, setEditModal] = useState(false);
   const [bgColor, setBgColor] = useState("");
   const [textColor, setTextColor] = useState("");
+
+  useEffect(() => {
+    let userList = [];
+    const getUserData = async () => {
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("username", "==", `${username}`)
+        );
+        const snapshot = await getDocs(q);
+        snapshot.forEach((doc) => {
+          userList.push({ id: doc.id, ...doc.data() });
+        });
+        setUserData(userList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserData();
+  }, []);
 
   useEffect(() => {
     const getUserTheme = async () => {
@@ -95,10 +115,21 @@ function MyMuiaryTemplate() {
   return (
     <>
       <SideDiv style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}>
-        <div className="profile-div">
-          <MuiaryProfile />
+        <div>
+          <MuiaryProfile userData={userData} />
         </div>
-        <button onClick={(e) => setEditModal(true)}>테마수정</button>
+        {Object.keys(userData).map((item, i) => (
+          <div key={i}>
+            {user.uid === userData[item].id && (
+              <button
+                className="edit-theme-btn"
+                onClick={(e) => setEditModal(true)}
+              >
+                Theme settings
+              </button>
+            )}
+          </div>
+        ))}
       </SideDiv>
       <Feed>
         <MyBoardItemLists />
@@ -107,7 +138,14 @@ function MyMuiaryTemplate() {
         <FaPen />
       </Btn>
       {editModal && (
-        <EditThemeModal setEditModal={setEditModal} username={username} />
+        <EditThemeModal
+          setEditModal={setEditModal}
+          username={username}
+          userBgColor={bgColor}
+          userTextColor={textColor}
+          setUserBgColor={setBgColor}
+          setUserTextColor={setTextColor}
+        />
       )}
     </>
   );

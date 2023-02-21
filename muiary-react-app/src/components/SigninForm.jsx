@@ -22,7 +22,6 @@ const StyledInput = styled.input`
 `;
 
 const Btn = styled.button`
-  cursor: pointer;
   background-color: black;
   border: none;
   color: white;

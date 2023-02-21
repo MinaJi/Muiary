@@ -41,7 +41,6 @@ const Btn = styled.button`
   padding: 10px;
   font-size: 15px;
   border-radius: 15px;
-  cursor: pointer;
   :hover {
     background-color: #f73859;
   }
@@ -55,7 +54,6 @@ const DeleteBtn = styled.button`
   font-size: 15px;
   font-weight: 600;
   border-radius: 15px;
-  cursor: pointer;
   :hover {
     /* background-color: #f73859; */
   }

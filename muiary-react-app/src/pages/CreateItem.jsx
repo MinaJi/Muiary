@@ -51,7 +51,6 @@ const StyledContainer = styled(Grid)`
       height: 50px;
       background-color: transparent;
       border: none;
-      cursor: pointer;
       display: block;
       margin: 0 auto;
       padding-top: 100px;
@@ -67,7 +66,6 @@ const StyledContainer = styled(Grid)`
       border: none;
       border-radius: 10px;
       color: #fff;
-      cursor: pointer;
       font-size: 18px;
       :hover {
         background-color: #f73859;
@@ -102,7 +100,6 @@ const Btn = styled.button`
   padding: 10px;
   font-size: 20px;
   color: white;
-  cursor: pointer;
   :hover {
     background-color: #f73859;
   }

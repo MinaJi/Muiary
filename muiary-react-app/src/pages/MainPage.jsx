@@ -18,6 +18,12 @@ function MainPage() {
       <Grid item>메인페이지 this is main page</Grid>
       <Grid item>
         <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
+        <Img src="static/muiarylogo.png" alt="muiarylogo" />
       </Grid>
     </StyledGrid>
   );

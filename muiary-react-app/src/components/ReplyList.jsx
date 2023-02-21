@@ -31,7 +31,6 @@ const GridContainer = styled(Grid)`
       button {
         border: none;
         background-color: transparent;
-        cursor: pointer;
         :hover {
           color: #f73859;
         }

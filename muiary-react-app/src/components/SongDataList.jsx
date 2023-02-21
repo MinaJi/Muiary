@@ -12,7 +12,6 @@ const GridContainer = styled(Grid)`
       button {
         background-color: transparent;
         border: none;
-        cursor: pointer;
         width: max-content;
         height: max-content;
       }

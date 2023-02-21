@@ -26,7 +26,6 @@ const GridContainer = styled(Grid)`
       height: max-content;
       padding: 8px;
       margin: 3px;
-      cursor: pointer;
       :hover {
         background-color: ${(props) => props.theme.red};
         border: 1px solid #f73859;

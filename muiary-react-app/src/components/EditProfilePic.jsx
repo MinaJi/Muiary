@@ -39,7 +39,6 @@ const EditBtn = styled.button`
   border: none;
   color: white;
   font-size: 20px;
-  cursor: pointer;
 `;
 
 const EditWrapper = styled.div`
@@ -82,7 +81,6 @@ const Btn = styled.button`
   padding: 8px;
   font-size: 13px;
   color: ${(props) => props.theme.textColor};
-  cursor: pointer;
   :hover {
     background-color: #f73859;
     border: 1px solid #f73859;
