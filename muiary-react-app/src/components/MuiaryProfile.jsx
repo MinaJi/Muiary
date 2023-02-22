@@ -10,6 +10,14 @@ const GridContainer = styled(Grid)`
     @media screen and (max-width: 615px) {
       flex-direction: row;
     }
+    .bio {
+      padding: 12px;
+      border-radius: 10px;
+      line-height: 23px;
+      font-size: 14px;
+      max-height: 100px;
+      overflow: auto;
+    }
   }
 `;
 
@@ -58,16 +66,16 @@ function MuiaryProfile({ userData }) {
           <AvatarGrid item>
             <Avatar className="avatar" src={userData[item].profileImgUrl} />
           </AvatarGrid>
-          <NameGrid item>
+          <NameGrid item className="nickname">
             <p>{userData[item].nickname}</p>
           </NameGrid>
-          <Grid item>
+          <Grid item className="username">
             <p>@{userData[item].username}</p>
           </Grid>
           {openEditModal ? (
             <Grid item>수정하기 기능 여기에 넣을거임</Grid>
           ) : (
-            <Grid item>
+            <Grid item className="bio">
               <p>{userData[item].bio}</p>
             </Grid>
           )}

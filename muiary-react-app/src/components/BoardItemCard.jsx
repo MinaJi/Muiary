@@ -8,7 +8,7 @@ const GridContainer = styled(Grid)`
   && {
     width: max-content;
     height: max-content;
-    padding: 20px;
+    padding: 0px 10px 25px 20px;
     img {
       width: 250px;
       height: 250px;

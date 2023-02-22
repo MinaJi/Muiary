@@ -17,11 +17,23 @@ import {
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
 
+const DivContainer = styled.div`
+  .left-div {
+    max-width: 18%;
+    float: left;
+  }
+  .right-div {
+    width: 82%;
+    float: right;
+    margin-top: 65px;
+  }
+`;
+
 const SideDiv = styled.div`
   background-color: ${(props) => props.theme.profileBgColor};
   color: ${(props) => props.theme.textColor};
   height: 100vh;
-  width: 17%;
+  /* width: 17%; */
   position: fixed;
   top: 0;
   margin-top: 65px;
@@ -36,9 +48,9 @@ const SideDiv = styled.div`
 `;
 
 const Feed = styled.div`
-  width: 83%;
+  /* width: 83%;
   margin-left: 17%;
-  padding-top: 65px;
+  padding-top: 65px; */
 `;
 
 const Btn = styled.button`
@@ -113,8 +125,11 @@ function MyMuiaryTemplate() {
   }, [bgColor, textColor]); // ?
 
   return (
-    <>
-      <SideDiv style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}>
+    <DivContainer>
+      <SideDiv
+        style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
+        className="left-div"
+      >
         <div>
           <MuiaryProfile userData={userData} />
         </div>
@@ -131,7 +146,7 @@ function MyMuiaryTemplate() {
           </div>
         ))}
       </SideDiv>
-      <Feed>
+      <Feed className="right-div">
         <MyBoardItemLists />
       </Feed>
       <Btn onClick={() => navi(`/muiary/upload`)}>
@@ -147,7 +162,7 @@ function MyMuiaryTemplate() {
           setUserTextColor={setTextColor}
         />
       )}
-    </>
+    </DivContainer>
   );
 }
 
