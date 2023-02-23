@@ -265,7 +265,7 @@ function SingleItem({
   return (
     <>
       <GridContainer container>
-        <Grid item xs={1.5}>
+        <Grid item xs={1.5} id="background">
           <BoardProfile username={username} />
         </Grid>
         <Grid item xs={9} className="grid-wrapper">

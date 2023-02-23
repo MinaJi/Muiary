@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MuiaryProfile from "../components/MuiaryProfile";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import MyBoardItemLists from "../components/MyBoardItemLists";
 import { FaPen } from "react-icons/fa";
 import BoardHeader from "../components/BoardHeader";
@@ -19,8 +19,9 @@ import { UserAuth } from "../context/AuthContext";
 
 const DivContainer = styled.div`
   .left-div {
-    max-width: 18%;
+    width: 18%;
     float: left;
+    z-index: 200;
   }
   .right-div {
     width: 82%;
@@ -33,7 +34,6 @@ const SideDiv = styled.div`
   background-color: ${(props) => props.theme.profileBgColor};
   color: ${(props) => props.theme.textColor};
   height: 100vh;
-  /* width: 17%; */
   position: fixed;
   top: 0;
   margin-top: 65px;
@@ -122,7 +122,7 @@ function MyMuiaryTemplate() {
       }
     };
     getUserTheme();
-  }, [bgColor, textColor]); // ?
+  }, [bgColor, textColor]);
 
   return (
     <DivContainer>
