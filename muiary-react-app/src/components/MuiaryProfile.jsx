@@ -4,6 +4,19 @@ import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
 import ProfileImageModal from "./ProfileImageModal";
+import { async } from "@firebase/util";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  writeBatch,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
+import FollowerList from "./FollowerList";
 
 const GridContainer = styled(Grid)`
   && {
@@ -53,10 +66,11 @@ const EditBtn = styled.button`
   margin: 3px;
 `;
 
-function MuiaryProfile({ userData }) {
+function MuiaryProfile({ userData, username }) {
   const { user } = UserAuth();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [profileImageModal, setProfileImageModal] = useState(false);
+  const [follower, setFollower] = useState([]);
 
   const handleEdit = () => {
     setOpenEditModal(true);
@@ -64,11 +78,46 @@ function MuiaryProfile({ userData }) {
 
   const handleModal = () => {
     setProfileImageModal(true);
-    // document.body.style.overflow = "hidden";
   };
+
+  const handleFollow = async (uid) => {
+    if (!uid) return false;
+    const usernameRef = collection(db, "usernames", username, "follower");
+    try {
+      await addDoc(usernameRef, {
+        uid: user.uid,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const getFollowerData = async () => {
+      let list = [];
+      const usernameRef = collection(db, "usernames", username, "follower");
+      try {
+        const snapshot = await getDocs(usernameRef);
+        snapshot.forEach((doc) => {
+          list.push({ id: doc.data().uid, ...doc.data() });
+        });
+        setFollower(list);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getFollowerData();
+  }, []);
 
   return (
     <>
+      <>
+        {follower.map((item, i) => (
+          <div>
+            <FollowerList follower={item.id} />
+          </div>
+        ))}
+      </>
       {Object.keys(userData).map((item, i) => (
         <div key={i}>
           <GridContainer container direction="column" alignItems="center">
@@ -99,14 +148,16 @@ function MuiaryProfile({ userData }) {
             </Grid>
             {user.uid !== userData[item].id && (
               <Grid item>
-                <button>팔로우하기</button>
+                <button onClick={() => handleFollow(user.uid)}>
+                  팔로우하기
+                </button>
               </Grid>
             )}
           </GridContainer>
           {profileImageModal && (
             <ProfileImageModal
-              userData={userData}
               imgSrc={userData[item].profileImgUrl}
+              setProfileImageModal={setProfileImageModal}
             />
           )}
         </div>

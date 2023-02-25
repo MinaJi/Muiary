@@ -47,12 +47,6 @@ const SideDiv = styled.div`
   }
 `;
 
-const Feed = styled.div`
-  /* width: 83%;
-  margin-left: 17%;
-  padding-top: 65px; */
-`;
-
 const Btn = styled.button`
   background-color: #f73859;
   border-radius: 50%;
@@ -131,7 +125,7 @@ function MyMuiaryTemplate() {
         className="left-div"
       >
         <div>
-          <MuiaryProfile userData={userData} />
+          <MuiaryProfile userData={userData} username={username} />
         </div>
         {Object.keys(userData).map((item, i) => (
           <div key={i}>
@@ -146,9 +140,9 @@ function MyMuiaryTemplate() {
           </div>
         ))}
       </SideDiv>
-      <Feed className="right-div">
+      <div className="right-div">
         <MyBoardItemLists />
-      </Feed>
+      </div>
       <Btn onClick={() => navi(`/muiary/upload`)}>
         <FaPen />
       </Btn>

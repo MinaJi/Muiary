@@ -2,31 +2,38 @@ import { Avatar, Grid } from "@mui/material";
 import { FastAverageColor } from "fast-average-color";
 import React from "react";
 import styled from "styled-components";
+import { MdClose } from "react-icons/md";
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
   display: flex;
-  justify-content: center;
-  align-items: center;
   top: 0;
-  background-color: #00000095;
+  .close-icon-div {
+    position: absolute;
+    padding: 20px;
+    button {
+      font-size: 25px;
+      border-radius: 50%;
+      border: none;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      :hover {
+        box-shadow: rgba(255, 255, 255, 0.193) 0px 0px 10px;
+      }
+    }
+  }
 `;
-
-// const BackgroundDarker = styled.div`
-//   background-color: rgba(0, 0, 0, 255);
-//   width: 100vw;
-//   height: 100vh;
-//   position: fixed;
-//   display: flex;
-//   top: 0;
-//   justify-content: center;
-//   align-items: center;
-// `;
 
 const ModalContainer = styled(Grid)`
   && {
+    justify-content: center;
+    align-items: center;
     .avatar {
       width: 400px;
       height: 400px;
@@ -34,31 +41,42 @@ const ModalContainer = styled(Grid)`
   }
 `;
 
-function ProfileImageModal({ imgSrc }) {
+function ProfileImageModal({ imgSrc, setProfileImageModal }) {
   const fac = new FastAverageColor();
 
   fac
     .getColorAsync(imgSrc)
     .then((color) => {
-      // console.log(color.value[3]);
-      // [3]번째에 255말고 다른숫자 넣고set한다음에그걸hex코드로변호ㅑㄴ ?가능함?
-      color.value[3] = 
-      document.getElementById("background").style.backgroundColor =
-        color.hex + "ab";
+      document.getElementById("background").style.background =
+        "linear-gradient(rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.63))," +
+        color.hex +
+        "ab";
+      document.getElementById("close-btn").style.background =
+        "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))," +
+        color.hex +
+        "ab";
     })
     .catch((e) => {
       console.log(e);
     });
 
   return (
-    <Background id="background" className="background">
-      {/* <BackgroundDarker> */}
-        <ModalContainer>
-          <Grid item>
-            <Avatar className="avatar" src={imgSrc} />
-          </Grid>
-        </ModalContainer>
-      {/* </BackgroundDarker> */}
+    <Background id="background">
+      <div className="close-icon-div">
+        <button
+          id="close-btn"
+          onClick={() => {
+            setProfileImageModal(false);
+          }}
+        >
+          <MdClose />
+        </button>
+      </div>
+      <ModalContainer container>
+        <Grid item>
+          <Avatar className="avatar" src={imgSrc} />
+        </Grid>
+      </ModalContainer>
     </Background>
   );
 }
