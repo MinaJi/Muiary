@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MuiaryProfile from "../components/MuiaryProfile";
 import styled from "styled-components";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import MyBoardItemLists from "../components/MyBoardItemLists";
 import { FaPen } from "react-icons/fa";
 import BoardHeader from "../components/BoardHeader";
 import EditThemeModal from "../components/EditThemeModal";
@@ -109,8 +108,8 @@ function MyMuiaryTemplate() {
     const getUserTheme = async () => {
       try {
         const snapshot = await getDoc(doc(db, "userTheme", username));
-        setBgColor(snapshot.data().backgroundColor);
-        setTextColor(snapshot.data().textColor);
+        snapshot.data() && setBgColor(snapshot.data().backgroundColor);
+        snapshot.data() && setTextColor(snapshot.data().textColor);
       } catch (error) {
         console.log(error);
       }
@@ -124,11 +123,11 @@ function MyMuiaryTemplate() {
         style={{ backgroundColor: `${bgColor}`, color: `${textColor}` }}
         className="left-div"
       >
-        <div>
-          <MuiaryProfile userData={userData} username={username} />
-        </div>
         {Object.keys(userData).map((item, i) => (
           <div key={i}>
+            <div>
+              <MuiaryProfile userData={userData} userId={userData[item].id} />
+            </div>
             {user.uid === userData[item].id && (
               <button
                 className="edit-theme-btn"
@@ -141,7 +140,7 @@ function MyMuiaryTemplate() {
         ))}
       </SideDiv>
       <div className="right-div">
-        <MyBoardItemLists />
+        <Outlet />
       </div>
       <Btn onClick={() => navi(`/muiary/upload`)}>
         <FaPen />

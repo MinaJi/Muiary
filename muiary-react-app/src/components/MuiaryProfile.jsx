@@ -1,22 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Avatar, Grid } from "@mui/material";
 import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
 import ProfileImageModal from "./ProfileImageModal";
-import { async } from "@firebase/util";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  updateDoc,
-  writeBatch,
-} from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase-config";
-import FollowerList from "./FollowerList";
+import { useNavigate, useParams } from "react-router-dom";
+import { UserData } from "../context/UserDataContext";
 
 const GridContainer = styled(Grid)`
   && {
@@ -66,15 +57,12 @@ const EditBtn = styled.button`
   margin: 3px;
 `;
 
-function MuiaryProfile({ userData, username }) {
+function MuiaryProfile({ userData, userId }) {
   const { user } = UserAuth();
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const { users } = UserData();
+  const { username } = useParams();
+  const navi = useNavigate();
   const [profileImageModal, setProfileImageModal] = useState(false);
-  const [follower, setFollower] = useState([]);
-
-  const handleEdit = () => {
-    setOpenEditModal(true);
-  };
 
   const handleModal = () => {
     setProfileImageModal(true);
@@ -82,42 +70,28 @@ function MuiaryProfile({ userData, username }) {
 
   const handleFollow = async (uid) => {
     if (!uid) return false;
-    const usernameRef = collection(db, "usernames", username, "follower");
+    const followerRef = collection(db, "usernames", username, "follower");
+    const followingRef = collection(
+      db,
+      "usernames",
+      users.username,
+      "following"
+    );
     try {
-      await addDoc(usernameRef, {
+      await addDoc(followerRef, {
         uid: user.uid,
+      });
+      await addDoc(followingRef, {
+        uid: userId,
+        username: username,
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    const getFollowerData = async () => {
-      let list = [];
-      const usernameRef = collection(db, "usernames", username, "follower");
-      try {
-        const snapshot = await getDocs(usernameRef);
-        snapshot.forEach((doc) => {
-          list.push({ id: doc.data().uid, ...doc.data() });
-        });
-        setFollower(list);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getFollowerData();
-  }, []);
-
   return (
     <>
-      <>
-        {follower.map((item, i) => (
-          <div>
-            <FollowerList follower={item.id} />
-          </div>
-        ))}
-      </>
       {Object.keys(userData).map((item, i) => (
         <div key={i}>
           <GridContainer container direction="column" alignItems="center">
@@ -134,25 +108,27 @@ function MuiaryProfile({ userData, username }) {
             <Grid item className="username">
               <p>@{userData[item].username}</p>
             </Grid>
-            {openEditModal ? (
-              <Grid item>수정하기 기능 여기에 넣을거임</Grid>
-            ) : (
-              <Grid item className="bio">
-                <p>{userData[item].bio}</p>
-              </Grid>
-            )}
+            <Grid item className="bio">
+              <p>{userData[item].bio}</p>
+            </Grid>
             <Grid item>
-              {user.uid === userData[item].id && (
-                <EditBtn onClick={handleEdit}>Edit Bio</EditBtn>
+              {user.uid === userData[item].id ? (
+                <EditBtn onClick={() => navi("/mypage/profile")}>
+                  Edit Profile
+                </EditBtn>
+              ) : (
+                <>
+                  <Grid item>
+                    <button onClick={() => handleFollow(user.uid)}>
+                      팔로우하기
+                    </button>
+                  </Grid>
+                </>
               )}
             </Grid>
-            {user.uid !== userData[item].id && (
-              <Grid item>
-                <button onClick={() => handleFollow(user.uid)}>
-                  팔로우하기
-                </button>
-              </Grid>
-            )}
+            <div>
+              <button onClick={() => navi("followers")}>팔로워</button>
+            </div>
           </GridContainer>
           {profileImageModal && (
             <ProfileImageModal

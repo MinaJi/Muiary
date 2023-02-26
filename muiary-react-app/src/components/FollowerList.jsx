@@ -1,47 +1,60 @@
-import { async } from "@firebase/util";
-import {
-  collection,
-  doc,
-  documentId,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { Divider, Grid } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { UserAuth } from "../context/AuthContext";
+import styled from "styled-components";
 import { db } from "../firebase-config";
+import FollowerProfile from "./FollowerProfile";
 
-function FollowerList({ follower }) {
-  const [userData, setUserData] = useState([]);
+const GridContainer = styled(Grid)`
+  && {
+    padding: 30px;
+    .header-title {
+      font-size: 32px;
+      font-weight: 700;
+    }
+    .body {
+      width: 100%;
+      columns: 2 auto;
+    }
+  }
+`;
 
-  console.log("??", follower);
+function FollowerList() {
+  const { username } = useParams();
+  const [followerData, setFollowerData] = useState([]);
 
   useEffect(() => {
-    const q = query(
-      collection(db, "users"),
-      where(documentId(), "==", `${follower}`)
-    );
-    const unsub = onSnapshot(q, (querySnapshot) => {
+    const getAllFollower = async () => {
       let list = [];
-      querySnapshot.forEach((doc) => {
-        list.push({ ...doc.data(), id: doc.id });
-      });
-      setUserData(list);
-    });
-    return () => unsub();
+      const usernameRef = collection(db, "usernames", username, "follower");
+      try {
+        const snapshot = await getDocs(usernameRef);
+        snapshot.forEach((doc) => {
+          list.push({ id: doc.data().uid, ...doc.data() });
+        });
+        setFollowerData(list);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllFollower();
   }, []);
 
   return (
-    <>
-      {userData.map((item, i) => (
-        <div key={i}>
-          <p>{item.nickname}</p>
-        </div>
-      ))}
-    </>
+    <GridContainer container direction="column">
+      <Grid item className="header-title">
+        <p>Followers</p>
+      </Grid>
+      <Divider />
+      <Grid item className="body">
+        {followerData.map((item, i) => (
+          <div key={i}>
+            <FollowerProfile data={item.id} />
+          </div>
+        ))}
+      </Grid>
+    </GridContainer>
   );
 }
 

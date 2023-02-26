@@ -1,5 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import FollowerList from "./components/FollowerList";
+import MyBoardItemLists from "./components/MyBoardItemLists";
 import ProfileImageModal from "./components/ProfileImageModal";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
@@ -57,7 +59,11 @@ function Router() {
               </RequireAuth>
             }
           >
-            <Route path=":username" element={<MyMuiaryTemplate />} />
+            <Route path=":username" element={<MyMuiaryTemplate />}>
+              <Route path="" element={<MyBoardItemLists />} />
+              <Route path="followers" element={<FollowerList />} />
+              <Route path="following" element={<></>} />
+            </Route>
             <Route path="upload" element={<CreateItem />} />
             <Route path="pages/:itemId" element={<BoardItem />} />
             <Route path="testpage" element={<Test />} />
