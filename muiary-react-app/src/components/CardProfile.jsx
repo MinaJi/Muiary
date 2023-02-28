@@ -4,12 +4,14 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { db } from "../firebase-config";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const GridContainer = styled(Grid)`
   && {
     .avatar {
       width: 50px;
       height: 50px;
+      cursor: pointer;
     }
     .container-wrapper {
       margin-top: 5px;
@@ -25,6 +27,7 @@ const GridContainer = styled(Grid)`
 
 function CardProfile(props) {
   const [userData, setUserData] = useState([]);
+  const navi = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -55,6 +58,7 @@ function CardProfile(props) {
               src={item.profileImgUrl}
               className="avatar"
               alt="profile-image"
+              onClick={() => navi(`/muiary/${item.username}`)}
             />
           </Grid>
           <Grid item className="container-wrapper">

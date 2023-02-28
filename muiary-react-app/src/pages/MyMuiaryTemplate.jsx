@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
+import FollowCount from "../components/FollowCount";
 
 const DivContainer = styled.div`
   .left-div {
@@ -138,6 +139,9 @@ function MyMuiaryTemplate() {
             )}
           </div>
         ))}
+        <div>
+          <FollowCount />
+        </div>
       </SideDiv>
       <div className="right-div">
         <Outlet />

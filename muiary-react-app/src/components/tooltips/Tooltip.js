@@ -9,12 +9,14 @@ const Div = styled.div`
   &:active > .tooltip {
     display: block;
   }
-
   .tooltip.top {
     transform: translateX(-50%) translateY(-200%);
   }
   .tooltip.bottom {
     transform: translateX(-50%) translateY(10%);
+  }
+  .tooltip.icon-bottom {
+    transform: translateX(-30%) translateY(150%);
   }
 `;
 

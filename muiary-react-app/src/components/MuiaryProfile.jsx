@@ -126,9 +126,6 @@ function MuiaryProfile({ userData, userId }) {
                 </>
               )}
             </Grid>
-            <div>
-              <button onClick={() => navi("followers")}>팔로워</button>
-            </div>
           </GridContainer>
           {profileImageModal && (
             <ProfileImageModal

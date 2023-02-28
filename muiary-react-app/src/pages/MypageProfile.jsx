@@ -13,6 +13,7 @@ import "../css/DatePicker.css";
 import "../css/Calendar.css";
 import { db } from "../firebase-config";
 import { UserData } from "../context/UserDataContext";
+import { Tooltip } from "../components/tooltips/Tooltip";
 
 const GridContainer = styled(Grid)`
   && {
@@ -202,9 +203,11 @@ function MypageProfile() {
         <Grid item xs={9}>
           <TitleDiv item>
             <p className="title">Profile</p>
-            <IconBtn onClick={setDisabledFalse}>
-              <i className="ri-settings-3-line"></i>
-            </IconBtn>
+            <Tooltip message="Edit profile" direction="icon-bottom">
+              <IconBtn onClick={setDisabledFalse}>
+                <i className="ri-settings-3-line"></i>
+              </IconBtn>
+            </Tooltip>
             <hr className="divider" />
           </TitleDiv>
           <form onSubmit={handleUpdateProfile}>

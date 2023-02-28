@@ -1,4 +1,6 @@
+import { async } from "@firebase/util";
 import { Avatar, Grid } from "@mui/material";
+import { red } from "@mui/material/colors";
 import {
   collection,
   documentId,
@@ -50,12 +52,20 @@ const Btn = styled.button`
   border-radius: 20px;
 `;
 
-function FollowerProfile({ data }) {
+function FollowProfile({ data, myFollowers, myFollowing }) {
   const [userData, setUserData] = useState([]);
   const { user } = UserAuth();
   const navi = useNavigate();
+  const [buttonText, setButtonText] = useState("Follow");
+
+  function isFollowing() {
+    if (myFollowing.some((el) => el.uid === `${data}`)) {
+      setButtonText("Following");
+    }
+  }
 
   useEffect(() => {
+    isFollowing();
     const q = query(
       collection(db, "users"),
       where(documentId(), "==", `${data}`)
@@ -92,7 +102,13 @@ function FollowerProfile({ data }) {
             </SubContainer>
           </Grid>
           <Grid item className="btn-div">
-            {user.uid !== item.id && <Btn>Follow</Btn>}
+            {user.uid !== item.id && (
+              <>
+                <Btn id="btn" value={buttonText}>
+                  {buttonText}
+                </Btn>
+              </>
+            )}
           </Grid>
         </GridContainer>
       ))}
@@ -100,4 +116,4 @@ function FollowerProfile({ data }) {
   );
 }
 
-export default FollowerProfile;
+export default FollowProfile;

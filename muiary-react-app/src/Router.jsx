@@ -1,12 +1,15 @@
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Follow from "./components/FollowCount";
 import FollowerList from "./components/FollowerList";
+import FollowingList from "./components/FollowingList";
 import MyBoardItemLists from "./components/MyBoardItemLists";
 import ProfileImageModal from "./components/ProfileImageModal";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";
 import ExploreFeed from "./pages/ExploreFeed";
+import FollowMain from "./pages/FollowMain";
 import Main from "./pages/Main";
 import Muiary from "./pages/Muiary";
 import MyMuiaryTemplate from "./pages/MyMuiaryTemplate";
@@ -61,8 +64,10 @@ function Router() {
           >
             <Route path=":username" element={<MyMuiaryTemplate />}>
               <Route path="" element={<MyBoardItemLists />} />
-              <Route path="followers" element={<FollowerList />} />
-              <Route path="following" element={<></>} />
+              <Route path="" element={<FollowMain />}>
+                <Route path="followers" element={<FollowerList />} />
+                <Route path="following" element={<FollowingList />} />
+              </Route>
             </Route>
             <Route path="upload" element={<CreateItem />} />
             <Route path="pages/:itemId" element={<BoardItem />} />

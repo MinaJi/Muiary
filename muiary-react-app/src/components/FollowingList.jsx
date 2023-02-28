@@ -1,10 +1,11 @@
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "../firebase-config";
 import FollowProfile from "./FollowProfile";
+import { UserData } from "../context/UserDataContext";
 
 const GridContainer = styled(Grid)`
   && {
@@ -26,39 +27,21 @@ const GridContainer = styled(Grid)`
   }
 `;
 
-function FollowerList() {
-  const { followerData, myFollowers, myFollowing } = useOutletContext();
-
-  // function isFollowing() {
-  //   if (
-  //     myFollowing ||
-  //     (followerData.some((el) => el.uid === `${myFollowing.uid}`) &&
-  //       myFollowers.some((el) => el.uid === `${myFollowing.uid}`))
-  //   ) {
-  //     return true;
-  //   } else if (!myFollowing) {
-  //     return false;
-  //   }
-  // }
-
-  console.log(myFollowing);
+function FollowingList() {
+  const { followingData, myFollowing } = useOutletContext();
 
   return (
     <GridContainer container direction="column">
       <Grid item className="header-title">
-        <p>Followers</p>
+        <p>Following</p>
       </Grid>
       <div>
         <hr className="divider" />
       </div>
       <Grid item className="body">
-        {followerData.map((item, i) => (
+        {followingData.map((item, i) => (
           <div key={i}>
-            <FollowProfile
-              data={item.id}
-              myFollowers={myFollowers}
-              myFollowing={myFollowing}
-            />
+            <FollowProfile data={item.id} myFollowing={myFollowing} />
           </div>
         ))}
       </Grid>
@@ -66,4 +49,4 @@ function FollowerList() {
   );
 }
 
-export default FollowerList;
+export default FollowingList;
