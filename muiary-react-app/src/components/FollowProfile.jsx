@@ -1,6 +1,4 @@
-import { async } from "@firebase/util";
 import { Avatar, Grid } from "@mui/material";
-import { red } from "@mui/material/colors";
 import {
   collection,
   documentId,
@@ -9,7 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
@@ -26,6 +24,19 @@ const GridContainer = styled(Grid)`
     }
     .profile-div {
       flex: 1;
+    }
+    button {
+      background-color: black;
+      border: none;
+      color: #fff;
+      padding: 10px;
+      border-radius: 20px;
+    }
+    .remove-btn,
+    .following-btn {
+      background-color: transparent;
+      border: 1px solid silver;
+      color: silver;
     }
   }
 `;
@@ -44,28 +55,19 @@ const SubContainer = styled(Grid)`
   }
 `;
 
-const Btn = styled.button`
-  background-color: black;
-  border: none;
-  color: #fff;
-  padding: 10px;
-  border-radius: 20px;
-`;
-
-function FollowProfile({ data, myFollowers, myFollowing }) {
+function FollowProfile({ followerData, followingData, data }) {
   const [userData, setUserData] = useState([]);
   const { user } = UserAuth();
+  const { users, username } = useOutletContext();
   const navi = useNavigate();
   const [buttonText, setButtonText] = useState("Follow");
+  const [btnClassName, setBtnClassName] = useState("btn");
+  const { myFollowing, myFollowers } = useOutletContext();
 
-  function isFollowing() {
-    if (myFollowing.some((el) => el.uid === `${data}`)) {
-      setButtonText("Following");
-    }
-  }
+  console.log("팔로워", myFollowers);
+  console.log("팔로잉", myFollowing);
 
   useEffect(() => {
-    isFollowing();
     const q = query(
       collection(db, "users"),
       where(documentId(), "==", `${data}`)
@@ -78,6 +80,25 @@ function FollowProfile({ data, myFollowers, myFollowing }) {
       setUserData(list);
     });
     return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    const isFollowing = () => {
+      if (
+        users.username === username &&
+        myFollowing.some((el) => el.uid === followerData)
+      ) {
+        setButtonText("Remove");
+        setBtnClassName("remove-btn");
+      } else if (myFollowing.some((el) => el.uid === followerData)) {
+        setButtonText("Following");
+        setBtnClassName("following-btn");
+      } else if (myFollowing.some((el) => el.uid === followingData)) {
+        setButtonText("Following");
+        setBtnClassName("following-btn");
+      }
+    };
+    isFollowing();
   }, []);
 
   return (
@@ -103,11 +124,7 @@ function FollowProfile({ data, myFollowers, myFollowing }) {
           </Grid>
           <Grid item className="btn-div">
             {user.uid !== item.id && (
-              <>
-                <Btn id="btn" value={buttonText}>
-                  {buttonText}
-                </Btn>
-              </>
+              <button className={btnClassName}>{buttonText}</button>
             )}
           </Grid>
         </GridContainer>

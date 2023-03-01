@@ -93,7 +93,14 @@ function FollowMain() {
   return (
     <div>
       <Outlet
-        context={{ followingData, followerData, myFollowing, myFollowers }}
+        context={{
+          followingData,
+          followerData,
+          myFollowing,
+          myFollowers,
+          username,
+          users,
+        }}
       />
     </div>
   );

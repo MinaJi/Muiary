@@ -1,11 +1,8 @@
 import { Grid } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import React from "react";
+import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import { db } from "../firebase-config";
 import FollowProfile from "./FollowProfile";
-import { UserData } from "../context/UserDataContext";
 
 const GridContainer = styled(Grid)`
   && {
@@ -28,7 +25,7 @@ const GridContainer = styled(Grid)`
 `;
 
 function FollowingList() {
-  const { followingData, myFollowing } = useOutletContext();
+  const { followingData, myFollowers } = useOutletContext();
 
   return (
     <GridContainer container direction="column">
@@ -41,7 +38,11 @@ function FollowingList() {
       <Grid item className="body">
         {followingData.map((item, i) => (
           <div key={i}>
-            <FollowProfile data={item.id} myFollowing={myFollowing} />
+            <FollowProfile
+              followingData={item.id}
+              data={item.id}
+              myFollowers={myFollowers}
+            />
           </div>
         ))}
       </Grid>
