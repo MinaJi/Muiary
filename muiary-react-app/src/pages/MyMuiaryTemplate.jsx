@@ -26,7 +26,7 @@ const DivContainer = styled.div`
   .right-div {
     width: 82%;
     float: right;
-    margin-top: 65px;
+    margin-top: 75px;
   }
 `;
 

@@ -1,4 +1,4 @@
-import { Avatar, Divider, Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { BiMusic } from "react-icons/bi";

@@ -11,6 +11,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
+import FollowProfileSkeleton from "./FollowProfileSkeleton";
 
 const GridContainer = styled(Grid)`
   && {
@@ -60,12 +61,10 @@ function FollowProfile({ followerData, followingData, data }) {
   const { user } = UserAuth();
   const { users, username } = useOutletContext();
   const navi = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [buttonText, setButtonText] = useState("Follow");
   const [btnClassName, setBtnClassName] = useState("btn");
   const { myFollowing, myFollowers } = useOutletContext();
-
-  console.log("팔로워", myFollowers);
-  console.log("팔로잉", myFollowing);
 
   useEffect(() => {
     const q = query(
@@ -78,57 +77,68 @@ function FollowProfile({ followerData, followingData, data }) {
         list.push({ ...doc.data(), id: doc.id });
       });
       setUserData(list);
+      setIsLoading(false);
     });
     return () => unsub();
   }, []);
 
   useEffect(() => {
-    const isFollowing = () => {
-      if (
-        users.username === username &&
-        myFollowing.some((el) => el.uid === followerData)
-      ) {
-        setButtonText("Remove");
-        setBtnClassName("remove-btn");
-      } else if (myFollowing.some((el) => el.uid === followerData)) {
-        setButtonText("Following");
-        setBtnClassName("following-btn");
-      } else if (myFollowing.some((el) => el.uid === followingData)) {
-        setButtonText("Following");
-        setBtnClassName("following-btn");
+    async function isFollowing() {
+      if (users.username === username) {
+        if (followerData) {
+          setButtonText("Remove");
+          setBtnClassName("remove-btn");
+        } else if (followingData) {
+          setButtonText("Following");
+          setBtnClassName("following-btn");
+        }
+      } else {
+        if (myFollowing.some((el) => el.uid === followerData)) {
+          setButtonText("Following");
+          setBtnClassName("following-btn");
+        } else if (myFollowing.some((el) => el.uid === followingData)) {
+          setButtonText("Following");
+          setBtnClassName("following-btn");
+        }
       }
-    };
+    }
     isFollowing();
-  }, []);
+  }, [userData, username]);
 
   return (
     <>
-      {userData.map((item, i) => (
-        <GridContainer container key={i}>
-          <Grid item>
-            <Avatar
-              src={item.profileImgUrl}
-              className="avatar"
-              onClick={() => navi(`/muiary/${item.username}`)}
-            />
-          </Grid>
-          <Grid item className="profile-div">
-            <SubContainer container direction="column">
-              <Grid item className="nickname">
-                <p>{item.nickname}</p>
+      {isLoading ? (
+        <FollowProfileSkeleton cards={1} />
+      ) : (
+        <>
+          {userData.map((item, i) => (
+            <GridContainer container key={i}>
+              <Grid item>
+                <Avatar
+                  src={item.profileImgUrl}
+                  className="avatar"
+                  onClick={() => navi(`/muiary/${item.username}`)}
+                />
               </Grid>
-              <Grid item className="username">
-                <p>@{item.username}</p>
+              <Grid item className="profile-div">
+                <SubContainer container direction="column">
+                  <Grid item className="nickname">
+                    <p>{item.nickname}</p>
+                  </Grid>
+                  <Grid item className="username">
+                    <p>@{item.username}</p>
+                  </Grid>
+                </SubContainer>
               </Grid>
-            </SubContainer>
-          </Grid>
-          <Grid item className="btn-div">
-            {user.uid !== item.id && (
-              <button className={btnClassName}>{buttonText}</button>
-            )}
-          </Grid>
-        </GridContainer>
-      ))}
+              <Grid item className="btn-div">
+                {user.uid !== item.id && (
+                  <button className={btnClassName}>{buttonText}</button>
+                )}
+              </Grid>
+            </GridContainer>
+          ))}
+        </>
+      )}
     </>
   );
 }

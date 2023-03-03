@@ -25,7 +25,7 @@ const GridContainer = styled(Grid)`
 `;
 
 function FollowingList() {
-  const { followingData, myFollowers } = useOutletContext();
+  const { followingData } = useOutletContext();
 
   return (
     <GridContainer container direction="column">
@@ -38,11 +38,7 @@ function FollowingList() {
       <Grid item className="body">
         {followingData.map((item, i) => (
           <div key={i}>
-            <FollowProfile
-              followingData={item.id}
-              data={item.id}
-              myFollowers={myFollowers}
-            />
+            <FollowProfile followingData={item.id} data={item.id} />
           </div>
         ))}
       </Grid>

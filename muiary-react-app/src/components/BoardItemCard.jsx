@@ -1,14 +1,19 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useNavigate } from "react-router-dom";
+import Vinyl from "./Vinyl";
 
 const GridContainer = styled(Grid)`
   && {
     width: max-content;
     height: max-content;
     padding: 0px 10px 25px 20px;
+    .img-div {
+      width: 250px;
+      height: 250px;
+    }
     img {
       width: 250px;
       height: 250px;
@@ -38,27 +43,54 @@ const GridContainer = styled(Grid)`
 
 function BoardItemCard({ artwork, coverImage, title, date, itemId }) {
   const navi = useNavigate();
+  const [hoverEvent, setHoverEvent] = useState(false);
+  const [delayHandler, setDelayHandler] = useState(null);
+
+  const handleMouseEnter = (event) => {
+    setDelayHandler(
+      setTimeout(() => {
+        setHoverEvent(true);
+      }, 750)
+    );
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(delayHandler);
+    setHoverEvent(false);
+  };
 
   return (
     <GridContainer container direction="column">
       <Grid item>
-        {!coverImage ? (
-          <img
-            src={artwork}
-            alt="artwork"
-            onClick={() => {
-              navi(`/muiary/pages/${itemId}`);
-            }}
-          />
-        ) : (
-          <img
-            src={coverImage}
-            alt="coverImage"
-            onClick={() => {
-              navi(`/muiary/pages/${itemId}`);
-            }}
-          />
-        )}
+        <div
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="img-div"
+        >
+          {!coverImage ? (
+            <>
+              {hoverEvent ? (
+                <Vinyl artwork={artwork} />
+              ) : (
+                <img
+                  src={artwork}
+                  alt="artwork"
+                  onClick={() => {
+                    navi(`/muiary/pages/${itemId}`);
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <img
+              src={coverImage}
+              alt="coverImage"
+              onClick={() => {
+                navi(`/muiary/pages/${itemId}`);
+              }}
+            />
+          )}
+        </div>
       </Grid>
       <Grid item className="content">
         <Grid item className="title">

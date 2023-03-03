@@ -65,6 +65,7 @@ function MuiaryProfile({ userData, userId }) {
   const [profileImageModal, setProfileImageModal] = useState(false);
 
   const handleModal = () => {
+    if (!userData[0].profileImgUrl) return;
     setProfileImageModal(true);
   };
 
