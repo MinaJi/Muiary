@@ -5,8 +5,6 @@ import {
   signOut,
   onAuthStateChanged,
   updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthCredential,
   EmailAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase-config";

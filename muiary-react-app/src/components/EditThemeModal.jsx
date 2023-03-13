@@ -81,6 +81,7 @@ const ButtonContainer = styled(Grid)`
     .set-btn {
       background-color: black;
       color: white;
+      font-weight: 700;
       :hover {
         background-color: #f73859;
       }
@@ -150,7 +151,7 @@ function EditThemeModal({
         <Grid item className="btn-wrapper">
           <button
             className="close-btn"
-            onClick={(e) => {
+            onClick={() => {
               setEditModal(false);
             }}
           >

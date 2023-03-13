@@ -81,7 +81,6 @@ const CloseBtn = styled(Grid)`
 function ImgEditModal({ closeModal, image, imageName, setImageUrl, setImage }) {
   const { user } = UserAuth();
   const usersRef = doc(db, `users/${user.uid}`);
-
   const cropperRef = useRef("");
   const [cropper, setCropper] = useState();
   const [croppedImg, setCroppedImg] = useState("");

@@ -46,11 +46,11 @@ function BoardItemCard({ artwork, coverImage, title, date, itemId }) {
   const [hoverEvent, setHoverEvent] = useState(false);
   const [delayHandler, setDelayHandler] = useState(null);
 
-  const handleMouseEnter = (event) => {
+  const handleMouseEnter = () => {
     setDelayHandler(
       setTimeout(() => {
         setHoverEvent(true);
-      }, 750)
+      }, 1500)
     );
   };
 
@@ -70,7 +70,7 @@ function BoardItemCard({ artwork, coverImage, title, date, itemId }) {
           {!coverImage ? (
             <>
               {hoverEvent ? (
-                <Vinyl artwork={artwork} />
+                <Vinyl artwork={artwork} itemId={itemId} />
               ) : (
                 <img
                   src={artwork}

@@ -139,7 +139,6 @@ const SelectPlaceholder = styled.div`
 function MypageProfile() {
   const { user } = UserAuth();
   const { users } = UserData();
-
   const [isDisabled, setIsDisabled] = useState(true);
   const [showBtn, setShowBtn] = useState(false);
 
@@ -173,22 +172,20 @@ function MypageProfile() {
   };
 
   const usersRef = doc(db, `users/${user.uid}`);
-  // const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(users.nickname);
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [country, setCountry] = useState("");
-  const [bio, setBio] = useState("");
+  const [bio, setBio] = useState(users.bio);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     await updateDoc(usersRef, {
-      // username: username || users.username,
       nickname: nickname || users.nickname,
       bio: bio || users.bio,
       country: country || users.country,
       dateOfBirth: dateOfBirth || users.dateOfBirth,
     });
-    alert("업데완료 ㅋㅋ");
+    alert("업데이트 완료");
   };
 
   const [dateValue, setDateValue] = useState(new Date());
@@ -281,7 +278,7 @@ function MypageProfile() {
                 <Grid item xs={12}>
                   {showBtn && (
                     <>
-                      <Btn type="submit">Update</Btn>
+                      <Btn type="submit">Save</Btn>
                     </>
                   )}
                 </Grid>

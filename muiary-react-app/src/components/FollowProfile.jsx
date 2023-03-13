@@ -2,7 +2,10 @@ import { Avatar, Grid } from "@mui/material";
 import {
   collection,
   documentId,
+  getDocs,
+  limit,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -11,6 +14,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "../firebase-config";
+import { HoverProfileCard } from "./cards/HoverProfileCard";
 import FollowProfileSkeleton from "./FollowProfileSkeleton";
 
 const GridContainer = styled(Grid)`
@@ -58,6 +62,7 @@ const SubContainer = styled(Grid)`
 
 function FollowProfile({ followerData, followingData, data }) {
   const [userData, setUserData] = useState([]);
+  const [recentPosts, setRecentPosts] = useState({});
   const { user } = UserAuth();
   const { users, username } = useOutletContext();
   const navi = useNavigate();
@@ -80,6 +85,33 @@ function FollowProfile({ followerData, followingData, data }) {
       setIsLoading(false);
     });
     return () => unsub();
+  }, []);
+
+  async function getRecentPosts() {
+    const boardDocs = {};
+    const q = query(
+      collection(db, "boardItems"),
+      where("userId", "==", `${data}`),
+      orderBy("timestamp", "desc"),
+      limit(3)
+    );
+    const qSnapshot = await getDocs(q);
+    qSnapshot.forEach((doc) => {
+      boardDocs[doc.id] = doc.data();
+    });
+    return boardDocs;
+  }
+
+  useEffect(() => {
+    const getBoardDocs = async () => {
+      try {
+        const getBoardDocs = await getRecentPosts();
+        setRecentPosts(getBoardDocs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getBoardDocs();
   }, []);
 
   useEffect(() => {
@@ -114,11 +146,19 @@ function FollowProfile({ followerData, followingData, data }) {
           {userData.map((item, i) => (
             <GridContainer container key={i}>
               <Grid item>
-                <Avatar
-                  src={item.profileImgUrl}
-                  className="avatar"
-                  onClick={() => navi(`/muiary/${item.username}`)}
-                />
+                <HoverProfileCard
+                  nickname={item.nickname}
+                  username={item.username}
+                  avatar={item.profileImgUrl}
+                  bio={item.bio}
+                  recentPosts={recentPosts}
+                >
+                  <Avatar
+                    src={item.profileImgUrl}
+                    className="avatar"
+                    onClick={() => navi(`/muiary/${item.username}`)}
+                  />
+                </HoverProfileCard>
               </Grid>
               <Grid item className="profile-div">
                 <SubContainer container direction="column">

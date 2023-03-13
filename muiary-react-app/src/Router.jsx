@@ -1,10 +1,8 @@
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Follow from "./components/FollowCount";
 import FollowerList from "./components/FollowerList";
 import FollowingList from "./components/FollowingList";
 import MyBoardItemLists from "./components/MyBoardItemLists";
-import ProfileImageModal from "./components/ProfileImageModal";
 import { UserAuth } from "./context/AuthContext";
 import BoardItem from "./pages/BoardItem";
 import CreateItem from "./pages/CreateItem";

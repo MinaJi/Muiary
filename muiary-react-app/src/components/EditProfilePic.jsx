@@ -91,10 +91,8 @@ const Btn = styled.button`
 function EditProfilePic() {
   const { user } = UserAuth();
   const usersRef = doc(db, `users/${user.uid}`);
-
   const [showEdit, setShowEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
   const [error, setError] = useState();
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");

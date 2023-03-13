@@ -15,7 +15,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { UserAuth } from "../context/AuthContext";
-import FollowCount from "../components/FollowCount";
+import { IoSettingsOutline } from "react-icons/io5";
+import moment from "moment";
+import "animate.css";
+import { useDispatch } from "react-redux";
+import { SET_USER_STATE } from "../redux/slice/userSlice";
 
 const DivContainer = styled.div`
   .left-div {
@@ -41,9 +45,32 @@ const SideDiv = styled.div`
     height: 20vh;
     width: 100vw;
   }
+  .left-div-contents {
+    display: flex;
+    height: 90%;
+    display: flex;
+    flex-flow: column;
+  }
+  .theme-settings {
+    margin-top: auto;
+  }
   .edit-theme-btn {
-    background-color: transparent;
     border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0px 0px 10px 7%;
+    font-weight: 500;
+    :hover {
+      color: #f73859;
+    }
+  }
+  .span-div {
+    .icon {
+      margin-right: 3px;
+    }
+    display: flex;
   }
 `;
 
@@ -61,18 +88,9 @@ const Btn = styled.button`
   box-shadow: rgba(97, 97, 97, 0.29) 5px 10px 15px;
   :hover {
     background-color: black;
-    animation: bounce 0.4s;
-    animation-direction: alternate;
-    animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
+    animation: jello;
+    animation-duration: 1.1s;
     animation-iteration-count: infinite;
-    @keyframes bounce {
-      from {
-        transform: translate3d(0, 0, 0);
-      }
-      to {
-        transform: translate3d(0, 20px, 0);
-      }
-    }
   }
 `;
 
@@ -84,6 +102,7 @@ function MyMuiaryTemplate() {
   const [editModal, setEditModal] = useState(false);
   const [bgColor, setBgColor] = useState("");
   const [textColor, setTextColor] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let userList = [];
@@ -95,8 +114,21 @@ function MyMuiaryTemplate() {
         );
         const snapshot = await getDocs(q);
         snapshot.forEach((doc) => {
-          userList.push({ id: doc.id, ...doc.data() });
+          const timestamp = doc.data().dateOfBirth.seconds;
+          const Date = moment.unix(timestamp);
+          const dateFormat = Date.format("MMMM DD");
+          userList.push({
+            id: doc.id,
+            birthday: dateFormat,
+            ...doc.data(),
+          });
         });
+        dispatch(
+          SET_USER_STATE({
+            userId: userList[0].id,
+            username: userList[0].username,
+          })
+        );
         setUserData(userList);
       } catch (error) {
         console.log(error);
@@ -125,23 +157,25 @@ function MyMuiaryTemplate() {
         className="left-div"
       >
         {Object.keys(userData).map((item, i) => (
-          <div key={i}>
+          <div key={i} className="left-div-contents">
             <div>
               <MuiaryProfile userData={userData} userId={userData[item].id} />
             </div>
-            {user.uid === userData[item].id && (
-              <button
-                className="edit-theme-btn"
-                onClick={(e) => setEditModal(true)}
-              >
-                Theme settings
-              </button>
-            )}
+            <div className="theme-settings">
+              {user.uid === userData[item].id && (
+                <div
+                  className="edit-theme-btn"
+                  onClick={() => setEditModal(true)}
+                >
+                  <div className="span-div">
+                    <IoSettingsOutline className="icon" />
+                    <span>Theme settings</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         ))}
-        <div>
-          <FollowCount />
-        </div>
       </SideDiv>
       <div className="right-div">
         <Outlet />

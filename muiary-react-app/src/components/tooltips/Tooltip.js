@@ -1,4 +1,11 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const tooltip = keyframes`
+  0% { opacity: 0; }
+  40% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 1;}
+`;
 
 const Div = styled.div`
   float: right;
@@ -17,6 +24,10 @@ const Div = styled.div`
   }
   .tooltip.icon-bottom {
     transform: translateX(-30%) translateY(150%);
+  }
+  .tooltip.icon-btn-bottom {
+    transform: translateX(-133%) translateY(-140%);
+    animation: ${tooltip} 2.2s;
   }
 `;
 

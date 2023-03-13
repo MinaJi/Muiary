@@ -1,21 +1,30 @@
 import { Grid } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "../firebase-config";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SET_NUMBER_OF_FOLLOWERS,
+  SET_NUMBER_OF_FOLLOWING,
+} from "../redux/slice/followSlice";
 
 const Btn = styled.button`
   background: transparent;
   border: none;
-  
-`
+  color: inherit;
+  span {
+    font-weight: 600;
+  }
+`;
 
 function FollowCount() {
   const navi = useNavigate();
   const { username } = useParams();
-  const [followerNum, setFollowerNum] = useState(0);
-  const [followingNum, setFollowingNum] = useState(0);
+  const dispatch = useDispatch();
+  const numOfFollowers = useSelector((state) => state.follow.followers);
+  const numOfFollowing = useSelector((state) => state.follow.following);
 
   useEffect(() => {
     const getNumberOfFollowers = async () => {
@@ -26,7 +35,11 @@ function FollowCount() {
         followers.forEach((doc) => {
           list.push({ ...doc.data() });
         });
-        setFollowerNum(list.length);
+        dispatch(
+          SET_NUMBER_OF_FOLLOWERS({
+            followers: list.length,
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -43,7 +56,11 @@ function FollowCount() {
         followers.forEach((doc) => {
           list.push({ ...doc.data() });
         });
-        setFollowingNum(list.length);
+        dispatch(
+          SET_NUMBER_OF_FOLLOWING({
+            following: list.length,
+          })
+        );
       } catch (error) {
         console.log(error);
       }
@@ -55,12 +72,12 @@ function FollowCount() {
     <Grid container>
       <Grid item>
         <Btn onClick={() => navi("followers")}>
-          Followers {followerNum}
+          Followers <span>{numOfFollowers.followers}</span>
         </Btn>
       </Grid>
       <Grid item>
         <Btn onClick={() => navi("following")}>
-          Following {followingNum}
+          Following <span>{numOfFollowing.following}</span>
         </Btn>
       </Grid>
     </Grid>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Div = styled.div`
@@ -50,7 +51,8 @@ const Div = styled.div`
     width: 33.33%;
     height: 33.33%;
     border-radius: 50%;
-    .cover {
+    animation: rotation 4s infinite linear;
+    .artwork {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -65,7 +67,7 @@ const Div = styled.div`
       width: 8%;
       height: 8%;
       border-radius: 50%;
-      background: white;
+      background: ${(props) => props.theme.bgColor};
       box-shadow: inset 0 0 2px #000;
       content: "";
     }
@@ -121,18 +123,6 @@ const Div = styled.div`
     );
   }
 
-  .play .macaron,
-  .play .grooves,
-  .play .macaron .cover {
-    animation: rotation 4s infinite linear;
-  }
-
-  .paused .macaron,
-  .paused .grooves,
-  .paused .macaron .cover {
-    animation-play-state: paused;
-  }
-
   .vinyl-picture-disc .macaron {
     top: 0%;
     left: 0%;
@@ -145,16 +135,6 @@ const Div = styled.div`
       width: 2.5%;
       height: 2.5%;
       background: white;
-    }
-  }
-
-  .song {
-    display: block;
-    margin: 50px 50px 0;
-    width: 400px;
-    text-align: center;
-    audio {
-      display: none;
     }
   }
 
@@ -189,15 +169,20 @@ const Div = styled.div`
   }
 `;
 
-function Vinyl({ artwork }) {
+function Vinyl({ artwork, itemId }) {
+  const navi = useNavigate();
   return (
-    <Div>
-      <div class="vinyl vinyl-1 paused">
-        <div class="grooves"></div>
-        <div class="light"></div>
-        <div class="light-alt"></div>
-        <div class="macaron">
-          <img class="cover" alt="cover" src={artwork}></img>
+    <Div
+      onClick={() => {
+        navi(`/muiary/pages/${itemId}`);
+      }}
+    >
+      <div className="vinyl">
+        <div className="grooves" />
+        <div className="light" />
+        <div className="light-alt" />
+        <div className="macaron">
+          <img className="artwork" alt="artwork" src={artwork} />
         </div>
       </div>
     </Div>
