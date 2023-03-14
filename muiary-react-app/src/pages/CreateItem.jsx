@@ -1,5 +1,5 @@
 import { Divider, Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import SearchModal from "../components/SearchModal";
@@ -20,13 +20,25 @@ import { BiMusic } from "react-icons/bi";
 import { BsMusicNoteList } from "react-icons/bs";
 import SongDataDetailsList from "../components/SongDataDetailsList";
 import { AnimatePresence, motion } from "framer-motion";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
-const StyledContainer = styled(Grid)`
+const GridContainer = styled(Grid)`
   && {
     padding-top: 65px;
+    .top-div {
+      padding: 10px 0 0 25px;
+      .back-icon {
+        font-size: 35px;
+        cursor: pointer;
+        :hover {
+          color: #f73859;
+        }
+      }
+    }
     .form-wrapper {
       width: 1000px;
-      padding: 2rem;
     }
     .songdata-wrapper {
       padding: 10px;
@@ -38,6 +50,41 @@ const StyledContainer = styled(Grid)`
         border-radius: 10px;
         box-shadow: ${(props) => props.theme.addBoxShadow};
       }
+      .overlay {
+        position: absolute;
+        margin-top: 122.5px;
+        top: 0;
+        bottom: 0;
+        height: 230px;
+        width: 230px;
+        opacity: 0;
+        transition: 0.3s ease;
+        background-color: #ffffff66;
+        border-radius: 10px;
+        .arrow-left {
+          position: absolute;
+          top: 45%;
+          left: 2%;
+          font-size: 30px;
+          cursor: pointer;
+          :hover {
+            color: #f73859;
+          }
+        }
+        .arrow-right {
+          position: absolute;
+          top: 45%;
+          right: 2%;
+          font-size: 30px;
+          cursor: pointer;
+          :hover {
+            color: #f73859;
+          }
+        }
+      }
+    }
+    .artwork:hover .overlay {
+      opacity: 1;
     }
     .add {
       width: 230px;
@@ -60,13 +107,18 @@ const StyledContainer = styled(Grid)`
         color: #f73859;
       }
     }
+    .btn-wrapper {
+      padding-top: 10px;
+      gap: 3px;
+    }
     .icon-btn-2 {
       background-color: black;
       padding: 7px;
       border: none;
       border-radius: 10px;
       color: #fff;
-      font-size: 18px;
+      font-size: 16px;
+      font-weight: 500;
       :hover {
         background-color: #f73859;
       }
@@ -136,8 +188,25 @@ function CreateItem() {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [fileUrl, setFileUrl] = useState("");
-
+  const [indexNum, setIndexNum] = useState(0);
   const date = moment().format("YYYY-MM-DD, LTS");
+
+  useEffect(() => {
+    if (indexNum > 0 && !songData[indexNum]) {
+      setIndexNum(indexNum - 1);
+    }
+  }, [songData, indexNum]);
+
+  const goToPrev = () => {
+    const isFirstIndex = indexNum === 0;
+    const newIndex = isFirstIndex ? songData.length - 1 : indexNum - 1;
+    setIndexNum(newIndex);
+  };
+  const goToNext = () => {
+    const isLastIndex = indexNum === songData.length - 1;
+    const newIndex = isLastIndex ? 0 : indexNum + 1;
+    setIndexNum(newIndex);
+  };
 
   const openListHandler = (e) => {
     e.preventDefault();
@@ -167,161 +236,190 @@ function CreateItem() {
       date: date,
       timestamp: new Date(),
       coverImage: fileUrl,
-      like: false,
-      saved: false,
     });
     navi(-1);
   };
 
   return (
     <>
-      <StyledContainer container direction="column" alignItems="center">
-        <Grid item className="form-wrapper">
-          <form onSubmit={handleSubmit}>
-            <Grid container className="songdata-wrapper">
-              <Grid item xs={3}>
-                {songData.length >= 1 ? (
-                  <div className="artwork">
-                    <img src={songData[0]?.artworkUrl100} alt="albumArtwork" />
-                  </div>
-                ) : (
-                  <div className="add">
-                    <button
-                      className="icon-btn"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpenModal(true);
-                      }}
-                    >
-                      <IoIosAddCircleOutline />
-                    </button>
-                  </div>
-                )}
-              </Grid>
-              <Grid item xs={9}>
-                {songData.length >= 1 ? (
-                  <SongDataGrid container direction="column">
-                    <Grid item className="trackname">
-                      {songData[0]?.trackName}
-                    </Grid>
-                    <Grid item className="artistname">
-                      {songData[0]?.artistName}
-                    </Grid>
-                    <Grid item className="collectionname">
-                      {songData[0]?.collectionName}
-                      <DotIcon />
-                      {songData[0]?.releaseDate}
-                    </Grid>
-                    <Grid item>
-                      <Divider />
-                      <Grid container>
-                        <Grid item>
-                          <button
-                            className="icon-btn-2"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setOpenModal(true);
-                              setSongData("");
-                            }}
-                          >
-                            Remove All
-                          </button>
-                        </Grid>
-                        <Grid item>
-                          <button
-                            className="icon-btn-2"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setOpenModal(true);
-                            }}
-                          >
-                            <AddIcon fontSize="inherit" />
-                            <BiMusic />
-                          </button>
-                        </Grid>
-                        <Grid item>
-                          <button
-                            className="icon-btn-2"
-                            onClick={openListHandler}
-                          >
-                            <BsMusicNoteList />
-                          </button>
-                        </Grid>
-                        <Grid item>
-                          {songData.length > 1 && (
-                            <SongDataList
-                              songData={songData}
-                              setSongData={setSongData}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </SongDataGrid>
-                ) : (
-                  <div
-                    style={{
-                      padding: "10px",
-                      paddingLeft: "20px",
-                      fontSize: "23px",
-                      color: "silver",
-                    }}
-                  >
-                    <p>No songs selected...</p>
-                  </div>
-                )}
-              </Grid>
-            </Grid>
-            <Grid item>
-              <AnimatePresence>
-                {openList && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <SongDataDetailsList
-                      songData={songData}
-                      setOpenList={setOpenList}
-                      setSongData={setSongData}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Grid>
-            <Grid item className="title-wrapper">
-              <label htmlFor="title">
-                <p>Title</p>
-              </label>
-              <input onChange={(e) => setTitle(e.target.value)} id="title" />
-            </Grid>
-            <Grid item className="contents-wrapper">
-              <label>
-                <p>Contents</p>
-              </label>
-              <Editor setContents={setContents} id="contents" />
-            </Grid>
-            <Grid item className="file-input-wrapper">
-              <label htmlFor="file-input" className="file-input-label">
-                <p>Upload Cover</p>
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={fileHandler}
-                id="file-input"
-              />
-            </Grid>
-            <Grid item>
-              <Btn type="submit">Share</Btn>
-            </Grid>
-          </form>
+      <GridContainer container direction="column">
+        <Grid item className="top-div">
+          <ArrowBackIcon className="back-icon" onClick={() => navi(-1)} />
         </Grid>
-        {openModal && (
-          <SearchModal closeModal={setOpenModal} setSongData={setSongData} />
-        )}
-      </StyledContainer>
+        <Grid item>
+          <Grid container justifyContent="center">
+            <Grid item className="form-wrapper">
+              <form onSubmit={handleSubmit}>
+                <Grid container className="songdata-wrapper">
+                  <Grid item xs={3}>
+                    {songData.length >= 1 ? (
+                      <div className="artwork">
+                        <img
+                          src={songData[indexNum]?.artworkUrl100}
+                          alt="albumArtwork"
+                        />
+                        {songData.length > 1 && (
+                          <>
+                            <div className="overlay">
+                              <ArrowBackIosNewRoundedIcon
+                                className="arrow-left"
+                                onClick={goToPrev}
+                              />
+                              <ArrowForwardIosRoundedIcon
+                                className="arrow-right"
+                                onClick={goToNext}
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="add">
+                        <button
+                          className="icon-btn"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setOpenModal(true);
+                          }}
+                        >
+                          <IoIosAddCircleOutline />
+                        </button>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item xs={9}>
+                    {songData.length >= 1 ? (
+                      <SongDataGrid container direction="column">
+                        <Grid item className="trackname">
+                          {songData[indexNum]?.trackName}
+                        </Grid>
+                        <Grid item className="artistname">
+                          {songData[indexNum]?.artistName}
+                        </Grid>
+                        <Grid item className="collectionname">
+                          {songData[indexNum]?.collectionName}
+                          <DotIcon />
+                          {songData[indexNum]?.releaseDate}
+                        </Grid>
+                        <Grid item>
+                          <Divider />
+                          <Grid container className="btn-wrapper">
+                            <Grid item>
+                              <button
+                                className="icon-btn-2"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setSongData("");
+                                  setOpenList(false);
+                                }}
+                              >
+                                <p>Remove all</p>
+                              </button>
+                            </Grid>
+                            <Grid item>
+                              <button
+                                className="icon-btn-2"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setOpenModal(true);
+                                }}
+                              >
+                                <AddIcon fontSize="inherit" />
+                                <BiMusic />
+                              </button>
+                            </Grid>
+                            <Grid item>
+                              <button
+                                className="icon-btn-2"
+                                onClick={openListHandler}
+                              >
+                                <BsMusicNoteList />
+                              </button>
+                            </Grid>
+                            <Grid item>
+                              {songData.length > 1 && (
+                                <SongDataList
+                                  songData={songData}
+                                  setSongData={setSongData}
+                                  setIndexNum={setIndexNum}
+                                />
+                              )}
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </SongDataGrid>
+                    ) : (
+                      <div
+                        style={{
+                          padding: "10px",
+                          paddingLeft: "20px",
+                          fontSize: "23px",
+                          color: "silver",
+                        }}
+                      >
+                        <p>No songs selected...</p>
+                      </div>
+                    )}
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <AnimatePresence>
+                    {openList && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <SongDataDetailsList
+                          songData={songData}
+                          setOpenList={setOpenList}
+                          setSongData={setSongData}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Grid>
+                <Grid item className="title-wrapper">
+                  <label htmlFor="title">
+                    <p>Title</p>
+                  </label>
+                  <input
+                    onChange={(e) => setTitle(e.target.value)}
+                    id="title"
+                  />
+                </Grid>
+                <Grid item className="contents-wrapper">
+                  <label>
+                    <p>Contents</p>
+                  </label>
+                  <Editor setContents={setContents} id="contents" />
+                </Grid>
+                <Grid item className="file-input-wrapper">
+                  <label htmlFor="file-input" className="file-input-label">
+                    <p>Upload Cover</p>
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={fileHandler}
+                    id="file-input"
+                  />
+                </Grid>
+                <Grid item>
+                  <Btn type="submit">Share</Btn>
+                </Grid>
+              </form>
+            </Grid>
+            {openModal && (
+              <SearchModal
+                closeModal={setOpenModal}
+                setSongData={setSongData}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </GridContainer>
     </>
   );
 }

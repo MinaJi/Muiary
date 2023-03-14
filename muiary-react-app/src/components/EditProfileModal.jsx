@@ -7,11 +7,10 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Tooltip } from "../components/tooltips/Tooltip";
 import ImageEditor from "./ImageEditor";
 import { UserAuth } from "../context/AuthContext";
-import { addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase-config";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
@@ -93,9 +92,11 @@ const FormContainer = styled(Grid)`
     textarea {
       width: 437px;
       border-radius: 20px;
-      border: 1px solid silver;
+      border: ${(props) => props.theme.inputBorder};
       padding: 10px;
       font-size: 15px;
+      background-color: ${(props) => props.theme.inputBg};
+      color: ${(props) => props.theme.textColor};
     }
     .bio-div {
       textarea {
@@ -133,7 +134,7 @@ const FormContainer = styled(Grid)`
       left: 50%;
       transform: translate(-50%, -50%);
       :hover {
-        background-color: #000000ac;
+        background-color: #00000096;
       }
     }
     .input-wrapper {
