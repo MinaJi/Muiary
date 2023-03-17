@@ -1,51 +1,88 @@
-import { Grid } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import RemoveIcon from "@mui/icons-material/Remove";
+import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const GridContainer = styled(Grid)`
-  && {
-    width: max-content;
-    height: max-content;
-    padding: 15px;
+const GridContainer = styled.div`
+  width: 230px;
+  position: relative;
+  margin: 3px;
+  padding: 5px 10px 10px 10px;
+  .slick-list {
+    flex: 1;
+    height: 55px;
+  }
+  .circular-div {
     position: relative;
-    margin: 3px;
-    .circular-div {
-      position: relative;
-      display: inline-block;
-      .btn {
-        top: -5px;
-        left: 30px;
-        position: absolute;
-        background-color: #000;
-        border-radius: 50%;
-        border: none;
-        width: 18px;
-        height: 18px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        :hover {
-          background-color: #f73859;
-        }
-        .remove-icon {
-          font-size: 15px;
-          color: #fff;
-        }
+    display: inline-block;
+    margin-top: 8px;
+    .btn {
+      top: -7px;
+      left: 30px;
+      position: absolute;
+      background-color: #000;
+      border-radius: 50%;
+      border: none;
+      width: 19px;
+      height: 19px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      border: 2px solid ${(props) => props.theme.bgColor};
+      :hover {
+        background-color: #f73859;
       }
-      .artwork {
-        width: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-        :hover {
-          filter: brightness(80%);
-        }
+      .remove-icon {
+        font-size: 15px;
+        color: #fff;
+      }
+    }
+    .artwork {
+      width: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      :hover {
+        filter: brightness(80%);
       }
     }
   }
 `;
 
 function SongDataList({ songData, setSongData, setIndexNum }) {
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <KeyboardArrowRightRoundedIcon
+        className={className}
+        style={{ ...style, display: "block", color: "silver" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <KeyboardArrowLeftRoundedIcon
+        className={className}
+        style={{ ...style, display: "block", color: "silver" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  const settings = {
+    focusOnSelect: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    speed: 500,
+    nextArrow: <SampleNextArrow className="nextArrow" />,
+    prevArrow: <SamplePrevArrow />,
+  };
   const deleteHandler = (e, i) => {
     e.preventDefault();
     setSongData((songData) => {
@@ -59,22 +96,24 @@ function SongDataList({ songData, setSongData, setIndexNum }) {
   };
 
   return (
-    <GridContainer container>
-      {songData.map((item, i) => (
-        <Grid item key={i}>
-          <div className="circular-div">
-            <img
-              className="artwork"
-              src={item.artworkUrl100}
-              alt="artwork"
-              onClick={(e) => selectHandler(e, i)}
-            />
-            <button onClick={(e) => deleteHandler(e, i)} className="btn">
-              <RemoveIcon className="remove-icon" />
-            </button>
+    <GridContainer>
+      <Slider {...settings}>
+        {songData.map((item, i) => (
+          <div key={i}>
+            <div className="circular-div">
+              <img
+                className="artwork"
+                src={item.artworkUrl100}
+                alt="artwork"
+                onClick={(e) => selectHandler(e, i)}
+              />
+              <button onClick={(e) => deleteHandler(e, i)} className="btn">
+                <RemoveIcon className="remove-icon" />
+              </button>
+            </div>
           </div>
-        </Grid>
-      ))}
+        ))}
+      </Slider>
     </GridContainer>
   );
 }

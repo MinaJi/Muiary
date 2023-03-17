@@ -23,6 +23,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { MdDeleteOutline } from "react-icons/md";
+import { Tooltip } from "../components/tooltips/Tooltip";
 
 const GridContainer = styled(Grid)`
   && {
@@ -94,15 +96,14 @@ const GridContainer = styled(Grid)`
       box-shadow: ${(props) => props.theme.addBoxShadow};
     }
     .icon-btn {
-      width: 50px;
-      height: 50px;
       background-color: transparent;
       border: none;
       display: block;
       margin: 0 auto;
-      padding-top: 100px;
-      font-size: 40px;
+      margin-top: 100px;
+      font-size: 45px;
       color: silver;
+      cursor: pointer;
       :hover {
         color: #f73859;
       }
@@ -123,10 +124,18 @@ const GridContainer = styled(Grid)`
         background-color: #f73859;
       }
     }
+    label {
+      p {
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 5px;
+        margin-top: 8px;
+      }
+    }
     .title-wrapper {
       padding: 10px;
-      font-size: 25px;
       input {
+        color: ${(props) => props.theme.textColor};
         height: 40px;
         width: 100%;
         border: ${(props) => props.theme.inputBorder};
@@ -135,12 +144,73 @@ const GridContainer = styled(Grid)`
       }
     }
     .contents-wrapper {
-      font-size: 25px;
       padding: 10px;
+      strong {
+        font-weight: bold;
+      }
+      em {
+        font-style: italic;
+      }
+    }
+    .ql-editor {
+      overflow: auto;
+      max-height: 500px;
+    }
+    .ql-container.ql-snow {
+      border-radius: 0 0 15px 15px;
+      border: ${(props) => props.theme.inputBorder};
+      background-color: ${(props) => props.theme.inputBg};
+    }
+    .ql-snow.ql-toolbar {
+      border: ${(props) => props.theme.inputBorder};
+      border-bottom: none !important;
+      border-radius: 15px 15px 0 0;
+      background-color: ${(props) => props.theme.inputBg};
+    }
+    .ql-toolbar .ql-stroke {
+      fill: none;
+      stroke: ${(props) => props.theme.textColor};
+    }
+
+    .ql-toolbar .ql-fill {
+      fill: ${(props) => props.theme.textColor};
+      stroke: none;
+    }
+
+    .ql-toolbar .ql-picker {
+      color: ${(props) => props.theme.textColor};
+    }
+    .ql-snow .ql-picker-options {
+      background-color: ${(props) => props.theme.inputBg};
     }
     .file-input-wrapper {
       padding: 10px;
-      font-size: 25px;
+      input::file-selector-button {
+        border: 1px dashed ${(props) => props.theme.inputBorderColor};
+        background-color: ${(props) => props.theme.inputBg};
+        border-radius: 15px;
+        padding: 20px;
+        margin-right: 10px;
+        color: ${(props) => props.theme.textColor};
+        font-weight: 600;
+        cursor: pointer;
+        :hover {
+        }
+      }
+      .input-wrapper {
+        border: ${(props) => props.theme.inputBorder};
+        border-radius: 15px;
+        padding: 10px;
+      }
+      .file-delete-wrapper {
+        font-size: 28px;
+        align-items: center;
+        display: flex;
+        cursor: pointer;
+        :hover {
+          color: #f73859;
+        }
+      }
     }
   }
 `;
@@ -148,10 +218,13 @@ const GridContainer = styled(Grid)`
 const Btn = styled.button`
   background-color: black;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 10px;
   font-size: 20px;
+  font-weight: 600;
   color: white;
+  width: 100%;
+  margin: 10px 0 65px 0;
   :hover {
     background-color: #f73859;
   }
@@ -175,6 +248,15 @@ const SongDataGrid = styled(Grid)`
       font-size: 16pxs;
       color: #a9a9a9;
     }
+  }
+`;
+
+const NoResultGrid = styled(Grid)`
+  && {
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 23px;
+    color: silver;
   }
 `;
 
@@ -223,6 +305,12 @@ function CreateItem() {
         setFileUrl(url);
       });
     });
+  };
+
+  const handleDeleteFile = (e) => {
+    e.preventDefault();
+    document.getElementById("file-input").value = "";
+    setFileUrl("");
   };
 
   const handleSubmit = async (e) => {
@@ -275,15 +363,13 @@ function CreateItem() {
                       </div>
                     ) : (
                       <div className="add">
-                        <button
+                        <IoIosAddCircleOutline
                           className="icon-btn"
                           onClick={(e) => {
                             e.preventDefault();
                             setOpenModal(true);
                           }}
-                        >
-                          <IoIosAddCircleOutline />
-                        </button>
+                        />
                       </div>
                     )}
                   </Grid>
@@ -336,31 +422,24 @@ function CreateItem() {
                                 <BsMusicNoteList />
                               </button>
                             </Grid>
-                            <Grid item>
-                              {songData.length > 1 && (
-                                <SongDataList
-                                  songData={songData}
-                                  setSongData={setSongData}
-                                  setIndexNum={setIndexNum}
-                                />
-                              )}
-                            </Grid>
                           </Grid>
                         </Grid>
                       </SongDataGrid>
                     ) : (
-                      <div
-                        style={{
-                          padding: "10px",
-                          paddingLeft: "20px",
-                          fontSize: "23px",
-                          color: "silver",
-                        }}
-                      >
+                      <NoResultGrid>
                         <p>No songs selected...</p>
-                      </div>
+                      </NoResultGrid>
                     )}
                   </Grid>
+                </Grid>
+                <Grid item>
+                  {songData.length > 1 && (
+                    <SongDataList
+                      songData={songData}
+                      setSongData={setSongData}
+                      setIndexNum={setIndexNum}
+                    />
+                  )}
                 </Grid>
                 <Grid item>
                   <AnimatePresence>
@@ -396,15 +475,36 @@ function CreateItem() {
                   <Editor setContents={setContents} id="contents" />
                 </Grid>
                 <Grid item className="file-input-wrapper">
-                  <label htmlFor="file-input" className="file-input-label">
+                  <label className="file-input-label">
                     <p>Upload Cover</p>
                   </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={fileHandler}
-                    id="file-input"
-                  />
+                  <Grid
+                    container
+                    className="input-wrapper"
+                    justifyContent="space-between"
+                  >
+                    <Grid item>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={fileHandler}
+                        id="file-input"
+                      />
+                    </Grid>
+                    {fileUrl && (
+                      <Grid item className="file-delete-wrapper">
+                        <Tooltip
+                          message="Delete an uploaded image"
+                          direction="bottom"
+                        >
+                          <MdDeleteOutline
+                            className="delete-icon"
+                            onClick={handleDeleteFile}
+                          />
+                        </Tooltip>
+                      </Grid>
+                    )}
+                  </Grid>
                 </Grid>
                 <Grid item>
                   <Btn type="submit">Share</Btn>

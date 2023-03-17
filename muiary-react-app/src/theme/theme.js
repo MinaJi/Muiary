@@ -27,6 +27,9 @@ export const lightTheme = {
   addBorder: "#eaeaea",
   addBoxShadow: "rgba(97, 97, 97, 0.158) 0px 0px 20px",
   dataListBgColor: "#fafafa",
+  mainPageBg: `transparent
+  linear-gradient(180deg, #eaeaea 0%, #f5f5f5 50%, #ffffff00 100%) 0% 0%
+  no-repeat padding-box;`,
 };
 
 export const darkTheme = {
@@ -58,6 +61,8 @@ export const darkTheme = {
   addBorder: "#21272f",
   addBoxShadow: "rgba(0, 0, 0, 0.199) 0px 0px 20px",
   dataListBgColor: "#1e242d",
+  mainPageBg: `transparent linear-gradient(180deg, #060708 0%, #ffffff00 100%)
+  0% 0% no-repeat padding-box;`,
 };
 
 export const theme = {

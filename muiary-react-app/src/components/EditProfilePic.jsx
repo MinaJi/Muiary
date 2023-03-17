@@ -142,6 +142,8 @@ function EditProfilePic() {
     }
   }, [user]);
 
+  console.log(user)
+
   return (
     <>
       <EditBadge
