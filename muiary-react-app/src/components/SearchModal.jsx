@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SearchResultList from "../components/SearchResultsList";
+import SearchResultList from "./SearchResultsList";
 import { MdClose } from "react-icons/md";
 import { Grid } from "@mui/material";
 import SearchBar from "./searchbar";

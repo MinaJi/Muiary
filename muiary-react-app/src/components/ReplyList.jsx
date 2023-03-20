@@ -19,13 +19,21 @@ import { MdDeleteForever } from "react-icons/md";
 const GridContainer = styled(Grid)`
   && {
     margin-top: 10px;
-    /* padding: 15px; */
+  }
+`;
+
+const Replies = styled(Grid)`
+  && {
+    margin-bottom: 5px;
+    line-height: 23px;
+    align-items: center;
     .content {
       font-size: 15px;
     }
     .date {
+      text-align: right;
       font-size: 15px;
-      color: gray;
+      color: #5c5c5c;
     }
     .delete-btn {
       button {
@@ -71,24 +79,24 @@ function ReplyList() {
   return (
     <GridContainer container>
       {data.map((item) => (
-        <Grid container key={item.id} className="reply-list">
-          <Grid item xs={2.5} className="profile">
+        <Replies container key={item.id} className="reply-list">
+          <Grid item xs={2.5}>
             <ReplyUserProfile userId={item.userId} />
           </Grid>
-          <Grid item xs={7.5} className="content">
+          <Grid item className="content" xs={7.5}>
             {item.content}
           </Grid>
-          <Grid item xs={1.5} className="date">
+          <Grid item className="date" xs={1.5}>
             {item.date}
           </Grid>
           {user.uid === item.userId && (
-            <Grid item xs={0.5} className="delete-btn">
+            <Grid item className="delete-btn">
               <button onClick={deleteHandler.bind(this, item.id)}>
                 <MdDeleteForever />
               </button>
             </Grid>
           )}
-        </Grid>
+        </Replies>
       ))}
     </GridContainer>
   );

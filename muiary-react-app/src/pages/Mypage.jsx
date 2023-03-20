@@ -22,7 +22,7 @@ const menu = [
     url: "/mypage/saved",
   },
   {
-    title: "Liked",
+    title: "Likes",
     icon: "ri-heart-2-line",
     url: "/mypage/liked",
   },

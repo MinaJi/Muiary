@@ -109,11 +109,6 @@ function MuiaryProfile({ userData, userId }) {
   const [profileImageModal, setProfileImageModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log("The link was clicked.");
-  };
-
   const handleModal = () => {
     if (!userData[0].profileImgUrl) return;
     setProfileImageModal(true);

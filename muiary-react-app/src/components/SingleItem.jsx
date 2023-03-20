@@ -11,13 +11,15 @@ import { UserAuth } from "../context/AuthContext";
 import { youtubeSearch } from "../apis/youtube";
 import MenuIcon from "@mui/icons-material/Menu";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import { RiHeart2Line, RiHeart2Fill, RiBookmarkLine } from "react-icons/ri";
+import { RiBookmarkLine } from "react-icons/ri";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import LinkIcon from "@mui/icons-material/Link";
 import DeleteModal from "./DeleteModal";
+import Like from "./Like";
+import Save from "./Save";
 
 const GridContainer = styled(Grid)`
   && {
@@ -356,9 +358,6 @@ function SingleItem({
                 </Grid>
               )}
               <Grid item>
-                <button>
-                  <RiHeart2Line />
-                </button>
                 <SyledMenu
                   id="menu-appbar"
                   anchorEl={anchorElNav}
@@ -403,9 +402,10 @@ function SingleItem({
                 </SyledMenu>
               </Grid>
               <Grid item>
-                <button>
-                  <RiBookmarkLine className="icon" />
-                </button>
+                <Like docId={docId} />
+              </Grid>
+              <Grid item>
+                <Save docId={docId} />
               </Grid>
             </Grid>
           </Grid>

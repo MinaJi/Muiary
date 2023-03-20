@@ -2,7 +2,6 @@ import { Grid } from "@mui/material";
 import { Component } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import styled from "styled-components";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const SearchBarWrapper = styled(Grid)`
   && {

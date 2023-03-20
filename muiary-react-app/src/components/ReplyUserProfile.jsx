@@ -15,7 +15,9 @@ import { useNavigate } from "react-router-dom";
 const GridContainer = styled(Grid)`
   && {
     .username {
-      font-weight: 700;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
     }
   }
 `;
@@ -25,6 +27,7 @@ const StyledAvatar = styled(Avatar)`
     width: 30px;
     height: 30px;
     cursor: pointer;
+    margin-right: 5px;
   }
 `;
 

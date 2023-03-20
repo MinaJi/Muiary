@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { UserData } from "../context/UserDataContext";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { Tooltip } from "../components/tooltips/Tooltip";
+import { Tooltip } from "./tooltips/Tooltip";
 import ImageEditor from "./ImageEditor";
 import { UserAuth } from "../context/AuthContext";
 import { doc, updateDoc } from "firebase/firestore";
